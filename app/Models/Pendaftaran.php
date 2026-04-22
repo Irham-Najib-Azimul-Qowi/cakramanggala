@@ -27,6 +27,8 @@ class Pendaftaran extends Model
         'organisasi_yang_pernah_diikuti',
         'alasan_bergabung',
         'foto_diri',
+        'status',
+        'is_approved',
     ];
 
     protected $casts = [

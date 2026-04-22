@@ -887,6 +887,9 @@
                     <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
                     <a class="site-navbar-link {{ request()->routeIs('activities') ? 'is-active' : '' }}" href="{{ route('activities') }}">Kegiatan</a>
                     <a class="site-navbar-link {{ request()->routeIs('contact') ? 'is-active' : '' }}" href="{{ route('contact') }}">Kontak</a>
+                    @auth
+                    <a class="site-navbar-link" href="{{ route('dashboard') }}" style="color: var(--accent-light); text-shadow: 0 0 10px rgba(242, 182, 97, 0.3);">Admin Panel</a>
+                    @endauth
                 </nav>
 
                 <div class="site-navbar-actions">

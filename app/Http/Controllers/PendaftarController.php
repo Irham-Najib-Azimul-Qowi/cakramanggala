@@ -17,36 +17,27 @@ class PendaftarController extends Controller
     {
         $search = $request->get('search');
         $jurusan = $request->get('jurusan');
-        $perPage = $request->get('per_page', 10);
+        $perPage = $request->get('per_page', 12); // Per Page 12 matches the grid layout better (4 columns)
 
-        $query = DB::table('pendaftaran')->orderBy('created_at', 'desc');
+        $query = \App\Models\Pendaftaran::orderBy('created_at', 'desc');
 
-        // Apply search filter
         if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('nama_lengkap', 'LIKE', "%{$search}%")
-                    ->orWhere('nim', 'LIKE', "%{$search}%")
-                    ->orWhere('program_studi', 'LIKE', "%{$search}%");
-            });
+            $query->search($search);
         }
 
-        // Apply jurusan filter
         if ($jurusan) {
-            $query->where('jurusan', $jurusan);
+            $query->byJurusan($jurusan);
         }
 
         $pendaftar = $query->paginate($perPage);
 
-        // Get statistics
+        // Statistics using Model
         $stats = [
-            'total' => DB::table('pendaftaran')->count(),
-            'teknik' => DB::table('pendaftaran')->where('jurusan', 'Teknik')->count(),
-            'akuntansi' => DB::table('pendaftaran')->where('jurusan', 'Akuntansi')->count(),
-            'administrasi' => DB::table('pendaftaran')->where('jurusan', 'Administrasi Bisnis')->count(),
-            'bulan_ini' => DB::table('pendaftaran')
-                ->whereMonth('created_at', now()->month)
-                ->whereYear('created_at', now()->year)
-                ->count(),
+            'total' => \App\Models\Pendaftaran::count(),
+            'teknik' => \App\Models\Pendaftaran::where('jurusan', 'Teknik')->count(),
+            'akuntansi' => \App\Models\Pendaftaran::where('jurusan', 'Akuntansi')->count(),
+            'administrasi' => \App\Models\Pendaftaran::where('jurusan', 'Administrasi Bisnis')->count(),
+            'bulan_ini' => \App\Models\Pendaftaran::thisMonth()->count(),
         ];
 
         return view('dashboard.pendaftar.index', compact('pendaftar', 'stats', 'search', 'jurusan', 'perPage'));
@@ -54,14 +45,30 @@ class PendaftarController extends Controller
 
     public function show($id)
     {
-        $pendaftar = DB::table('pendaftaran')->where('id', $id)->first();
-
-        if (! $pendaftar) {
-            return redirect()->route('dashboard.pendaftar')
-                ->with('error', 'Data pendaftar tidak ditemukan.');
-        }
-
+        $pendaftar = \App\Models\Pendaftaran::findOrFail($id);
         return view('dashboard.pendaftar.show', compact('pendaftar'));
+    }
+
+    public function approve($id)
+    {
+        $pendaftar = \App\Models\Pendaftaran::findOrFail($id);
+        $pendaftar->update([
+            'status' => 'approved',
+            'is_approved' => true
+        ]);
+
+        return redirect()->back()->with('success', 'Pendaftaran ' . $pendaftar->nama_lengkap . ' telah disetujui!');
+    }
+
+    public function reject($id)
+    {
+        $pendaftar = \App\Models\Pendaftaran::findOrFail($id);
+        $pendaftar->update([
+            'status' => 'rejected',
+            'is_approved' => false
+        ]);
+
+        return redirect()->back()->with('success', 'Pendaftaran ' . $pendaftar->nama_lengkap . ' telah ditolak.');
     }
 
     // METHOD BARU: Handle form pendaftaran

@@ -17,15 +17,16 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
+        $recent_pendaftar = class_exists('App\Models\Pendaftaran') ? \App\Models\Pendaftaran::latest()->limit(8)->get() : collect([]);
+
         $stats = [
             'total_pendaftar' => class_exists('App\Models\Pendaftaran') ? \App\Models\Pendaftaran::count() : 0,
-            'artikel_bulan_ini' => class_exists('App\Models\Artikel') ? \App\Models\Artikel::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count() : 0,
-            'kegiatan_aktif' => class_exists('App\Models\Kegiatan') ? \App\Models\Kegiatan::count() : 0,
-            'pesan_baru' => \App\Models\Pesan::where('is_read', false)->count(),
-            'anggota_aktif' => \App\Models\User::count(),
+            'artikel_bulan_ini' => class_exists('App\Models\Artikel') ? \App\Models\Artikel::whereMonth('created_at', now()->month)->count() : 0,
+            'kegiatan_aktif' => class_exists('App\Models\Kegiatan') ? \App\Models\Kegiatan::where('tanggal_pelaksanaan', '>=', now())->count() : 0,
+            'pesan_baru' => class_exists('App\Models\Pesan') ? \App\Models\Pesan::where('is_read', false)->count() : 0,
         ];
 
-        return view('dashboard.index', compact('user', 'stats'));
+        return view('dashboard.index', compact('user', 'stats', 'recent_pendaftar'));
     }
 
     public function messages()
