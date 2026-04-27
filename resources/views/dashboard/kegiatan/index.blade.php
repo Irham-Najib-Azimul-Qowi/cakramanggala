@@ -1,111 +1,95 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Jadwal Kegiatan')
+@section('title', 'Agenda Kegiatan')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h3 class="fw-bold mb-1">Jadwal Kegiatan</h3>
-        <p class="text-muted small">Kelola agenda kegiatan internal dan eksternal UKM.</p>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="h3 fw-black mb-1" style="letter-spacing: -0.02em;">AGENDA & KEGIATAN</h1>
+            <p class="text-white-50 small fw-bold text-uppercase" style="letter-spacing: 0.1em;">Manajemen Aktivitas Cakra
+                Manggala</p>
+        </div>
+        <a href="{{ route('dashboard.kegiatan.create') }}" class="btn btn-accent d-inline-flex align-items-center gap-2">
+            <i class="bi bi-calendar-plus-fill"></i> TAMBAH AGENDA
+        </a>
     </div>
-    <a href="{{ route('dashboard.kegiatan.create') }}" class="btn btn-premium-admin btn-sm px-3 rounded-pill">
-        <i class="bi bi-calendar-plus me-1"></i> Tambah Kegiatan
-    </a>
-</div>
 
-{{-- Wide Kegiatan Cards --}}
-<div class="vstack gap-3">
-    @forelse($kegiatans as $kegiatan)
-        <div class="wide-card p-3">
-            <div class="row align-items-center g-3">
-                <div class="col-auto">
-                    <div class="kegiatan-date-box">
-                        <div class="day">{{ $kegiatan->tanggal_pelaksanaan->format('d') }}</div>
-                        <div class="month">{{ strtoupper($kegiatan->tanggal_pelaksanaan->format('M')) }}</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="d-flex align-items-center gap-2 mb-1">
-                        <h6 class="fw-bold mb-0 text-primary">{{ $kegiatan->judul_kegiatan }}</h6>
-                        <span class="badge-type {{ $kegiatan->sifat == 'internal' ? 'internal' : 'eksternal' }}">
-                            {{ strtoupper($kegiatan->sifat) }}
-                        </span>
-                    </div>
-                    <div class="text-muted smaller">
-                        <i class="bi bi-geo-alt me-1"></i> {{ $kegiatan->tempat }} • 
-                        <i class="bi bi-person-badge me-1"></i> PJ: {{ $kegiatan->kapel_pj }} • 
-                        <i class="bi bi-calendar-check me-1"></i> Tahun {{ $kegiatan->tahun }}
-                    </div>
-                </div>
-                <div class="col-auto">
-                    <div class="d-flex gap-2">
-                        <a href="{{ route('dashboard.kegiatan.edit', $kegiatan) }}" class="btn btn-light btn-sm rounded-pill px-3 fw-bold btn-action">
-                            <i class="bi bi-pencil me-1"></i> Edit
-                        </a>
-                        <form action="{{ route('dashboard.kegiatan.destroy', $kegiatan) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus kegiatan ini?')">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold btn-action">
-                                <i class="bi bi-trash me-1"></i> Hapus
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @empty
-        <div class="card border-0 p-5 text-center rounded-4" style="background: var(--surface-panel);">
-            <i class="bi bi-calendar-x display-1 text-muted opacity-25"></i>
-            <p class="text-muted mt-3">Belum ada jadwal kegiatan.</p>
-        </div>
-    @endforelse
-</div>
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 100px;">Jadwal</th>
+                    <th style="width: 80px;">Foto</th>
+                    <th>Detail Kegiatan</th>
+                    <th class="d-none d-md-table-cell">Lokasi</th>
+                    <th class="d-none d-md-table-cell text-center">Sifat</th>
+                    <th class="text-end">Opsi Manajemen</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($kegiatans as $kegiatan)
+                    <tr>
+                        <td class="text-center">
+                            <div class="d-inline-flex flex-column align-items-center justify-content-center"
+                                style="width: 54px; height: 54px; background: var(--primary); border: 1px solid rgba(255,255,255,0.05);">
+                                <span class="fw-black text-white"
+                                    style="font-size: 1.25rem; line-height: 1;">{{ $kegiatan->tanggal_pelaksanaan->format('d') }}</span>
+                                <span class="x-small fw-bold text-accent"
+                                    style="font-size: 0.6rem; letter-spacing: 0.1em;">{{ strtoupper($kegiatan->tanggal_pelaksanaan->translatedFormat('M')) }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            @if($kegiatan->gambar_utama)
+                                <img src="{{ asset($kegiatan->gambar_utama) }}" style="width: 54px; height: 54px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);">
+                            @else
+                                <div style="width: 54px; height: 54px; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05);">
+                                    <i class="bi bi-image text-white-50"></i>
+                                </div>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="fw-bold text-white mb-1" style="font-size: 1rem;">{{ $kegiatan->judul_kegiatan }}</div>
+                            <div class="x-small text-white-50 fw-bold text-uppercase"
+                                style="font-size: 0.65rem; letter-spacing: 0.05em;">PJ: {{ $kegiatan->kapel_pj }}</div>
+                        </td>
+                        <td class="small text-white-50 d-none d-md-table-cell">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-geo-alt-fill text-accent"></i>
+                                {{ $kegiatan->tempat }}
+                            </div>
+                        </td>
+                        <td class="text-center d-none d-md-table-cell">
+                            @if($kegiatan->sifat == 'internal')
+                                <span class="admin-badge admin-badge--success">INTERNAL</span>
+                            @else
+                                <span class="admin-badge admin-badge--warning">EKSTERNAL</span>
+                            @endif
+                        </td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="{{ route('dashboard.kegiatan.edit', $kegiatan) }}"
+                                    class="btn btn-sm btn-outline-light border-0 rounded-0 fw-bold px-3"
+                                    style="font-size: 0.7rem; background: rgba(255,255,255,0.05); letter-spacing: 0.1em;">EDIT</a>
+                                <form action="{{ route('dashboard.kegiatan.destroy', $kegiatan) }}" method="POST"
+                                    class="d-inline" onsubmit="return confirm('Hapus agenda ini?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-sm border-0 rounded-0 fw-bold px-3"
+                                        style="font-size: 0.7rem; background: rgba(255,99,102,0.1); color: #ff6366; letter-spacing: 0.1em;">HAPUS</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-white-50 italic">Belum ada agenda kegiatan yang terdaftar.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-<div class="mt-4">
-    {{ $kegiatans->links() }}
-</div>
-
-<style>
-    .wide-card {
-        background: var(--surface-panel);
-        border: 1px solid var(--border-soft);
-        border-radius: 16px;
-        transition: all 0.25s ease;
-    }
-
-    .wide-card:hover {
-        transform: translateY(-3px);
-        border-color: var(--accent);
-        box-shadow: 0 10px 30px rgba(7, 17, 12, 0.05);
-    }
-
-    .kegiatan-date-box {
-        width: 60px;
-        height: 60px;
-        background: var(--primary);
-        color: white;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 5px 15px rgba(26, 67, 49, 0.2);
-    }
-
-    .kegiatan-date-box .day { font-size: 1.4rem; font-weight: 800; line-height: 1; }
-    .kegiatan-date-box .month { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; }
-
-    .badge-type {
-        font-size: 0.6rem;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-        padding: 2px 8px;
-        border-radius: 4px;
-    }
-
-    .badge-type.internal { background: rgba(26, 67, 49, 0.05); color: var(--primary); }
-    .badge-type.eksternal { background: #fff7ed; color: #c2410c; }
-
-    .btn-action { font-size: 0.75rem; }
-    .smaller { font-size: 0.75rem; }
-</style>
+    <div class="mt-5 d-flex justify-content-center">
+        {{ $kegiatans->links() }}
+    </div>
 @endsection

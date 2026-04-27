@@ -1,207 +1,186 @@
-{{-- File: resources/views/dashboard/kegiatan/create.blade.php --}}
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Kegiatan')
-@section('page-title', 'Tambah Kegiatan')
+@section('title', 'Tambah Agenda Baru')
 
 @section('content')
-<div class="mb-4">
-    <a href="{{ route('dashboard.kegiatan.index') }}" class="btn btn-outline-secondary btn-sm">
-        <i class="bi bi-arrow-left"></i> Kembali
-    </a>
-</div>
-
-<div class="row">
-    <div class="col-lg-8">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-plus-circle me-2"></i>Form Tambah Kegiatan
-                </h5>
-            </div>
-            <div class="card-body">
-                <form method="POST" action="{{ route('dashboard.kegiatan.store') }}">
-                    @csrf
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="tahun" class="form-label">Tahun <span class="text-danger">*</span></label>
-                            <select class="form-select @error('tahun') is-invalid @enderror" id="tahun" name="tahun" required>
-                                <option value="">Pilih Tahun</option>
-                                @for($year = 2020; $year <= date('Y') + 5; $year++)
-                                    <option value="{{ $year }}" {{ old('tahun', date('Y')) == $year ? 'selected' : '' }}>
-                                        {{ $year }}
-                                    </option>
-                                @endfor
-                            </select>
-                            @error('tahun')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="sifat" class="form-label">Sifat Kegiatan <span class="text-danger">*</span></label>
-                            <select class="form-select @error('sifat') is-invalid @enderror" id="sifat" name="sifat" required>
-                                <option value="">Pilih Sifat</option>
-                                <option value="internal" {{ old('sifat') == 'internal' ? 'selected' : '' }}>Internal</option>
-                                <option value="eksternal" {{ old('sifat') == 'eksternal' ? 'selected' : '' }}>Eksternal</option>
-                            </select>
-                            @error('sifat')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="judul_kegiatan" class="form-label">Judul Kegiatan <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('judul_kegiatan') is-invalid @enderror" 
-                               id="judul_kegiatan" name="judul_kegiatan" value="{{ old('judul_kegiatan') }}" 
-                               placeholder="Masukkan judul kegiatan" required>
-                        @error('judul_kegiatan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="tanggal_pelaksanaan" class="form-label">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_pelaksanaan') is-invalid @enderror" 
-                                   id="tanggal_pelaksanaan" name="tanggal_pelaksanaan" 
-                                   value="{{ old('tanggal_pelaksanaan') }}" required>
-                            @error('tanggal_pelaksanaan')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="tempat" class="form-label">Tempat <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('tempat') is-invalid @enderror" 
-                                   id="tempat" name="tempat" value="{{ old('tempat') }}" 
-                                   placeholder="Masukkan tempat kegiatan" required>
-                            @error('tempat')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="kapel_pj" class="form-label">Ketua Pelaksana (Kapel) / Penanggung Jawab (PJ) <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('kapel_pj') is-invalid @enderror" 
-                               id="kapel_pj" name="kapel_pj" value="{{ old('kapel_pj') }}" 
-                               placeholder="Masukkan nama kapel/PJ" required>
-                        @error('kapel_pj')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="materi" class="form-label">Materi <span class="text-muted">(opsional)</span></label>
-                        <textarea class="form-control @error('materi') is-invalid @enderror" 
-                                  id="materi" name="materi" rows="4" 
-                                  placeholder="Masukkan materi kegiatan (opsional)">{{ old('materi') }}</textarea>
-                        @error('materi')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        <div class="form-text">Deskripsi singkat tentang materi atau agenda kegiatan.</div>
-                    </div>
-
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('dashboard.kegiatan.index') }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-x-circle"></i> Batal
-                        </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-circle"></i> Simpan Kegiatan
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    <div class="mb-5">
+        <a href="{{ route('dashboard.kegiatan.index') }}"
+            class="btn btn-sm d-inline-flex align-items-center gap-2 border-0 rounded-0"
+            style="background: rgba(255,255,255,0.05); color: #fff; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.5rem;">
+            <i class="bi bi-arrow-left"></i> KEMBALI
+        </a>
     </div>
 
-    <!-- Sidebar Info -->
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title mb-0">
-                    <i class="bi bi-info-circle me-2"></i>Informasi
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-info">
-                    <h6 class="alert-heading">
-                        <i class="bi bi-lightbulb"></i> Tips Pengisian
-                    </h6>
-                    <small>
-                        <ul class="mb-0 ps-3">
-                            <li>Pastikan tanggal pelaksanaan dan tempat sudah benar</li>
-                            <li>Tulis nama lengkap kapel/PJ</li>
-                            <li>Materi bersifat opsional, bisa diganti catatan atau dikosongi</li>
-                            <li>Kegiatan internal untuk calon atau anggota ukm saja sedangkan eksternal untuk diluar ukm, di lingkup kampus, atau umum</li>
-                        </ul>
-                    </small>
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="admin-card p-0 overflow-hidden border-0 shadow-lg">
+                <div class="p-4 p-lg-5"
+                    style="background: var(--primary); color: #fff; position: relative; overflow: hidden;">
+                    <div style="position: relative; z-index: 2;">
+                        <h1 class="h3 fw-black mb-1" style="letter-spacing: -0.01em;">TAMBAH AGENDA</h1>
+                        <p class="mb-0 text-white-50 small fw-bold text-uppercase" style="letter-spacing: 0.1em;">Rencanakan
+                            Kegiatan Cakra Manggala Selanjutnya</p>
+                    </div>
+                    <i class="bi bi-calendar-check-fill"
+                        style="position: absolute; right: -20px; bottom: -30px; font-size: 10rem; color: rgba(255,255,255,0.05); z-index: 1;"></i>
+                </div>
+
+                <div class="p-4 p-lg-5">
+                    <form method="POST" action="{{ route('dashboard.kegiatan.store') }}" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">TAHUN ANGGARAN <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select admin-select @error('tahun') is-invalid @enderror" name="tahun"
+                                    required>
+                                    <option value="">PILIH TAHUN</option>
+                                    @for($year = 2020; $year <= date('Y') + 5; $year++)
+                                        <option value="{{ $year }}" {{ old('tahun', date('Y')) == $year ? 'selected' : '' }}>TAHUN
+                                            {{ $year }}</option>
+                                    @endfor
+                                </select>
+                                @error('tahun') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">SIFAT KEGIATAN <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select admin-select @error('sifat') is-invalid @enderror" name="sifat"
+                                    required>
+                                    <option value="">PILIH SIFAT</option>
+                                    <option value="internal" {{ old('sifat') == 'internal' ? 'selected' : '' }}>INTERNAL
+                                        ORGANISASI</option>
+                                    <option value="eksternal" {{ old('sifat') == 'eksternal' ? 'selected' : '' }}>EKSTERNAL /
+                                        UMUM</option>
+                                </select>
+                                @error('sifat') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                style="letter-spacing: 0.15em; font-size: 0.7rem;">JUDUL KEGIATAN <span
+                                    class="text-danger">*</span></label>
+                            <input type="text"
+                                class="form-control admin-input @error('judul_kegiatan') is-invalid @enderror"
+                                name="judul_kegiatan" value="{{ old('judul_kegiatan') }}" required
+                                placeholder="Contoh: DIKLABU XVII - Materi Navigasi Darat">
+                            @error('judul_kegiatan') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">TANGGAL PELAKSANAAN <span
+                                        class="text-danger">*</span></label>
+                                <input type="date"
+                                    class="form-control admin-input @error('tanggal_pelaksanaan') is-invalid @enderror"
+                                    name="tanggal_pelaksanaan" value="{{ old('tanggal_pelaksanaan') }}" required>
+                                @error('tanggal_pelaksanaan') <div class="invalid-feedback fw-bold">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">LOKASI / TEMPAT <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control admin-input @error('tempat') is-invalid @enderror"
+                                    name="tempat" value="{{ old('tempat') }}" required
+                                    placeholder="Contoh: Ruang Rapat Lt. 2 / Gunung Merbabu">
+                                @error('tempat') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                style="letter-spacing: 0.15em; font-size: 0.7rem;">KETUA PELAKSANA / PJ <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control admin-input @error('kapel_pj') is-invalid @enderror"
+                                name="kapel_pj" value="{{ old('kapel_pj') }}" required
+                                placeholder="Nama Lengkap Penanggung Jawab">
+                            @error('kapel_pj') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                style="letter-spacing: 0.15em; font-size: 0.7rem;">DESKRIPSI MATERI / CATATAN <span
+                                    class="text-muted">(OPSIONAL)</span></label>
+                            <textarea class="form-control admin-input @error('materi') is-invalid @enderror" name="materi"
+                                rows="5" placeholder="Detail tambahan mengenai kegiatan...">{{ old('materi') }}</textarea>
+                            @error('materi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO DOKUMENTASI / GAMBAR UTAMA</label>
+                            <input type="file" name="gambar_utama" class="form-control admin-input @error('gambar_utama') is-invalid @enderror" accept="image/*">
+                            <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP. MAKSIMAL 2MB.</div>
+                            @error('gambar_utama') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-5"
+                            style="border-top: 1px solid rgba(255,255,255,0.05);">
+                            <a href="{{ route('dashboard.kegiatan.index') }}"
+                                class="btn btn-dark px-5 py-3 fw-black border-0 rounded-0"
+                                style="background: rgba(255,255,255,0.05);">BATAL</a>
+                            <button type="submit" class="btn btn-accent px-5 py-3 fw-black">
+                                <i class="bi bi-save2-fill me-2"></i> SIMPAN AGENDA
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title mb-0">
-                    <i class="bi bi-clock-history me-2"></i>Kegiatan Terbaru
-                </h6>
+        <div class="col-lg-4">
+            <div class="admin-card mb-4" style="background: var(--primary) !important; border: none; padding: 2.5rem;">
+                <h2 class="h6 fw-black text-accent text-uppercase mb-4" style="letter-spacing: 0.15em;"><i
+                        class="bi bi-lightbulb-fill me-2"></i>PANDUAN INPUT</h2>
+                <ul class="small text-white-50 fw-bold list-unstyled" style="line-height: 2;">
+                    <li class="mb-3 d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Verifikasi tanggal
+                            pelaksanaan agar tidak bentrok.</span></li>
+                    <li class="mb-3 d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Tulis lokasi secara
+                            spesifik agar mudah ditemukan.</span></li>
+                    <li class="mb-3 d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Internal: Khusus
+                            anggota Cakra Manggala.</span></li>
+                    <li class="d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Eksternal: Terbuka untuk
+                            umum atau tamu.</span></li>
+                </ul>
             </div>
-            <div class="card-body">
-                @php
-                    $recentKegiatans = \App\Models\Kegiatan::latest()->take(3)->get();
-                @endphp
-                
-                @forelse($recentKegiatans as $recent)
-                <div class="d-flex align-items-center mb-3">
-                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white me-3" 
-                         style="width: 35px; height: 35px; font-size: 12px;">
-                        <i class="bi bi-calendar-event"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <div class="fw-semibold small">{{ Str::limit($recent->judul_kegiatan, 30) }}</div>
-                        <div class="text-muted" style="font-size: 0.75rem;">
-                            {{ $recent->formatted_date }}
+
+            <div class="admin-card"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05); padding: 2rem;">
+                <h2 class="h6 fw-black text-white text-uppercase mb-4" style="letter-spacing: 0.15em;"><i
+                        class="bi bi-clock-history me-2"></i>AGENDA TERBARU</h2>
+                @php $recentKegiatans = \App\Models\Kegiatan::latest()->take(5)->get(); @endphp
+                <div class="d-grid gap-3">
+                    @forelse($recentKegiatans as $recent)
+                        <div class="d-flex align-items-center gap-3 p-3 border border-white-5"
+                            style="background: rgba(255,255,255,0.01);">
+                            <div class="flex-shrink-0 text-center" style="width: 40px;">
+                                <div class="fw-black text-white mb-0" style="font-size: 1.1rem; line-height: 1;">
+                                    {{ $recent->tanggal_pelaksanaan->format('d') }}</div>
+                                <div class="x-small text-accent fw-bold" style="font-size: 0.6rem;">
+                                    {{ strtoupper($recent->tanggal_pelaksanaan->translatedFormat('M')) }}</div>
+                            </div>
+                            <div class="overflow-hidden">
+                                <div class="fw-bold small text-white text-truncate">{{ $recent->judul_kegiatan }}</div>
+                                <div class="x-small text-white-50">{{ $recent->tempat }}</div>
+                            </div>
                         </div>
-                    </div>
+                    @empty
+                        <p class="text-white-50 small italic text-center mb-0">Belum ada agenda terdaftar.</p>
+                    @endforelse
                 </div>
-                @empty
-                <p class="text-muted small mb-0">Belum ada kegiatan terbaru.</p>
-                @endforelse
             </div>
         </div>
     </div>
-</div>
 @endsection
 
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Set minimum date to today for date input
-    const dateInput = document.getElementById('tanggal_pelaksanaan');
-    if (dateInput) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
+<style>
+    .border-white-5 {
+        border-color: rgba(255, 255, 255, 0.05) !important;
     }
-
-    // Auto capitalize first letter of each word
-    const titleInput = document.getElementById('judul_kegiatan');
-    const tempat = document.getElementById('tempat');
-    const kapelPj = document.getElementById('kapel_pj');
-
-    function capitalizeWords(str) {
-        return str.replace(/\w\S*/g, (txt) => {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-    }
-
-    [titleInput, tempat, kapelPj].forEach(input => {
-        if (input) {
-            input.addEventListener('blur', function() {
-                this.value = capitalizeWords(this.value);
-            });
-        }
-    });
-});
-</script>
-@endpush
+</style>

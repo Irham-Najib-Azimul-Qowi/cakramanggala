@@ -4,49 +4,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePendaftaranRequest;
+use App\Http\Requests\StorePesanRequest;
 use App\Models\Artikel;
 use App\Models\Pendaftaran;
+use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
+    use ImageUploadTrait;
+
     public function index()
     {
+        // Get data with cache for performance (expires in 1 hour)
+        $data = Cache::remember('home_data', 3600, function () {
+            return [
+                'artikels' => Artikel::published()
+                    ->with('user')
+                    ->latest()
+                    ->limit(3)
+                    ->get(),
 
-        // Get latest articles untuk section berita
-        $artikels = Artikel::published()
-            ->with('user')
-            ->latest()
-            ->limit(6) // Tampilkan 6 artikel terbaru
-            ->get();
+                'kegiatans' => \App\Models\Kegiatan::orderBy('tanggal_pelaksanaan', 'desc')
+                    ->limit(3)
+                    ->get(),
 
-        // Get statistics (jika diperlukan)
-        $stats = [
-            'total_artikel' => Artikel::published()->count(),
-            'total_pendaftar' => class_exists('App\Models\Pendaftaran') ? \App\Models\Pendaftaran::count() : 0,
-            // Tambahkan statistik lain sesuai kebutuhan
-        ];
+                'stats' => [
+                    'total_artikel' => Artikel::published()->count(),
+                    'total_pendaftar' => class_exists('App\Models\Pendaftaran') ? \App\Models\Pendaftaran::count() : 0,
+                    'total_kegiatan' => \App\Models\Kegiatan::count(),
+                ]
+            ];
+        });
 
-        return view('home', compact('artikels', 'stats'));
+        return view('home', array_merge($data));
     }
 
     public function about()
     {
-        return view('about');
+        $penguruses = \App\Models\Pengurus::where('status', 'active')->orderBy('urutan')->get();
+        return view('about', compact('penguruses'));
     }
 
     public function activities(Request $request)
     {
         $search = $request->get('search');
+        $tahun = $request->get('tahun');
+        $sifat = $request->get('sifat');
+
         $query = \App\Models\Kegiatan::orderBy('tanggal_pelaksanaan', 'desc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('judul_kegiatan', 'like', "%{$search}%")
                     ->orWhere('tempat', 'like', "%{$search}%")
-                    ->orWhere('materi', 'like', "%{$search}%")
-                    ->orWhere('tahun', 'like', "%{$search}%");
+                    ->orWhere('materi', 'like', "%{$search}%");
             });
+        }
+
+        if ($tahun) {
+            $query->where('tahun', $tahun);
+        }
+
+        if ($sifat) {
+            $query->where('sifat', $sifat);
         }
 
         $kegiatans = $query->get();
@@ -58,51 +81,13 @@ class HomeController extends Controller
         return view('join');
     }
 
-    public function storePendaftaran(Request $request)
+    public function storePendaftaran(StorePendaftaranRequest $request)
     {
-        // Validasi form
-        $validated = $request->validate([
-            'nama_lengkap' => 'required|string|max:255',
-            'nim' => 'required|string|unique:pendaftaran,nim|max:20',
-            'jurusan' => 'required|in:Teknik,Akuntansi,Administrasi Bisnis',
-            'program_studi' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:Perempuan,Laki-laki',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date|before:today',
-            'no_hp' => 'required|string|max:20',
-            'alamat' => 'required|string',
-            'organisasi_yang_pernah_diikuti' => 'nullable|string',
-            'alasan_bergabung' => 'required|string|min:20',
-            'foto_diri' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ], [
-            'nama_lengkap.required' => 'Nama lengkap wajib diisi',
-            'nim.required' => 'NIM wajib diisi',
-            'nim.unique' => 'NIM sudah terdaftar',
-            'jurusan.required' => 'Jurusan wajib dipilih',
-            'tanggal_lahir.before' => 'Tanggal lahir tidak valid',
-            'alasan_bergabung.min' => 'Alasan bergabung minimal 20 karakter',
-            'foto_diri.required' => 'Foto diri wajib diunggah',
-            'foto_diri.image' => 'File harus berupa gambar',
-            'foto_diri.max' => 'Ukuran foto maksimal 2MB',
-        ]);
+        $validated = $request->validated();
 
         // Upload foto ke public/uploads/pendaftaran
         if ($request->hasFile('foto_diri')) {
-            // Buat folder jika belum ada
-            $uploadPath = public_path('uploads/pendaftaran');
-            if (! file_exists($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
-            }
-
-            // Generate nama file unik
-            $file = $request->file('foto_diri');
-            $fileName = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
-
-            // Pindahkan file ke folder public
-            $file->move($uploadPath, $fileName);
-
-            // Simpan path relatif ke database
-            $validated['foto_diri'] = 'uploads/pendaftaran/'.$fileName;
+            $validated['foto_diri'] = $this->uploadAndConvert($request->file('foto_diri'), 'uploads/pendaftaran');
         }
 
         // Simpan ke database
@@ -125,14 +110,9 @@ class HomeController extends Controller
         return view('contact');
     }
 
-    public function sendContact(Request $request)
+    public function sendContact(StorePesanRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
         \App\Models\Pesan::create([
             'nama' => $validated['name'],

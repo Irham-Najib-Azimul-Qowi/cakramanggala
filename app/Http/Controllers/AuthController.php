@@ -4,10 +4,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -20,45 +20,9 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    /**
-     * Handle user login.
-     */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $recaptchaEnabled = config('services.recaptcha.enabled')
-            && config('services.recaptcha.site_key')
-            && config('services.recaptcha.secret_key');
-
-        $rules = [
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
-        ];
-
-        if ($recaptchaEnabled) {
-            $rules['g-recaptcha-response'] = ['required'];
-        }
-
-        $messages = [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'password.required' => 'Password wajib diisi.',
-        ];
-
-        if ($recaptchaEnabled) {
-            $messages['g-recaptcha-response.required'] = 'Mohon selesaikan verifikasi reCAPTCHA.';
-        }
-
-        // Validate the login request
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput($request->except('password', 'g-recaptcha-response'));
-        }
-
-        // Get credentials
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validated();
         $remember = $request->boolean('remember');
 
         // Attempt to log the user in

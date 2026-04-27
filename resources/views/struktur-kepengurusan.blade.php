@@ -3,304 +3,300 @@
 @section('title', 'Struktur Kepengurusan - UKM Cakra Manggala')
 
 @push('styles')
-<style>
-    .org-period-card {
-        padding: 1.2rem 1.3rem;
-        border: 1px solid rgba(18, 33, 25, 0.08);
-        background: rgba(255, 255, 255, 0.75);
-        box-shadow: var(--shadow-soft);
-        text-align: center;
-    }
+    <style>
+        .page-wrapper {
+            background-color: var(--dark-color);
+        }
 
-    .org-grid {
-        display: grid;
-        gap: 1.5rem;
-    }
+        .org-period-banner {
+            padding: 4rem 2.5rem;
+            background: var(--primary-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .org-member-card {
-        height: 100%;
-        text-align: center;
-    }
+        .org-period-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-color);
+        }
 
-    .org-member-card__avatar-wrap {
-        position: relative;
-        display: inline-flex;
-        margin-bottom: 1rem;
-    }
+        .org-period-banner .section-kicker {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+        }
 
-    .org-member-card__avatar {
-        width: 112px;
-        height: 112px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid rgba(26, 67, 49, 0.08);
-        background: #e2ddd4;
-        box-shadow: 0 18px 34px rgba(7, 17, 12, 0.1);
-    }
+        .org-period-banner .section-heading {
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
 
-    .org-member-card--leader .org-member-card__avatar {
-        width: 136px;
-        height: 136px;
-    }
+        .org-member-card {
+            background: var(--primary-color);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            color: #fff;
+            text-align: center;
+            padding: 3rem 2rem;
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
 
-    .org-member-card__badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        right: 0.15rem;
-        bottom: 0.15rem;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #f2c57b 0%, #de9541 100%);
-        color: #15120d;
-        box-shadow: 0 10px 20px rgba(222, 149, 65, 0.24);
-    }
+        .org-member-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
 
-    .org-member-card__name {
-        margin-bottom: 0.45rem;
-        color: var(--primary-color);
-        font-size: 1.1rem;
-        line-height: 1.35;
-    }
+        .org-member-card__avatar-wrap {
+            position: relative;
+            display: inline-flex;
+            margin-bottom: 2rem;
+        }
 
-    .org-member-card__role {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.48rem 0.85rem;
-        margin-bottom: 0.7rem;
-        border: 1px solid rgba(26, 67, 49, 0.12);
-        background: rgba(26, 67, 49, 0.06);
-        color: var(--primary-color);
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
-
-    .org-member-card__study {
-        margin: 0;
-        color: var(--muted-color);
-        line-height: 1.7;
-    }
-
-    .org-member-card__quote {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-soft);
-        color: var(--muted-color);
-        font-style: italic;
-        line-height: 1.7;
-    }
-
-    @media (max-width: 575px) {
         .org-member-card__avatar {
-            width: 96px;
-            height: 96px;
+            width: 110px;
+            height: 110px;
+            border-radius: 0;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.05);
+            background: #000;
+            transition: all 0.4s;
+        }
+
+        .org-member-card:hover .org-member-card__avatar {
+            border-color: var(--accent-color);
         }
 
         .org-member-card--leader .org-member-card__avatar {
-            width: 116px;
-            height: 116px;
+            width: 140px;
+            height: 140px;
+            border-color: rgba(242, 182, 97, 0.3);
         }
-    }
-</style>
+
+        .org-member-card__badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            right: -5px;
+            bottom: -5px;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .org-member-card__name {
+            margin-bottom: 0.8rem;
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .org-member-card__role {
+            font-size: 0.65rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-color);
+            padding: 0.6rem 1.2rem;
+            background: rgba(242, 182, 97, 0.05);
+            border: 1px solid rgba(242, 182, 97, 0.1);
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .org-member-card__placeholder {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            font-weight: 900;
+            border: 4px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .org-member-card--leader .org-member-card__placeholder {
+            width: 140px;
+            height: 140px;
+            font-size: 3.5rem;
+        }
+
+        .section-intro .section-kicker {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .section-intro .section-heading {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+
+            .org-member-card__avatar,
+            .org-member-card__placeholder {
+                width: 100px;
+                height: 100px;
+            }
+
+            .org-member-card--leader .org-member-card__avatar,
+            .org-member-card--leader .org-member-card__placeholder {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
 @endpush
 
 @section('content')
-@php
-    $heroImage = asset('image/fotobersejarah2.jpg');
-    $emptyPhoto = asset('image/profilkosong.png');
+    @php
+        $heroImage = asset('image/fotobersejarah2.jpg');
 
-    $leader = [
-        'name' => 'Satria Dwi Saputra',
-        'role' => 'Ketua Umum',
-        'study' => "Teknik Listrik '23",
-        'quote' => 'Tidak perlu kata-kata yang penting bukti nyata',
-    ];
+        $leader = $penguruses->where('jabatan', 'Ketua Umum')->first();
+        $coreMembers = $penguruses->filter(fn($p) => in_array($p->jabatan, ['Sekretaris', 'Bendahara', 'Kabid. Logistik']));
+        $divisionHeads = $penguruses->filter(fn($p) => !in_array($p->jabatan, ['Ketua Umum', 'Sekretaris', 'Bendahara', 'Kabid. Logistik']));
+    @endphp
 
-    $coreMembers = [
-        ['name' => 'Naufal Rohmanul Muhaimin', 'role' => 'Sekretaris', 'study' => "Teknik Komputer Kontrol '23"],
-        ['name' => 'Alvina Qorik Cahyani', 'role' => 'Bendahara', 'study' => "Akuntansi '23"],
-        ['name' => 'Albert Setya Candra Wijaya', 'role' => 'Kepala Bidang Logistik', 'study' => "Teknik Rekayasa Otomotif '22"],
-    ];
-
-    $divisionHeads = [
-        ['name' => 'Muhammad Dzakwan Alfaris', 'role' => 'Kepala Bidang Publikasi dan Dokumentasi', 'study' => "Teknologi Rekayasa Perangkat Lunak '23"],
-        ['name' => 'Maulaya Ilyasa Jayamagusta', 'role' => 'Kepala Bidang Kaderisasi, Penelitian dan PSDM', 'study' => "Perkeretaapian '23"],
-        ['name' => 'Erzal Abilla Saputra', 'role' => 'Kepala Bidang Lingkungan dan Pengabdian Masyarakat', 'study' => "Teknologi Informasi '23"],
-    ];
-
-    $divisionMembers = [
-        ['name' => 'Rindu Resty Ananda Faradilla', 'role' => 'Anggota Bidang Lingkungan dan Pengabdian Masyarakat', 'study' => "Akuntansi Sektor Publik '22"],
-    ];
-@endphp
-
-<section class="page-hero">
-    <div class="page-hero__media" aria-hidden="true">
-        <div class="page-hero__fallback" style="background-image: url('{{ $heroImage }}'); position: absolute; inset: -4%; background-size: cover; background-position: center; filter: saturate(0.8) contrast(1.1); transform: scale(1.05);"></div>
-        <div class="page-hero__overlay"></div>
-    </div>
-    <div class="container">
-        <div class="page-hero__inner" data-aos="fade-up">
-            <span class="page-hero__eyebrow">
-                <i class="bi bi-people"></i>
-                Keluarga Besar
-            </span>
-            <h1 class="page-hero__title">Struktur<br><span>Kepengurusan</span></h1>
-            <p class="page-hero__lead">
-                Sinergi antar bidang dan tanggung jawab kolektif yang menjaga keberlangsungan roda organisasi Cakra Manggala.
-            </p>
-        </div>
-    </div>
-</section>
-
-<section class="section-shell">
-    <div class="container">
-        <div class="org-period-card" data-aos="fade-up">
-            <span class="section-kicker mb-3">
-                <i class="bi bi-calendar-check-fill"></i>
-                Periode Aktif
-            </span>
-            <h2 class="section-heading mb-2">2024-2025</h2>
-            <p class="section-lead mx-auto mb-0">
-                Pengurus aktif Unit Kegiatan Mahasiswa Pecinta Alam Cakra Manggala untuk satu periode kepengurusan berjalan.
-            </p>
-        </div>
-    </div>
-</section>
-
-<section class="section-shell section-shell--soft">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-award-fill"></i>
-                Pimpinan Organisasi
-            </span>
-            <h2 class="section-heading">Ketua umum</h2>
-            <p class="section-lead mx-auto">
-                Peran sentral yang menjaga arah organisasi, ritme kerja, dan semangat kepengurusan tetap satu jalur.
-            </p>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-5" data-aos="fade-up">
-                <article class="surface-card org-member-card org-member-card--leader">
-                    <div class="org-member-card__avatar-wrap">
-                        <img src="{{ $emptyPhoto }}" alt="{{ $leader['name'] }}" class="org-member-card__avatar">
-                        <span class="org-member-card__badge"><i class="bi bi-star-fill"></i></span>
-                    </div>
-                    <h3 class="org-member-card__name">{{ $leader['name'] }}</h3>
-                    <div class="org-member-card__role">{{ $leader['role'] }}</div>
-                    <p class="org-member-card__study">{{ $leader['study'] }}</p>
-                    <p class="org-member-card__quote">"{{ $leader['quote'] }}"</p>
-                </article>
+    <div class="page-wrapper">
+        <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
+            <div class="container">
+                <div class="page-hero__inner" data-aos="fade-up">
+                    <span class="page-hero__eyebrow">
+                        <i class="bi bi-people"></i>
+                        Pilar Pergerakan
+                    </span>
+                    <h1 class="page-hero__title">STRUKTUR<br><span>ORGANISASI</span></h1>
+                    <p class="page-hero__lead">
+                        Mengenal tim di balik layar yang menggerakkan roda UKM Cakra Manggala menuju visi pengembaraan yang
+                        unggul.
+                    </p>
+                </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-<section class="section-shell">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-diagram-2-fill"></i>
-                Pengurus Inti
-            </span>
-            <h2 class="section-heading">Peran yang menjaga operasional tetap jalan</h2>
-            <p class="section-lead mx-auto">
-                Tim inti menjadi penghubung antara arah organisasi, administrasi, logistik, dan kebutuhan pelaksanaan kegiatan.
-            </p>
-        </div>
-
-        <div class="row g-4">
-            @foreach($coreMembers as $member)
-                <div class="col-12 col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
-                    <article class="surface-card org-member-card">
-                        <div class="org-member-card__avatar-wrap">
-                            <img src="{{ $emptyPhoto }}" alt="{{ $member['name'] }}" class="org-member-card__avatar">
-                        </div>
-                        <h3 class="org-member-card__name">{{ $member['name'] }}</h3>
-                        <div class="org-member-card__role">{{ $member['role'] }}</div>
-                        <p class="org-member-card__study">{{ $member['study'] }}</p>
-                    </article>
+        <section class="section-shell" style="background-color: var(--dark-color);">
+            <div class="container">
+                <div class="org-period-banner" data-aos="fade-up">
+                    <span class="section-kicker mb-3">
+                        <i class="bi bi-clock-history"></i>
+                        Kepengurusan Aktif
+                    </span>
+                    <h2 class="section-heading">PERIODE 2024 — 2025</h2>
+                    <p class="section-lead mx-auto text-white-50" style="max-width: 600px;">
+                        Barisan pengurus yang berdedikasi untuk melanjutkan estafet perjuangan dan pelestarian alam.
+                    </p>
                 </div>
-            @endforeach
-        </div>
-    </div>
-</section>
+            </div>
+        </section>
 
-<section class="section-shell section-shell--soft">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-grid-3x3-gap-fill"></i>
-                Kepala Bidang
-            </span>
-            <h2 class="section-heading">Fokus kerja dibagi lebih jelas</h2>
-            <p class="section-lead mx-auto">
-                Setiap bidang memegang area tanggung jawab yang berbeda agar ritme organisasi tetap terarah dan terukur.
-            </p>
-        </div>
-
-        <div class="row g-4">
-            @foreach($divisionHeads as $member)
-                <div class="col-12 col-lg-6 {{ $loop->last ? 'col-xl-12' : 'col-xl-6' }}" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
-                    <article class="surface-card org-member-card">
-                        <div class="org-member-card__avatar-wrap">
-                            <img src="{{ $emptyPhoto }}" alt="{{ $member['name'] }}" class="org-member-card__avatar">
+        <!-- KETUA UMUM -->
+        @if($leader)
+            <section class="section-shell" style="background-color: var(--dark-color); padding-top: 0;">
+                <div class="container">
+                    <div class="section-intro text-center mb-5" data-aos="fade-up">
+                        <span class="section-kicker mx-auto">Pimpinan</span>
+                        <h2 class="section-heading">Ketua Umum</h2>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-5" data-aos="fade-up">
+                            <article class="org-member-card org-member-card--leader">
+                                <div class="org-member-card__avatar-wrap">
+                                    @if($leader->foto)
+                                        <img src="{{ asset($leader->foto) }}" alt="{{ $leader->nama }}"
+                                            class="org-member-card__avatar">
+                                    @else
+                                        <div class="org-member-card__placeholder">
+                                            {{ strtoupper(substr($leader->nama, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                    <span class="org-member-card__badge"><i class="bi bi-award-fill"></i></span>
+                                </div>
+                                <h3 class="org-member-card__name">{{ $leader->nama }}</h3>
+                                <div class="org-member-card__role">{{ $leader->jabatan }}</div>
+                            </article>
                         </div>
-                        <h3 class="org-member-card__name">{{ $member['name'] }}</h3>
-                        <div class="org-member-card__role">{{ $member['role'] }}</div>
-                        <p class="org-member-card__study">{{ $member['study'] }}</p>
-                    </article>
+                    </div>
                 </div>
-            @endforeach
-        </div>
-    </div>
-</section>
+            </section>
+        @endif
 
-<section class="section-shell">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-person-check-fill"></i>
-                Anggota Bidang
-            </span>
-            <h2 class="section-heading">Tim pendukung pelaksana</h2>
-            <p class="section-lead mx-auto">
-                Peran pelaksana memperkuat tiap bidang supaya program kerja benar-benar bisa berjalan di lapangan.
-            </p>
-        </div>
-
-        <div class="row justify-content-center">
-            @foreach($divisionMembers as $member)
-                <div class="col-12 col-md-8 col-lg-5" data-aos="fade-up">
-                    <article class="surface-card org-member-card">
-                        <div class="org-member-card__avatar-wrap">
-                            <img src="{{ $emptyPhoto }}" alt="{{ $member['name'] }}" class="org-member-card__avatar">
-                        </div>
-                        <h3 class="org-member-card__name">{{ $member['name'] }}</h3>
-                        <div class="org-member-card__role">{{ $member['role'] }}</div>
-                        <p class="org-member-card__study">{{ $member['study'] }}</p>
-                    </article>
+        <!-- PENGURUS INTI -->
+        @if($coreMembers->count() > 0)
+            <section class="section-shell" style="background-color: var(--dark-color); padding-top: 0;">
+                <div class="container">
+                    <div class="section-intro text-center mb-5" data-aos="fade-up">
+                        <span class="section-kicker mx-auto">Operasional</span>
+                        <h2 class="section-heading">Pengurus Inti</h2>
+                    </div>
+                    <div class="row g-4 justify-content-center">
+                        @foreach($coreMembers as $member)
+                            <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                                <article class="org-member-card">
+                                    <div class="org-member-card__avatar-wrap">
+                                        @if($member->foto)
+                                            <img src="{{ asset($member->foto) }}" alt="{{ $member->nama }}"
+                                                class="org-member-card__avatar">
+                                        @else
+                                            <div class="org-member-card__placeholder">
+                                                {{ strtoupper(substr($member->nama, 0, 1)) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <h3 class="org-member-card__name">{{ $member->nama }}</h3>
+                                    <div class="org-member-card__role">{{ $member->jabatan }}</div>
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            @endforeach
-        </div>
-    </div>
-</section>
+            </section>
+        @endif
 
-<section class="section-shell section-shell--soft">
-    <div class="container">
-        <div class="surface-card text-center" data-aos="fade-up">
-            <span class="icon-badge mb-4"><i class="bi bi-people-fill"></i></span>
-            <h2 class="section-heading mb-3">Semangat kerja kolektif</h2>
-            <p class="section-lead mx-auto mb-0" style="max-width: 860px;">
-                "Bersama-sama kita membangun organisasi yang kuat, berkarakter, dan bermanfaat bagi semua. Setiap pengurus adalah <strong>pemimpin</strong> yang bertanggung jawab atas kemajuan UKM Pecinta Alam Cakra Manggala."
-            </p>
-        </div>
+        <!-- KEPALA BIDANG -->
+        @if($divisionHeads->count() > 0)
+            <section class="section-shell" style="background-color: var(--dark-color); padding-top: 0; padding-bottom: 8rem;">
+                <div class="container">
+                    <div class="section-intro text-center mb-5" data-aos="fade-up">
+                        <span class="section-kicker mx-auto">Divisi</span>
+                        <h2 class="section-heading">Kepala Bidang</h2>
+                    </div>
+                    <div class="row g-4 justify-content-center">
+                        @foreach($divisionHeads as $member)
+                            <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                                <article class="org-member-card">
+                                    <div class="org-member-card__avatar-wrap">
+                                        @if($member->foto)
+                                            <img src="{{ asset($member->foto) }}" alt="{{ $member->nama }}"
+                                                class="org-member-card__avatar">
+                                        @else
+                                            <div class="org-member-card__placeholder">
+                                                {{ strtoupper(substr($member->nama, 0, 1)) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <h3 class="org-member-card__name">{{ $member->nama }}</h3>
+                                    <div class="org-member-card__role">{{ $member->jabatan }}</div>
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+        @endif
     </div>
-</section>
 @endsection

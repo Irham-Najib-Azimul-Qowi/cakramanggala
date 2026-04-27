@@ -6,6 +6,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Artikel;
+use App\Traits\ImageUploadTrait;
+use App\Http\Requests\StoreArtikelRequest;
+use App\Http\Requests\UpdateArtikelRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -13,6 +16,8 @@ use Illuminate\Support\Str;
 
 class ArtikelController extends Controller
 {
+    use ImageUploadTrait;
+
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -56,51 +61,27 @@ class ArtikelController extends Controller
         return view('dashboard.artikel.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreArtikelRequest $request)
     {
-        $request->validate([
-            'judul' => 'required|max:200',
-            'konten' => 'required',
-            'excerpt' => 'nullable|max:300',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|in:draft,published',
-        ]);
-
-        $data = $request->all();
-
-        // Gunakan Auth::id() yang lebih eksplisit
-        $data['user_id'] = Auth::id();
+        $validated = $request->validated();
+        $validated['user_id'] = Auth::id();
 
         $baseSlug = Str::slug($request->judul);
         $slug = $baseSlug;
         $counter = 1;
 
         while (Artikel::where('slug', $slug)->exists()) {
-            $slug = $baseSlug.'-'.$counter;
+            $slug = $baseSlug . '-' . $counter;
             $counter++;
         }
 
-        $data['slug'] = $slug;
+        $validated['slug'] = $slug;
 
-        // Upload gambar jika ada - SOLUSI BARU
         if ($request->hasFile('gambar_utama')) {
-            // Pastikan folder ada
-            $uploadPath = public_path('uploads/articles');
-            if (! File::exists($uploadPath)) {
-                File::makeDirectory($uploadPath, 0755, true);
-            }
-
-            // Generate nama file unik
-            $filename = time().'_'.Str::slug($request->judul).'.'.$request->file('gambar_utama')->getClientOriginalExtension();
-
-            // Upload langsung ke public/uploads/articles/
-            $request->file('gambar_utama')->move($uploadPath, $filename);
-
-            // Simpan path relatif ke database
-            $data['gambar_utama'] = 'uploads/articles/'.$filename;
+            $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/articles');
         }
 
-        Artikel::create($data);
+        Artikel::create($validated);
 
         return redirect()->route('dashboard.artikel.index')
             ->with('success', 'Artikel berhasil dibuat!');
@@ -116,17 +97,9 @@ class ArtikelController extends Controller
         return view('dashboard.artikel.edit', compact('artikel'));
     }
 
-    public function update(Request $request, Artikel $artikel)
+    public function update(UpdateArtikelRequest $request, Artikel $artikel)
     {
-        $request->validate([
-            'judul' => 'required|max:200',
-            'konten' => 'required',
-            'excerpt' => 'nullable|max:300',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|in:draft,published',
-        ]);
-
-        $data = $request->all();
+        $validated = $request->validated();
 
         // Update slug jika judul berubah
         if ($request->judul !== $artikel->judul) {
@@ -135,37 +108,18 @@ class ArtikelController extends Controller
             $counter = 1;
 
             while (Artikel::where('slug', $slug)->where('id', '!=', $artikel->id)->exists()) {
-                $slug = $baseSlug.'-'.$counter;
+                $slug = $baseSlug . '-' . $counter;
                 $counter++;
             }
 
-            $data['slug'] = $slug;
+            $validated['slug'] = $slug;
         }
 
-        // Upload gambar baru jika ada - SOLUSI BARU
         if ($request->hasFile('gambar_utama')) {
-            // Hapus gambar lama jika ada
-            if ($artikel->gambar_utama && File::exists(public_path($artikel->gambar_utama))) {
-                File::delete(public_path($artikel->gambar_utama));
-            }
-
-            // Pastikan folder ada
-            $uploadPath = public_path('uploads/articles');
-            if (! File::exists($uploadPath)) {
-                File::makeDirectory($uploadPath, 0755, true);
-            }
-
-            // Generate nama file unik
-            $filename = time().'_'.Str::slug($request->judul).'.'.$request->file('gambar_utama')->getClientOriginalExtension();
-
-            // Upload langsung ke public/uploads/articles/
-            $request->file('gambar_utama')->move($uploadPath, $filename);
-
-            // Simpan path relatif ke database
-            $data['gambar_utama'] = 'uploads/articles/'.$filename;
+            $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/articles', $artikel->gambar_utama);
         }
 
-        $artikel->update($data);
+        $artikel->update($validated);
 
         return redirect()->route('dashboard.artikel.index')
             ->with('success', 'Artikel berhasil diperbarui!');

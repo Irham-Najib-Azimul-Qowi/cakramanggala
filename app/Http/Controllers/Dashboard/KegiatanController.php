@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kegiatan;
+use App\Traits\ImageUploadTrait;
+use App\Http\Requests\StoreKegiatanRequest;
+use App\Http\Requests\UpdateKegiatanRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class KegiatanController extends Controller
 {
+    use ImageUploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -80,34 +85,14 @@ class KegiatanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreKegiatanRequest $request)
     {
-        $validated = $request->validate([
-            'tahun' => 'required|integer|min:2020|max:'.(date('Y') + 5),
-            'judul_kegiatan' => 'required|string|max:255',
-            'tanggal_pelaksanaan' => 'required|date',
-            'materi' => 'nullable|string',
-            'tempat' => 'required|string|max:255',
-            'kapel_pj' => 'required|string|max:255',
-            'sifat' => 'required|in:internal,eksternal',
-        ], [
-            'tahun.required' => 'Tahun harus diisi',
-            'tahun.integer' => 'Tahun harus berupa angka',
-            'tahun.min' => 'Tahun minimal 2020',
-            'tahun.max' => 'Tahun maksimal '.(date('Y') + 5),
-            'judul_kegiatan.required' => 'Judul kegiatan harus diisi',
-            'judul_kegiatan.max' => 'Judul kegiatan maksimal 255 karakter',
-            'tanggal_pelaksanaan.required' => 'Tanggal pelaksanaan harus diisi',
-            'tanggal_pelaksanaan.date' => 'Format tanggal tidak valid',
-            'tempat.required' => 'Tempat harus diisi',
-            'tempat.max' => 'Tempat maksimal 255 karakter',
-            'kapel_pj.required' => 'Ketua Pelaksana/PJ harus diisi',
-            'kapel_pj.max' => 'Ketua Pelaksana/PJ maksimal 255 karakter',
-            'sifat.required' => 'Sifat kegiatan harus dipilih',
-            'sifat.in' => 'Sifat kegiatan harus internal atau eksternal',
-        ]);
-
+        $validated = $request->validated();
         $validated['user_id'] = Auth::id();
+
+        if ($request->hasFile('gambar_utama')) {
+            $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/kegiatan');
+        }
 
         Kegiatan::create($validated);
 
@@ -134,32 +119,13 @@ class KegiatanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kegiatan $kegiatan)
+    public function update(UpdateKegiatanRequest $request, Kegiatan $kegiatan)
     {
-        $validated = $request->validate([
-            'tahun' => 'required|integer|min:2020|max:'.(date('Y') + 5),
-            'judul_kegiatan' => 'required|string|max:255',
-            'tanggal_pelaksanaan' => 'required|date',
-            'materi' => 'nullable|string',
-            'tempat' => 'required|string|max:255',
-            'kapel_pj' => 'required|string|max:255',
-            'sifat' => 'required|in:internal,eksternal',
-        ], [
-            'tahun.required' => 'Tahun harus diisi',
-            'tahun.integer' => 'Tahun harus berupa angka',
-            'tahun.min' => 'Tahun minimal 2020',
-            'tahun.max' => 'Tahun maksimal '.(date('Y') + 5),
-            'judul_kegiatan.required' => 'Judul kegiatan harus diisi',
-            'judul_kegiatan.max' => 'Judul kegiatan maksimal 255 karakter',
-            'tanggal_pelaksanaan.required' => 'Tanggal pelaksanaan harus diisi',
-            'tanggal_pelaksanaan.date' => 'Format tanggal tidak valid',
-            'tempat.required' => 'Tempat harus diisi',
-            'tempat.max' => 'Tempat maksimal 255 karakter',
-            'kapel_pj.required' => 'Ketua Pelaksana/PJ harus diisi',
-            'kapel_pj.max' => 'Ketua Pelaksana/PJ maksimal 255 karakter',
-            'sifat.required' => 'Sifat kegiatan harus dipilih',
-            'sifat.in' => 'Sifat kegiatan harus internal atau eksternal',
-        ]);
+        $validated = $request->validated();
+
+        if ($request->hasFile('gambar_utama')) {
+            $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/kegiatan', $kegiatan->gambar_utama);
+        }
 
         $kegiatan->update($validated);
 

@@ -4,15 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('kegiatans', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->year('tahun');
             $table->string('judul_kegiatan');
             $table->date('tanggal_pelaksanaan');
@@ -20,7 +19,7 @@ return new class extends Migration
             $table->string('tempat');
             $table->string('kapel_pj'); // Ketua Pelaksana/Penanggung Jawab
             $table->enum('sifat', ['internal', 'eksternal']);
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

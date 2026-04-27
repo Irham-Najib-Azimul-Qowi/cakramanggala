@@ -45,17 +45,19 @@ Route::middleware('auth')->group(function () {
     // Dashboard routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Data Pendaftar routes
-    Route::get('/dashboard/pendaftar', [PendaftarController::class, 'index'])->name('dashboard.pendaftar');
-    Route::get('/dashboard/pendaftar/export', [PendaftarController::class, 'export'])->name('dashboard.pendaftar.export');
-    Route::get('/dashboard/pendaftar/export-simple', [PendaftarController::class, 'exportSimple'])->name('dashboard.pendaftar.exportSimple');
-    Route::get('/dashboard/pendaftar/{id}', [PendaftarController::class, 'show'])->name('dashboard.pendaftar.show');
-    Route::patch('/dashboard/pendaftar/{id}/approve', [PendaftarController::class, 'approve'])->name('dashboard.pendaftar.approve');
-    Route::patch('/dashboard/pendaftar/{id}/reject', [PendaftarController::class, 'reject'])->name('dashboard.pendaftar.reject');
-    Route::delete('/dashboard/pendaftar/{id}', [PendaftarController::class, 'destroy'])->name('dashboard.pendaftar.destroy');
+    // Data Pendaftar routes (ADMIN ONLY - Sensitive Data)
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/dashboard/pendaftar', [PendaftarController::class, 'index'])->name('dashboard.pendaftar');
+        Route::get('/dashboard/pendaftar/export', [PendaftarController::class, 'export'])->name('dashboard.pendaftar.export');
+        Route::get('/dashboard/pendaftar/export-simple', [PendaftarController::class, 'exportSimple'])->name('dashboard.pendaftar.exportSimple');
+        Route::get('/dashboard/pendaftar/{id}', [PendaftarController::class, 'show'])->name('dashboard.pendaftar.show');
+        Route::patch('/dashboard/pendaftar/{id}/approve', [PendaftarController::class, 'approve'])->name('dashboard.pendaftar.approve');
+        Route::patch('/dashboard/pendaftar/{id}/reject', [PendaftarController::class, 'reject'])->name('dashboard.pendaftar.reject');
+        Route::delete('/dashboard/pendaftar/{id}', [PendaftarController::class, 'destroy'])->name('dashboard.pendaftar.destroy');
+    });
 
-    // Dashboard Routes (Authenticated & Admin)
-    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+    // Dashboard Routes (Authenticated & Role Protected)
+    Route::prefix('dashboard')->name('dashboard.')->middleware('role:admin,moderator')->group(function () {
         // Artikel CRUD
         Route::resource('artikel', DashboardArtikelController::class);
 
@@ -65,6 +67,9 @@ Route::middleware('auth')->group(function () {
 
         // Kegiatan CRUD
         Route::resource('kegiatan', KegiatanController::class);
+
+        // Pengurus CRUD (ADMIN ONLY)
+        Route::resource('pengurus', \App\Http\Controllers\Dashboard\PengurusController::class)->middleware('role:admin');
 
         // Pesan Management
         Route::get('pesan', [DashboardController::class, 'messages'])->name('pesan');

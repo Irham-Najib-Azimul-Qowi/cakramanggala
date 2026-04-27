@@ -1,6 +1,7 @@
 {{-- File: resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -29,8 +32,14 @@
             --shadow-hover: 0 22px 55px rgba(7, 17, 12, 0.13);
         }
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--surface-color);
@@ -41,26 +50,58 @@
             --nav-chip-border: rgba(255, 255, 255, 0.18);
         }
 
-        a { color: inherit; }
-        img { max-width: 100%; }
+        a {
+            color: inherit;
+        }
+
+        select.form-select,
+        select.form-control {
+            color: #ffffff !important;
+            background-color: #1a1a1a !important;
+        }
+
+        select option {
+            background-color: #111111 !important;
+            color: #ffffff !important;
+            padding: 10px;
+        }
+
+        img {
+            max-width: 100%;
+        }
 
         .container {
             width: min(100% - 2rem, 1180px);
         }
 
-        body.site-menu-open { overflow: hidden; }
+        body.site-menu-open {
+            overflow: hidden;
+        }
+
         .layout-overlay-nav {
             --nav-foreground: #ffffff;
             --nav-chip-bg: rgba(255, 255, 255, 0.08);
             --nav-chip-border: rgba(255, 255, 255, 0.18);
         }
 
-        h1, h2, h3, h4, h5, h6, .section-title, .footer-title {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .section-title,
+        .footer-title {
             font-family: 'Montserrat', sans-serif;
         }
 
-        main { padding-top: clamp(6rem, 9vw, 7rem); }
-        .layout-overlay-nav main { padding-top: 0; }
+        main {
+            padding-top: clamp(6rem, 9vw, 7rem);
+        }
+
+        .layout-overlay-nav main {
+            padding-top: 0;
+        }
 
         .section-title {
             text-align: center;
@@ -107,6 +148,18 @@
             color: var(--muted-color);
             font-size: 1.02rem;
             line-height: 1.8;
+        }
+
+        .text-accent {
+            color: var(--accent-color) !important;
+        }
+
+        .text-secondary-accent {
+            color: var(--secondary-color) !important;
+        }
+
+        .bg-white-10 {
+            background-color: rgba(255, 255, 255, 0.1) !important;
         }
 
         .section-intro {
@@ -208,6 +261,144 @@
             line-height: 1.5;
         }
 
+        /* Premium Card Component - Square & Dark Theme */
+        .premium-card {
+            background: var(--primary-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+            border-color: var(--accent-color);
+        }
+
+        .premium-card__img-wrapper {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16 / 11;
+            border-radius: 0;
+        }
+
+        .premium-card__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-card:hover .premium-card__img {
+            transform: scale(1.1);
+        }
+
+        .premium-card__badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.6rem 1.2rem;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            z-index: 2;
+        }
+
+        .premium-card__body {
+            padding: 2.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .premium-card__meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .premium-card__meta i {
+            color: var(--accent-color);
+        }
+
+        .premium-card__title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .premium-card__text {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .premium-card__footer {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn-premium-link {
+            font-weight: 800;
+            color: var(--accent-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-premium-link:hover {
+            gap: 0.9rem;
+            color: #fff;
+        }
+
+        .btn-premium {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            font-weight: 800;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-premium:hover {
+            background: #fff;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
         .page-hero {
             position: relative;
             overflow: hidden;
@@ -217,22 +408,28 @@
             padding: clamp(8rem, 13vw, 10.5rem) 0 clamp(4rem, 8vw, 6.2rem);
             color: #fff;
             background: #09110d;
+            background-image: var(--hero-image);
             background-size: cover;
             background-position: center;
         }
 
-        .page-hero__media,
-        .page-hero__overlay {
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(to bottom, rgba(4, 9, 7, 0.3) 0%, rgba(4, 9, 7, 0.5) 50%, rgba(4, 9, 7, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        .page-hero__media {
             position: absolute;
             inset: 0;
             pointer-events: none;
         }
 
-        .page-hero__overlay {
-            z-index: 1;
-            background: 
-                radial-gradient(circle at top right, rgba(242, 182, 97, 0.12), transparent 45%),
-                linear-gradient(180deg, rgba(4, 9, 7, 0.52) 0%, rgba(4, 9, 7, 0.42) 40%, rgba(4, 9, 7, 0.72) 100%);
+        .page-hero__title {
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .page-hero .container {
@@ -285,7 +482,7 @@
             line-height: 1.75;
         }
 
-        .page-hero + .section-shell {
+        .page-hero+.section-shell {
             padding-top: clamp(3rem, 6vw, 4.5rem);
         }
 
@@ -355,7 +552,9 @@
             color: var(--nav-foreground);
         }
 
-        .site-brand:hover { color: var(--nav-foreground); }
+        .site-brand:hover {
+            color: var(--nav-foreground);
+        }
 
         .site-brand img {
             width: 58px;
@@ -405,7 +604,12 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        .site-navbar-actions { display: flex; align-items: center; gap: 1rem; margin-left: auto; }
+        .site-navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+        }
 
         .site-navbar-join,
         .site-menu-join,
@@ -436,7 +640,9 @@
             box-shadow: 0 22px 50px rgba(222, 149, 65, 0.28);
         }
 
-        .site-navbar-join { white-space: nowrap; }
+        .site-navbar-join {
+            white-space: nowrap;
+        }
 
         .site-menu-join {
             width: 100%;
@@ -468,6 +674,7 @@
         .site-menu-trigger {
             color: var(--nav-foreground);
         }
+
         .site-menu-close {
             color: #ffffff;
         }
@@ -501,7 +708,12 @@
         }
 
         .site-menu-trigger__icon,
-        .site-menu-close__icon { display: inline-flex; flex-direction: column; gap: 4px; }
+        .site-menu-close__icon {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
         .site-menu-trigger__icon span,
         .site-menu-close__icon span {
             width: 20px;
@@ -510,12 +722,25 @@
             transition: transform 0.22s ease, opacity 0.22s ease;
         }
 
-        .site-menu-close__icon span:first-child { transform: translateY(3px) rotate(45deg); }
-        .site-menu-close__icon span:last-child { transform: translateY(-3px) rotate(-45deg); }
+        .site-menu-close__icon span:first-child {
+            transform: translateY(3px) rotate(45deg);
+        }
 
-        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(2) { opacity: 0; }
-        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+        .site-menu-close__icon span:last-child {
+            transform: translateY(-3px) rotate(-45deg);
+        }
+
+        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
 
         .site-menu-backdrop {
             position: fixed;
@@ -554,7 +779,9 @@
             visibility: visible;
         }
 
-        body.site-menu-open .site-menu-panel { transform: translateX(0); }
+        body.site-menu-open .site-menu-panel {
+            transform: translateX(0);
+        }
 
         .site-menu-panel__inner {
             display: flex;
@@ -600,7 +827,12 @@
             padding-top: 1.15rem;
             flex: 1;
         }
-        .site-menu-links { display: grid; gap: 0.15rem; }
+
+        .site-menu-links {
+            display: grid;
+            gap: 0.15rem;
+        }
+
         .site-menu-link {
             display: flex;
             align-items: center;
@@ -618,7 +850,10 @@
             transition: color 0.22s ease, padding-left 0.22s ease, background 0.22s ease;
         }
 
-        .site-menu-link:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .site-menu-link:last-child {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
         .site-menu-link:hover,
         .site-menu-link:focus-visible,
         .site-menu-link.is-active {
@@ -627,7 +862,12 @@
             background: rgba(255, 255, 255, 0.025);
         }
 
-        .site-menu-panel__meta { display: grid; gap: 1rem; margin-top: auto; }
+        .site-menu-panel__meta {
+            display: grid;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
         .site-menu-panel__contact {
             margin: 0;
             color: rgba(255, 255, 255, 0.62);
@@ -636,14 +876,42 @@
         }
 
         @media (max-width: 767px) {
-            .site-navbar { padding: 0; }
-            .site-brand img { width: 48px; height: 48px; }
-            .site-brand-label { font-size: 0.88rem; }
-            .site-navbar-shell { min-height: 72px; padding: 0.55rem 0; }
-            .site-navbar-actions { gap: 0.85rem; }
-            .site-navbar-join { padding: 0.78rem 0.9rem; font-size: 0.72rem; }
-            .site-menu-trigger { min-height: auto; padding: 0; }
-            .site-menu-trigger__label { font-size: 0.76rem; }
+            .site-navbar {
+                padding: 0;
+            }
+
+            .site-brand img {
+                width: 48px;
+                height: 48px;
+            }
+
+            .site-brand-label {
+                font-size: 0.88rem;
+            }
+
+            .site-navbar-shell {
+                min-height: 72px;
+                padding: 0.55rem 0;
+            }
+
+            .site-navbar-actions {
+                gap: 0.85rem;
+            }
+
+            .site-navbar-join {
+                padding: 0.78rem 0.9rem;
+                font-size: 0.72rem;
+            }
+
+            .site-menu-trigger {
+                min-height: auto;
+                padding: 0;
+            }
+
+            .site-menu-trigger__label {
+                font-size: 0.76rem;
+            }
+
             .site-menu-panel {
                 top: 0.5rem;
                 right: 0.5rem;
@@ -651,17 +919,30 @@
                 height: calc(100vh - 1rem);
                 padding: 0.65rem;
             }
-            .site-menu-panel__inner { padding: 0.95rem; }
+
+            .site-menu-panel__inner {
+                padding: 0.95rem;
+            }
         }
 
         @media (min-width: 992px) {
-            .site-navbar-links { display: flex; }
-            .site-navbar-actions { margin-left: 0; }
-            .site-menu-trigger { display: none; }
+            .site-navbar-links {
+                display: flex;
+            }
+
+            .site-navbar-actions {
+                margin-left: 0;
+            }
+
+            .site-menu-trigger {
+                display: none;
+            }
         }
 
         @media (max-width: 991px) {
-            .site-navbar-join { display: none; }
+            .site-navbar-join {
+                display: none;
+            }
         }
 
         .footer {
@@ -680,8 +961,16 @@
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 80%, transparent 100%);
         }
 
-        .footer-grid { row-gap: 2rem; }
-        .footer-column { display: flex; flex-direction: column; gap: 1rem; }
+        .footer-grid {
+            row-gap: 2rem;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
         .footer [data-footer-item] {
             opacity: 0;
             transform: translateY(24px);
@@ -846,10 +1135,21 @@
         }
 
         @media (max-width: 767px) {
-            .footer { padding-top: 3.5rem; }
-            .metric-strip { grid-template-columns: 1fr; }
-            .page-hero { padding-top: 7.6rem; }
-            .section-shell { padding: 3.5rem 0; }
+            .footer {
+                padding-top: 3.5rem;
+            }
+
+            .metric-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .page-hero {
+                padding-top: 7.6rem;
+            }
+
+            .section-shell {
+                padding: 3.5rem 0;
+            }
         }
 
         .fade-in-up {
@@ -872,6 +1172,7 @@
         request()->routeIs('home', 'home.alt', 'about', 'contact', 'struktur-kepengurusan', 'artikel.index', 'activities') ? 'layout-overlay-nav' : null,
     ]));
 @endphp
+
 <body class="{{ $bodyClasses }}">
     <nav class="site-navbar" data-site-navbar>
         <div class="container">
@@ -882,19 +1183,23 @@
                 </a>
 
                 <nav class="site-navbar-links" aria-label="Navigasi desktop">
-                    <a class="site-navbar-link {{ request()->routeIs('home', 'home.alt') ? 'is-active' : '' }}" href="{{ route('home') }}">Beranda</a>
-                    <a class="site-navbar-link {{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">Tentang</a>
-                    <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
-                    <a class="site-navbar-link {{ request()->routeIs('activities') ? 'is-active' : '' }}" href="{{ route('activities') }}">Kegiatan</a>
-                    <a class="site-navbar-link {{ request()->routeIs('contact') ? 'is-active' : '' }}" href="{{ route('contact') }}">Kontak</a>
-                    @auth
-                    <a class="site-navbar-link" href="{{ route('dashboard') }}" style="color: var(--accent-light); text-shadow: 0 0 10px rgba(242, 182, 97, 0.3);">Admin Panel</a>
-                    @endauth
+                    <a class="site-navbar-link {{ request()->routeIs('home', 'home.alt') ? 'is-active' : '' }}"
+                        href="{{ route('home') }}">Beranda</a>
+                    <a class="site-navbar-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
+                        href="{{ route('about') }}">Tentang</a>
+                    <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
+                        href="{{ route('artikel.index') }}">Artikel</a>
+                    <a class="site-navbar-link {{ request()->routeIs('activities') ? 'is-active' : '' }}"
+                        href="{{ route('activities') }}">Kegiatan</a>
+                    <a class="site-navbar-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
+                        href="{{ route('contact') }}">Kontak</a>
+
                 </nav>
 
                 <div class="site-navbar-actions">
                     <a href="{{ route('join') }}" class="site-navbar-join">Gabung</a>
-                    <button type="button" class="site-menu-trigger" data-site-menu-trigger aria-expanded="false" aria-controls="siteMenuPanel" aria-label="Buka menu navigasi">
+                    <button type="button" class="site-menu-trigger" data-site-menu-trigger aria-expanded="false"
+                        aria-controls="siteMenuPanel" aria-label="Buka menu navigasi">
                         <span class="site-menu-trigger__label">Menu</span>
                         <span class="site-menu-trigger__icon" aria-hidden="true">
                             <span></span>
@@ -927,35 +1232,39 @@
 
             <div class="site-menu-panel__body">
                 <nav class="site-menu-links" aria-label="Menu utama">
-                    <a class="site-menu-link {{ request()->routeIs('home', 'home.alt') ? 'is-active' : '' }}" href="{{ route('home') }}">
+                    <a class="site-menu-link {{ request()->routeIs('home', 'home.alt') ? 'is-active' : '' }}"
+                        href="{{ route('home') }}">
                         <span>Beranda</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
-                    <a class="site-menu-link {{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">
+                    <a class="site-menu-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
+                        href="{{ route('about') }}">
                         <span>Tentang</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
-                    <a class="site-menu-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">
+                    <a class="site-menu-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
+                        href="{{ route('artikel.index') }}">
                         <span>Artikel</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
-                    <a class="site-menu-link {{ request()->routeIs('struktur-kepengurusan') ? 'is-active' : '' }}" href="{{ route('struktur-kepengurusan') }}">
-                        <span>Divisi</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-                    <a class="site-menu-link {{ request()->routeIs('activities') ? 'is-active' : '' }}" href="{{ route('activities') }}">
+                    <a class="site-menu-link {{ request()->routeIs('activities') ? 'is-active' : '' }}"
+                        href="{{ route('activities') }}">
                         <span>Kegiatan</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
-                    <a class="site-menu-link {{ request()->routeIs('contact') ? 'is-active' : '' }}" href="{{ route('contact') }}">
+                    <a class="site-menu-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
+                        href="{{ route('contact') }}">
                         <span>Kontak</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
-                    <a class="site-menu-link {{ request()->routeIs('join', 'join.success') ? 'is-active' : '' }}" href="{{ route('join') }}">
-                        <span>Gabung</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                 </nav>
+
+                <div class="mt-4">
+                    <a href="{{ route('join') }}" class="site-menu-join">
+                        <span>Gabung Sekarang</span>
+                        <i class="bi bi-person-plus-fill"></i>
+                    </a>
+                </div>
 
                 <div class="site-menu-panel__meta">
                     <div class="site-menu-panel__contact">
@@ -984,7 +1293,8 @@
                             </span>
                         </a>
                         <h5 class="footer-title">Visi Singkat</h5>
-                        <p class="footer-description">Menjadi ruang bertumbuh bagi mahasiswa yang tangguh, terampil, dan bertanggung jawab dalam petualangan serta pelestarian alam.</p>
+                        <p class="footer-description">Menjadi ruang bertumbuh bagi mahasiswa yang tangguh, terampil, dan
+                            bertanggung jawab dalam petualangan serta pelestarian alam.</p>
                     </div>
                 </div>
 
@@ -995,7 +1305,6 @@
                             <li><a href="{{ route('home') }}">Beranda</a></li>
                             <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
                             <li><a href="{{ route('activities') }}">Kegiatan</a></li>
-                            <li><a href="{{ route('struktur-kepengurusan') }}">Divisi</a></li>
                             <li><a href="{{ route('join') }}">Gabung</a></li>
                             <li><a href="{{ route('contact') }}">Kontak</a></li>
                         </ul>
@@ -1010,20 +1319,23 @@
                                 <li>
                                     <a href="{{ route('activities') }}#activity-{{ $activity->id }}">
                                         <span class="footer-list-title">{{ $activity->judul_kegiatan }}</span>
-                                        <span class="footer-list-date">{{ $activity->tanggal_pelaksanaan->format('d M Y') }} · {{ $activity->tempat }}</span>
+                                        <span class="footer-list-date">{{ $activity->tanggal_pelaksanaan->format('d M Y') }}
+                                            · {{ $activity->tempat }}</span>
                                     </a>
                                 </li>
                             @empty
                                 <li>
                                     <a href="{{ route('activities') }}">
                                         <span class="footer-list-title">Lihat arsip kegiatan</span>
-                                        <span class="footer-list-date">Dokumentasi kegiatan dan aktivitas lapangan terbaru.</span>
+                                        <span class="footer-list-date">Dokumentasi kegiatan dan aktivitas lapangan
+                                            terbaru.</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('artikel.index') }}">
                                         <span class="footer-list-title">Buka halaman artikel</span>
-                                        <span class="footer-list-date">Update artikel, catatan perjalanan, dan laporan kegiatan.</span>
+                                        <span class="footer-list-date">Update artikel, catatan perjalanan, dan laporan
+                                            kegiatan.</span>
                                     </a>
                                 </li>
                             @endforelse
@@ -1039,7 +1351,8 @@
                             <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
                             <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
                         </div>
-                        <p class="footer-address">Sekretariat UKM Pecinta Alam Cakra Manggala<br>Politeknik Negeri Madiun<br>Madiun, Jawa Timur</p>
+                        <p class="footer-address">Sekretariat UKM Pecinta Alam Cakra Manggala<br>Politeknik Negeri
+                            Madiun<br>Madiun, Jawa Timur</p>
                         <a href="{{ route('contact') }}" class="footer-action">
                             <i class="bi bi-envelope-open"></i>
                             <span>Contact</span>
@@ -1172,4 +1485,5 @@
 
     @stack('scripts')
 </body>
+
 </html>

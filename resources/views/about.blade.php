@@ -3,228 +3,331 @@
 @section('title', 'Tentang Kami - UKM Cakra Manggala')
 
 @section('content')
-@php
-    $heroImage = asset('image/fotobersejarah2.jpg');
-@endphp
+    @php
+        $heroImage = asset('image/fotobersejarah2.jpg');
+    @endphp
 
-<section class="page-hero">
-    <div class="page-hero__media" aria-hidden="true">
-        <div class="page-hero__fallback" style="background-image: url('{{ $heroImage }}'); position: absolute; inset: -4%; background-size: cover; background-position: center; filter: saturate(0.8) contrast(1.1); transform: scale(1.05);"></div>
-        <div class="page-hero__overlay"></div>
-    </div>
-    <div class="container">
-        <div class="page-hero__inner" data-aos="fade-up">
-            <span class="page-hero__eyebrow">
-                <i class="bi bi-info-circle"></i>
-                Jati Diri
-            </span>
-            <h1 class="page-hero__title">Mengenal<br><span>Cakra Manggala</span></h1>
-            <p class="page-hero__lead">
-                Sebuah wadah pembinaan karakter mahasiswa melalui media alam bebas yang telah berdiri sebagai saksi sejarah petualangan di Politeknik Negeri Madiun.
-            </p>
-        </div>
-    </div>
-</section>
-
-<section class="section-shell">
-    <div class="container">
-        <div class="row g-4 g-lg-5 align-items-stretch">
-            <div class="col-12 col-lg-5" data-aos="fade-right">
-                <div class="media-panel">
-                    <img src="{{ asset('image/fotobersejarah1.jpg') }}" alt="Kegiatan tim Cakra Manggala">
-                </div>
+    <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
+        <div class="container">
+            <div class="page-hero__inner">
+                <span class="page-hero__eyebrow" data-aos="fade-up">
+                    <i class="bi bi-info-circle"></i>
+                    Jati Diri
+                </span>
+                <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">Mengenal<br><span>Cakra Manggala</span>
+                </h1>
+                <p class="page-hero__lead" data-aos="fade-up" data-aos-delay="200">
+                    Wadah pembentukan karakter mahasiswa melalui petualangan dan kepedulian lingkungan yang telah berdiri
+                    sejak 2013.
+                </p>
             </div>
-            <div class="col-12 col-lg-7" data-aos="fade-left">
-                <div class="surface-card">
-                    <span class="section-kicker">
-                        <i class="bi bi-compass"></i>
-                        Sejarah Singkat
-                    </span>
-                    <h2 class="section-heading">Tumbuh dari kebutuhan akan wadah yang nyata</h2>
-                    <p class="section-lead mb-3">
-                        Kegiatan kepencintaalaman di Politeknik Negeri Madiun lahir dari semangat mahasiswa yang ingin belajar, bergerak, dan bertanggung jawab di alam bebas. Dari inisiatif itu, pada <strong>26 Juli 2013</strong> terbentuklah <strong>GEMAPALA</strong> sebagai ruang awal untuk menyalurkan minat yang sama.
-                    </p>
-                    <p class="section-lead mb-3">
-                        Seiring berkembangnya identitas dan arah organisasi, pada <strong>19 Oktober 2014</strong> nama tersebut berubah menjadi <strong>Cakra Manggala</strong>. Perubahan ini tidak sekadar simbolik, tetapi menegaskan karakter organisasi yang lebih matang, disiplin, dan berorientasi pada pembentukan anggota.
-                    </p>
-                    <p class="section-lead mb-0">
-                        Hari ini Cakra Manggala berjalan sebagai ruang pembelajaran teknis, fisik, mental, dan sosial. Fokusnya bukan hanya aktivitas lapangan, tetapi juga cara berpikir, cara bekerja sama, dan cara menjaga alam dengan sikap yang benar.
-                    </p>
+        </div>
+    </section>
 
-                    <div class="metric-strip">
-                        <div class="metric-item">
-                            <span class="metric-value">2013</span>
-                            <span class="metric-label">Awal berdiri sebagai ruang bersama mahasiswa pecinta alam.</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="metric-value">2014</span>
-                            <span class="metric-label">Resmi memakai nama Cakra Manggala sebagai identitas organisasi.</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="metric-value">1 Arah</span>
-                            <span class="metric-label">Bertumbuh lewat petualangan, kedisiplinan, dan pelestarian alam.</span>
+    <!-- History Section -->
+    <section class="section-shell" style="background-color: var(--dark-color); color: #fff;">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="position-relative" style="border: 1px solid var(--accent-color); padding: 1rem;">
+                        <img src="{{ asset('image/fotobersejarah1.jpg') }}" alt="Sejarah" class="img-fluid"
+                            style="filter: grayscale(0.2) contrast(1.1);">
+                        <div class="position-absolute bottom-0 end-0 p-4 bg-accent text-primary fw-800"
+                            style="background-color: var(--accent-color); color: var(--primary-color);">
+                            EST. 2013
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="section-shell section-shell--soft">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-stars"></i>
-                Arah Organisasi
-            </span>
-            <h2 class="section-heading">Visi yang jelas, misi yang operasional</h2>
-            <p class="section-lead mx-auto">
-                Organisasi yang sehat membutuhkan arah yang bisa dipahami anggota dan diterjemahkan ke kegiatan nyata.
-            </p>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-12 col-lg-6" data-aos="fade-up">
-                <article class="surface-card">
-                    <span class="icon-badge mb-4"><i class="bi bi-eye-fill"></i></span>
-                    <h3 class="h2 mb-3" style="color: var(--primary-color);">Visi</h3>
-                    <p class="section-lead mb-0">
-                        Mahasiswa Pecinta Alam Cakra Manggala Politeknik Negeri Madiun sebagai organisasi yang mengembangkan intelektualitas, jasmani, dan rohani serta menumbuhkan kesadaran terhadap alam, sehingga menjadi panutan bagi Pemuda Indonesia pada umumnya dan Politeknik Negeri Madiun khususnya.
+                <div class="col-lg-6" data-aos="fade-left">
+                    <span class="section-label" style="color: var(--accent-color);">Latar Belakang</span>
+                    <h2 class="section-heading" style="color: #fff; font-size: clamp(2rem, 4vw, 3rem);">Tumbuh dari Semangat
+                        Kebersamaan</h2>
+                    <div style="width: 60px; height: 4px; background: var(--accent-color); margin-bottom: 2rem;"></div>
+                    <p class="section-lead" style="color: rgba(255,255,255,0.7);">
+                        Cakra Manggala lahir di Politeknik Negeri Madiun dari sekelompok mahasiswa yang memiliki mimpi
+                        besar: menyatukan petualangan dengan tanggung jawab sosial dan lingkungan.
                     </p>
-                </article>
-            </div>
-
-            <div class="col-12 col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                <article class="surface-card">
-                    <span class="icon-badge mb-4"><i class="bi bi-bullseye"></i></span>
-                    <h3 class="h2 mb-3" style="color: var(--primary-color);">Misi</h3>
-                    <div class="d-grid gap-3">
-                        <div class="d-flex align-items-start gap-3">
-                            <i class="bi bi-check-circle-fill mt-1" style="color: var(--secondary-color);"></i>
-                            <span class="section-lead">Menjalankan organisasi dengan prinsip tata kelola yang baik dan mengikat.</span>
+                    <div class="mt-5">
+                        <div class="d-flex gap-4 mb-4"
+                            style="border-left: 3px solid var(--accent-color); padding-left: 1.5rem;">
+                            <div>
+                                <h4 class="h5 fw-bold" style="color: var(--accent-color); letter-spacing: 0.05em;">Inisiasi
+                                    Awal</h4>
+                                <p style="color: rgba(255,255,255,0.6); margin-bottom: 0;">Dimulai dengan nama Gemapala
+                                    sebagai awal gerakan di lingkungan kampus.</p>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-start gap-3">
-                            <i class="bi bi-check-circle-fill mt-1" style="color: var(--secondary-color);"></i>
-                            <span class="section-lead">Meningkatkan kemampuan teknis, fisik, dan kesadaran terhadap lingkungan hidup.</span>
-                        </div>
-                        <div class="d-flex align-items-start gap-3">
-                            <i class="bi bi-check-circle-fill mt-1" style="color: var(--secondary-color);"></i>
-                            <span class="section-lead">Membangun hubungan yang baik dan saling menguntungkan dengan pihak internal maupun eksternal.</span>
-                        </div>
-                        <div class="d-flex align-items-start gap-3">
-                            <i class="bi bi-check-circle-fill mt-1" style="color: var(--secondary-color);"></i>
-                            <span class="section-lead">Mengembangkan kegiatan yang mendukung kemajuan ilmu pengetahuan.</span>
+                        <div class="d-flex gap-4" style="border-left: 3px solid var(--accent-color); padding-left: 1.5rem;">
+                            <div>
+                                <h4 class="h5 fw-bold" style="color: var(--accent-color); letter-spacing: 0.05em;">
+                                    Transformasi 2014</h4>
+                                <p style="color: rgba(255,255,255,0.6); margin-bottom: 0;">Resmi menggunakan nama Cakra
+                                    Manggala untuk memperkuat identitas organisasi.</p>
+                            </div>
                         </div>
                     </div>
-                </article>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section-shell">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-diagram-3-fill"></i>
-                Bidang Minat
-            </span>
-            <h2 class="section-heading">Dua divisi, dua karakter latihan</h2>
-            <p class="section-lead mx-auto">
-                Setiap divisi dirancang untuk membangun kemampuan teknis yang berbeda, tetapi tetap berpijak pada keselamatan, disiplin, dan solidaritas.
-            </p>
-        </div>
+    <!-- Vision & Mission -->
+    <section class="section-shell" style="background-color: var(--primary-color); color: #fff;">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-label" style="color: var(--accent-color);">Arah Gerak</span>
+                <h2 class="section-heading" style="color: #fff;">Visi & Misi Kami</h2>
+            </div>
 
-        <div class="row g-4">
-            <div class="col-12 col-lg-6" data-aos="fade-up">
-                <article class="surface-card">
-                    <span class="icon-badge mb-4"><i class="bi bi-tree-fill"></i></span>
-                    <h3 class="h2 mb-3" style="color: var(--primary-color);">Gunung Hutan</h3>
-                    <p class="section-lead mb-4">
-                        Fokus pada pendakian, navigasi darat, survival, dan pemahaman ekosistem alam bebas. Divisi ini menuntut kesiapan fisik dan pengambilan keputusan yang tenang di lapangan.
-                    </p>
-                    <div class="chip-list">
-                        <span class="chip"><i class="bi bi-mountain"></i>Pendakian</span>
-                        <span class="chip"><i class="bi bi-compass"></i>Navigasi</span>
-                        <span class="chip"><i class="bi bi-flower1"></i>Konservasi</span>
+            <div class="row g-4">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <div class="premium-card p-5"
+                        style="background: var(--dark-color); border: 1px solid rgba(255,255,255,0.05); height: 100%;">
+                        <div
+                            style="width: 50px; height: 50px; background: var(--accent-color); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 2rem;">
+                            <i class="bi bi-eye-fill"></i>
+                        </div>
+                        <h3 class="h2 fw-bold text-white mb-4" style="letter-spacing: -0.02em;">Visi</h3>
+                        <p class="mb-0" style="color: rgba(255,255,255,0.7); line-height: 1.8; font-size: 1.1rem;">
+                            Menjadi organisasi yang mengembangkan intelektualitas, jasmani, dan rohani serta menumbuhkan
+                            kesadaran terhadap alam, sehingga menjadi panutan bagi mahasiswa dan masyarakat.
+                        </p>
                     </div>
-                </article>
-            </div>
-
-            <div class="col-12 col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                <article class="surface-card">
-                    <span class="icon-badge mb-4"><i class="bi bi-triangle-fill"></i></span>
-                    <h3 class="h2 mb-3" style="color: var(--primary-color);">Rock Climbing</h3>
-                    <p class="section-lead mb-4">
-                        Berfokus pada teknik panjat tebing, penggunaan alat, manajemen risiko, dan kesiapan anggota dalam aktivitas vertikal yang membutuhkan presisi serta kepatuhan prosedur keselamatan.
-                    </p>
-                    <div class="chip-list">
-                        <span class="chip"><i class="bi bi-shield-check"></i>Keselamatan</span>
-                        <span class="chip"><i class="bi bi-gear"></i>Peralatan</span>
-                        <span class="chip"><i class="bi bi-trophy"></i>Kompetisi</span>
+                </div>
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="premium-card p-5"
+                        style="background: var(--dark-color); border: 1px solid rgba(255,255,255,0.05); height: 100%;">
+                        <div
+                            style="width: 50px; height: 50px; background: var(--accent-color); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 2rem;">
+                            <i class="bi bi-list-check"></i>
+                        </div>
+                        <h3 class="h2 fw-bold text-white mb-4" style="letter-spacing: -0.02em;">Misi</h3>
+                        <ul class="list-unstyled d-grid gap-4">
+                            <li class="d-flex gap-3">
+                                <i class="bi bi-shield-fill-check" style="color: var(--accent-color);"></i>
+                                <span style="color: rgba(255,255,255,0.7);">Menyelenggarakan pembinaan karakter yang
+                                    disiplin dan bertanggung jawab.</span>
+                            </li>
+                            <li class="d-flex gap-3">
+                                <i class="bi bi-shield-fill-check" style="color: var(--accent-color);"></i>
+                                <span style="color: rgba(255,255,255,0.7);">Meningkatkan keterampilan teknis dalam aktivitas
+                                    alam bebas.</span>
+                            </li>
+                            <li class="d-flex gap-3">
+                                <i class="bi bi-shield-fill-check" style="color: var(--accent-color);"></i>
+                                <span style="color: rgba(255,255,255,0.7);">Melaksanakan aksi nyata dalam pelestarian
+                                    lingkungan hidup.</span>
+                            </li>
+                        </ul>
                     </div>
-                </article>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section-shell section-shell--soft">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-heart-fill"></i>
-                Nilai Organisasi
-            </span>
-            <h2 class="section-heading">Yang dibentuk bukan hanya kemampuan teknis</h2>
-            <p class="section-lead mx-auto">
-                Nilai-nilai ini menjadi standar perilaku yang menjaga organisasi tetap sehat dan relevan.
-            </p>
-        </div>
+    <!-- Values Section -->
+    <section class="section-shell" style="background-color: var(--dark-color); color: #fff;">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-label" style="color: var(--accent-color);">Nilai Luhur</span>
+                <h2 class="section-heading" style="color: #fff;">Pilar Karakter</h2>
+            </div>
+            <div class="row g-4">
+                @php
+                    $values = [
+                        ['icon' => 'bi-shield-shaded', 'title' => 'Integritas', 'desc' => 'Menjunjung tinggi kejujuran dalam setiap tindakan.'],
+                        ['icon' => 'bi-lightning-charge-fill', 'title' => 'Ketangguhan', 'desc' => 'Kuat menghadapi tantangan di setiap medan.'],
+                        ['icon' => 'bi-people-fill', 'title' => 'Solidaritas', 'desc' => 'Satu rasa, satu jiwa, dalam satu keluarga.'],
+                        ['icon' => 'bi-flower1', 'title' => 'Lestari', 'desc' => 'Bertanggung jawab penuh atas kelestarian bumi.'],
+                    ];
+                @endphp
 
-        <div class="row g-4">
-            <div class="col-12 col-sm-6 col-xl-3" data-aos="fade-up">
-                <article class="surface-card surface-card--compact">
-                    <span class="icon-badge mb-3"><i class="bi bi-shield-check"></i></span>
-                    <h3 class="h4 mb-2" style="color: var(--primary-color);">Integritas</h3>
-                    <p class="section-lead mb-0">Jujur, konsisten, dan bertanggung jawab dalam tindakan maupun keputusan.</p>
-                </article>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3" data-aos="fade-up" data-aos-delay="100">
-                <article class="surface-card surface-card--compact">
-                    <span class="icon-badge mb-3"><i class="bi bi-trophy"></i></span>
-                    <h3 class="h4 mb-2" style="color: var(--primary-color);">Prestasi</h3>
-                    <p class="section-lead mb-0">Mendorong anggota memberi performa terbaik dalam latihan dan kegiatan.</p>
-                </article>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3" data-aos="fade-up" data-aos-delay="200">
-                <article class="surface-card surface-card--compact">
-                    <span class="icon-badge mb-3"><i class="bi bi-book"></i></span>
-                    <h3 class="h4 mb-2" style="color: var(--primary-color);">Pembelajaran</h3>
-                    <p class="section-lead mb-0">Belajar terus, berbagi pengalaman, dan memperkuat budaya evaluasi.</p>
-                </article>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3" data-aos="fade-up" data-aos-delay="300">
-                <article class="surface-card surface-card--compact">
-                    <span class="icon-badge mb-3"><i class="bi bi-lightning-charge"></i></span>
-                    <h3 class="h4 mb-2" style="color: var(--primary-color);">Ketangguhan</h3>
-                    <p class="section-lead mb-0">Siap menghadapi tantangan lapangan dengan sikap tabah, tangguh, dan terampil.</p>
-                </article>
+                @foreach($values as $value)
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                        <div class="premium-card text-center p-5" style="border: 1px solid rgba(255,255,255,0.05);">
+                            <i class="{{ $value['icon'] }} display-5 mb-4" style="color: var(--accent-color);"></i>
+                            <h4 class="h5 fw-bold text-white mb-3" style="letter-spacing: 0.1em; text-transform: uppercase;">
+                                {{ $value['title'] }}
+                            </h4>
+                            <p class="mb-0" style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">{{ $value['desc'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section-shell">
-    <div class="container">
-        <div class="surface-card text-center" data-aos="fade-up">
-            <span class="icon-badge mb-4"><i class="bi bi-quote"></i></span>
-            <h2 class="section-heading mb-3">Semangat yang terus dijaga</h2>
-            <p class="section-lead mx-auto mb-0" style="max-width: 860px;">
-                "Mahasiswa Pecinta Alam tidak akan memelonco Anda, melainkan akan membimbing Anda. Alam lah yang akan mendidik Anda setiap saat, dalam setiap kondisi, setiap medan, dan setiap situasi. Bila semua itu mampu Anda hadapi, menjelmalah Anda menjadi seorang putra putri alam yang <strong>TABAH, TANGGUH, TERAMPIL</strong>."
-            </p>
+    <!-- Team Section - Reshuffled to Vertical with Gaps -->
+    <section class="section-shell" style="background-color: var(--primary-color); color: #fff; padding-bottom: 15rem;">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-label" style="color: var(--accent-color);">Organisasi</span>
+                <h2 class="section-heading" style="color: #fff;">Pengurus Inti</h2>
+                <p class="section-lead mx-auto" style="color: rgba(255,255,255,0.6);">
+                    Dedikasi pengurus Cakra Manggala periode aktif.
+                </p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="officer-stack">
+                        @foreach($penguruses as $pengurus)
+                            <div class="officer-horizontal-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+                                <div class="oh-card__inner">
+                                    <div class="oh-card__photo">
+                                        @if($pengurus->foto)
+                                            <img src="{{ asset($pengurus->foto) }}" alt="{{ $pengurus->nama }}">
+                                        @else
+                                            <div class="oh-card__placeholder">
+                                                {{ strtoupper(substr($pengurus->nama, 0, 1)) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="oh-card__content">
+                                        <div class="oh-card__header">
+                                            <span class="oh-card__position">{{ strtoupper($pengurus->jabatan) }}</span>
+                                            <h3 class="oh-card__name">{{ $pengurus->nama }}</h3>
+                                            @if($pengurus->prodi_semester)
+                                                <p class="x-small text-accent mt-1 mb-0 fw-bold">
+                                                    {{ strtoupper($pengurus->prodi_semester) }}</p>
+                                            @endif
+                                        </div>
+                                        <div class="oh-card__footer">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div style="width: 30px; height: 1px; background: rgba(255,255,255,0.2);"></div>
+                                                <span class="x-small text-white-50 fw-bold">PENGURUS AKTIF</span>
+                                            </div>
+                                            @if($pengurus->instagram_url)
+                                                <a href="{{ $pengurus->instagram_url }}" target="_blank" class="oh-card__social"><i
+                                                        class="bi bi-instagram"></i></a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <style>
+        .officer-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            /* Memberikan gap antar card sesuai permintaan */
+        }
+
+        .officer-horizontal-card {
+            background: var(--dark-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .officer-horizontal-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .oh-card__inner {
+            display: flex;
+            align-items: stretch;
+            min-height: 140px;
+        }
+
+        .oh-card__photo {
+            width: 140px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .oh-card__photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .officer-horizontal-card:hover .oh-card__photo img {
+            transform: scale(1.1);
+        }
+
+        .oh-card__placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            background: var(--primary-color);
+        }
+
+        .oh-card__content {
+            flex-grow: 1;
+            padding: 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .oh-card__position {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .oh-card__name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        .oh-card__footer {
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .oh-card__social {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .oh-card__social:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .oh-card__inner {
+                flex-direction: column;
+            }
+
+            .oh-card__photo {
+                width: 100%;
+                height: 200px;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .oh-card__content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 @endsection

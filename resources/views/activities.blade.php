@@ -2,242 +2,244 @@
 
 @section('title', 'Kegiatan - UKM Cakra Manggala')
 
-@push('styles')
-<style>
-    .activity-card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 1.2rem;
-    }
-
-    .activity-card__top {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 1rem;
-    }
-
-    .activity-card__date {
-        min-width: 88px;
-        padding: 0.85rem 0.75rem;
-        border: 1px solid rgba(26, 67, 49, 0.1);
-        background: rgba(26, 67, 49, 0.05);
-        text-align: center;
-    }
-
-    .activity-card__day {
-        display: block;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 1.8rem;
-        line-height: 1;
-        color: var(--primary-color);
-    }
-
-    .activity-card__month {
-        display: block;
-        margin-top: 0.35rem;
-        font-size: 0.82rem;
-        color: var(--muted-color);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-    }
-
-    .activity-card__title {
-        margin: 0;
-        color: var(--primary-color);
-        font-size: 1.32rem;
-        line-height: 1.25;
-    }
-
-    .activity-card__meta {
-        display: grid;
-        gap: 0.75rem;
-    }
-
-    .activity-card__meta-item {
-        display: flex;
-        gap: 0.75rem;
-        align-items: flex-start;
-        color: var(--muted-color);
-        line-height: 1.6;
-    }
-
-    .activity-card__meta-item i {
-        color: var(--secondary-color);
-        margin-top: 0.2rem;
-    }
-
-    .activity-card__footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-soft);
-        margin-top: auto;
-        flex-wrap: wrap;
-    }
-
-    .status-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.5rem 0.8rem;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
-
-    .status-pill--done {
-        background: rgba(18, 33, 25, 0.1);
-        color: var(--primary-color);
-    }
-
-    .status-pill--upcoming {
-        background: rgba(242, 182, 97, 0.18);
-        color: #7d5313;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: clamp(2rem, 4vw, 3rem);
-    }
-</style>
-@endpush
-
 @section('content')
-@php
-    $heroImage = asset('image/fotobersejarah2.jpg');
-@endphp
+    @php
+        $heroImage = asset('image/fotobersejarah2.jpg');
+    @endphp
 
-<section class="page-hero">
-    <div class="page-hero__media" aria-hidden="true">
-        <div class="page-hero__fallback" style="background-image: url('{{ $heroImage }}'); position: absolute; inset: -4%; background-size: cover; background-position: center; filter: saturate(0.8) contrast(1.1); transform: scale(1.05);"></div>
-        <div class="page-hero__overlay"></div>
-    </div>
-    <div class="container">
-        <div class="page-hero__inner" data-aos="fade-up">
-            <span class="page-hero__eyebrow">
-                <i class="bi bi-calendar-event"></i>
-                Jejak Petualang
-            </span>
-            <h1 class="page-hero__title">Galeri<br><span>Aktivitas</span></h1>
-            <p class="page-hero__lead">
-                Rekam jejak kegiatan lapangan, pendidikan, dan aksi organisasi yang membentuk sejarah perjalanan Cakra Manggala.
-            </p>
-        </div>
-    </div>
-</section>
-
-<section class="section-shell section-shell--soft">
-    <div class="container">
-        <div class="row g-4 align-items-center">
-            <div class="col-12 col-xl-8">
-                <div class="section-intro text-xl-start mx-xl-0 mb-0" data-aos="fade-up">
-                    <span class="section-kicker">
-                        <i class="bi bi-search"></i>
-                        Filter Kegiatan
-                    </span>
-                    <h2 class="section-heading">Cari agenda tertentu</h2>
-                    <p class="section-lead">
-                        Temukan informasi tempat, judul, atau tahun kegiatan yang pernah dilaksanakan.
-                    </p>
-                </div>
+    <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
+        <div class="container">
+            <div class="page-hero__inner">
+                <span class="page-hero__eyebrow" data-aos="fade-up">
+                    <i class="bi bi-calendar-event"></i>
+                    Rekam Jejak
+                </span>
+                <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">Galeri Aktivitas</h1>
+                <p class="page-hero__lead" data-aos="fade-up" data-aos-delay="200">
+                    Dokumentasi kegiatan lapangan, latihan rutin, dan aksi keberlanjutan yang telah kami lalui.
+                </p>
             </div>
-            <div class="col-12 col-xl-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="surface-card p-4">
-                    <form action="{{ route('activities') }}" method="GET" class="d-flex gap-2">
-                        <input type="text" name="search" class="form-control" placeholder="Cari kegiatan..." value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary px-4">
-                            <i class="bi bi-search"></i>
-                        </button>
+        </div>
+    </section>
+
+    <section class="section-shell" style="background-color: var(--dark-color); color: #fff; min-height: 80vh;">
+        <div class="container">
+            <!-- Search -->
+            <div class="row justify-content-center mb-5" data-aos="fade-up">
+                <div class="col-lg-7">
+                    <form method="GET" action="{{ route('activities') }}">
+                        <div class="input-group input-group-lg"
+                            style="border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
+                            <span class="input-group-text bg-transparent border-0 ps-4">
+                                <i class="bi bi-search" style="color: var(--accent-color);"></i>
+                            </span>
+                            <input type="text" name="search"
+                                class="form-control bg-transparent border-0 text-white py-3 shadow-none"
+                                value="{{ request('search') }}" placeholder="Cari tempat atau nama kegiatan..."
+                                style="font-size: 1.1rem; letter-spacing: 0.02em;">
+                            <button class="btn px-4" type="submit"
+                                style="background: var(--accent-color); color: var(--primary-color); border-radius: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem;">
+                                Cari
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
 
-<section class="section-shell">
-    <div class="container">
-        <div class="section-intro" data-aos="fade-up">
-            <span class="section-kicker">
-                <i class="bi bi-grid-3x3-gap-fill"></i>
-                Arsip Kegiatan
-            </span>
-            <h2 class="section-heading">Tersusun rapi, tetap mudah dibaca</h2>
-            <p class="section-lead mx-auto">
-                Setiap kegiatan ditampilkan dalam format yang lebih ringkas agar informasi inti tetap jelas di desktop maupun mobile.
-            </p>
-        </div>
+            <!-- Filters -->
+            <div class="row justify-content-center mb-5" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-10">
+                    <form method="GET" action="{{ route('activities') }}" class="row g-3">
+                        @if(request('search'))
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                        @endif
+                        <div class="col-md-5">
+                            <select name="tahun" class="form-select bg-transparent text-white border-0 py-3 rounded-0"
+                                style="background-color: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.1) !important;"
+                                onchange="this.form.submit()">
+                                <option value="">Semua Tahun</option>
+                                @foreach(range(date('Y'), 2020) as $year)
+                                    <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
+                                        {{ $year }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <select name="sifat" class="form-select bg-transparent text-white border-0 py-3 rounded-0"
+                                style="background-color: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.1) !important;"
+                                onchange="this.form.submit()">
+                                <option value="">Semua Sifat</option>
+                                <option value="internal" {{ request('sifat') == 'internal' ? 'selected' : '' }}>Internal
+                                </option>
+                                <option value="eksternal" {{ request('sifat') == 'eksternal' ? 'selected' : '' }}>Eksternal
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ route('activities') }}" class="btn btn-outline-light w-100 py-3 rounded-0 border-0"
+                                style="background: rgba(255,255,255,0.05); font-size: 0.8rem; font-weight: 700;">RESET</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-        @if(isset($kegiatans) && $kegiatans->count() > 0)
-            <div class="row g-4">
-                @foreach($kegiatans as $kegiatan)
-                    <div class="col-12 col-lg-6 col-xl-4" id="activity-{{ $kegiatan->id }}" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
-                        <article class="surface-card activity-card">
-                            <div class="activity-card__top">
-                                <div class="activity-card__date">
-                                    <span class="activity-card__day">{{ $kegiatan->tanggal_pelaksanaan->format('d') }}</span>
-                                    <span class="activity-card__month">{{ $kegiatan->tanggal_pelaksanaan->format('M Y') }}</span>
+            @if(isset($kegiatans) && $kegiatans->count() > 0)
+                <div class="row g-4">
+                    @foreach($kegiatans as $kegiatan)
+                        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
+                            <article class="doc-card" style="height: 440px;">
+                                <div class="doc-card__img-container">
+                                    <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
+                                        alt="{{ $kegiatan->judul_kegiatan }}" class="doc-card__img">
+                                    <div class="doc-card__overlay"></div>
                                 </div>
-                                <span class="status-pill {{ $kegiatan->status == 'selesai' ? 'status-pill--done' : 'status-pill--upcoming' }}">
-                                    <i class="bi bi-{{ $kegiatan->status == 'selesai' ? 'check-circle-fill' : 'clock-fill' }}"></i>
-                                    {{ ucfirst(str_replace('_', ' ', $kegiatan->status)) }}
-                                </span>
-                            </div>
-
-                            <div>
-                                <h3 class="activity-card__title">{{ $kegiatan->judul_kegiatan }}</h3>
-                            </div>
-
-                            <div class="activity-card__meta">
-                                <div class="activity-card__meta-item">
-                                    <i class="bi bi-geo-alt-fill"></i>
-                                    <span>{{ $kegiatan->tempat }}</span>
-                                </div>
-                                @if($kegiatan->materi)
-                                    <div class="activity-card__meta-item">
-                                        <i class="bi bi-book-fill"></i>
-                                        <span>{{ $kegiatan->materi }}</span>
+                                <div class="doc-card__content" style="padding: 2rem;">
+                                    <span class="doc-card__tag"
+                                        style="background: var(--accent-color); color: var(--primary-color); font-size: 0.6rem;">{{ $kegiatan->sifat }}</span>
+                                    <span class="doc-card__date"
+                                        style="font-size: 0.7rem;">{{ $kegiatan->tanggal_pelaksanaan->translatedFormat('d M Y') }}</span>
+                                    <h3 class="doc-card__title" style="font-size: 1.4rem;">{{ $kegiatan->judul_kegiatan }}</h3>
+                                    <p class="x-small text-white-50 mb-0"><i
+                                            class="bi bi-geo-alt-fill text-accent me-2"></i>{{ $kegiatan->tempat }}</p>
+                                    <div class="doc-card__excerpt" style="font-size: 0.85rem;">
+                                        {{ Str::limit($kegiatan->materi, 100) }}
                                     </div>
-                                @endif
-                                @if($kegiatan->kapel_pj)
-                                    <div class="activity-card__meta-item">
-                                        <i class="bi bi-person-badge-fill"></i>
-                                        <span>{{ $kegiatan->kapel_pj }}</span>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="activity-card__footer">
-                                <div class="chip-list">
-                                    <span class="chip"><i class="bi bi-tag-fill"></i>{{ ucfirst($kegiatan->sifat) }}</span>
-                                    <span class="chip"><i class="bi bi-calendar3"></i>Tahun {{ $kegiatan->tahun }}</span>
+                                    <span class="doc-card__link mt-3">Detail <i class="bi bi-arrow-right"></i></span>
                                 </div>
-                            </div>
-                        </article>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-5" data-aos="fade-up">
+                    <div
+                        style="background: rgba(255,255,255,0.05); width: 120px; height: 120px; border-radius: 0; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem;">
+                        <i class="bi bi-calendar-x display-3" style="color: rgba(255,255,255,0.15);"></i>
                     </div>
-                @endforeach
-            </div>
-        @else
-            <div class="surface-card empty-state text-center p-5" data-aos="fade-up">
-                <span class="icon-badge mb-4"><i class="bi bi-calendar-x"></i></span>
-                <h2 class="section-heading mb-3">
-                    {{ request('search') ? 'Tidak ada hasil yang cocok' : 'Belum ada kegiatan yang tersedia' }}
-                </h2>
-                <p class="section-lead mx-auto mb-4" style="max-width: 720px;">
-                    {{ request('search') ? 'Coba gunakan kata kunci lain untuk mencari tempat atau nama kegiatan.' : 'Saat data kegiatan tersedia, halaman ini akan menampilkan arsip yang lebih rapi.' }}
-                </p>
-                @if(request('search'))
-                    <a href="{{ route('activities') }}" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Pencarian
-                    </a>
-                @endif
-            </div>
-        @endif
-    </div>
-</section>
+                    <h3 class="fw-bold" style="color: #fff;">Kegiatan Tidak Ditemukan</h3>
+                    <p style="color: rgba(255,255,255,0.5);">Cari kegiatan lain atau reset filter untuk melihat semua arsip.</p>
+                    <a href="{{ route('activities') }}" class="btn-join-premium mt-4"
+                        style="padding: 0.8rem 2.5rem; font-size: 0.85rem;">Tampilkan Semua</a>
+                </div>
+            @endif
+        </div>
+    </section>
+
+    <style>
+        .doc-card {
+            position: relative;
+            background: var(--dark-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .doc-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .doc-card__img-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .doc-card__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.8) brightness(0.7);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .doc-card:hover .doc-card__img {
+            transform: scale(1.1);
+            filter: saturate(1.1) brightness(0.6);
+        }
+
+        .doc-card__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(7, 17, 12, 1) 0%,
+                    rgba(7, 17, 12, 0.4) 50%,
+                    transparent 100%);
+            z-index: 2;
+        }
+
+        .doc-card__content {
+            position: relative;
+            z-index: 3;
+            transition: transform 0.5s ease;
+        }
+
+        .doc-card:hover .doc-card__content {
+            transform: translateY(-5px);
+        }
+
+        .doc-card__tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .doc-card__date {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+            letter-spacing: 0.05em;
+        }
+
+        .doc-card__title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            line-height: 1.25;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .doc-card__excerpt {
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .doc-card:hover .doc-card__excerpt {
+            height: auto;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
+        .doc-card__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.4s ease;
+        }
+
+        .doc-card:hover .doc-card__link {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
 @endsection
