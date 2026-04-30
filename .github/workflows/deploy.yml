@@ -1,0 +1,65 @@
+name: Deploy Laravel to Hostinger
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, bcmath, gd
+        
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      
+    - name: Directory Permissions
+      run: chmod -R 777 storage bootstrap/cache
+      
+    - name: Run Validations
+      run: |
+        php artisan config:cache
+        php artisan route:cache
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: laravel-tests
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd domains/cakramanggalapnm.com/public_html
+          
+          # Maintain maintenance mode
+          php artisan down || true
+          
+          # Pull latest code
+          git pull origin main
+          
+          # Install dependencies (production mode)
+          composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+          
+          # Database migration
+          php artisan migrate --force
+          
+          # Clear and set caches
+          php artisan optimize
+          
+          # Permissions
+          chmod -R 775 storage bootstrap/cache
+          
+          # Bring up the app
+          php artisan up
