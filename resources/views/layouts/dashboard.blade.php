@@ -103,6 +103,17 @@
         .sidebar-nav {
             padding: 2rem 1.25rem;
             flex: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
         }
 
         .nav-link {
@@ -143,8 +154,10 @@
         }
 
         .sidebar-footer {
-            padding: 2rem 1.25rem;
-            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: auto;
         }
 
         .user-widget {
