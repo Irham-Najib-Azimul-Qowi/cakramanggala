@@ -31,12 +31,12 @@
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
       "name": "UKM Cakra Manggala",
       "url": "https://cakramanggalapnm.com",
       "logo": "{{ asset('favicon.png') }}",
-      "description": "UKM Cakra Manggala adalah organisasi mahasiswa pecinta alam di Politeknik Negeri Madiun yang berfokus pada pelestarian lingkungan dan pendidikan karakter.",
+      "description": "UKM Cakra Manggala adalah organisasi mahasiswa pecinta alam di Politeknik Negeri Madiun yang berfokus pada pelestarian lingkungan and pendidikan karakter.",
       "sameAs": [
         "https://www.instagram.com/cakramanggala.pnm"
       ]
