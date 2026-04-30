@@ -288,6 +288,32 @@
     </style>
 @endpush
 
+@section('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ $artikel->judul }}",
+  "image": "{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/logo.png') }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ $artikel->user->name }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "UKM Cakra Manggala",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ asset('image/logo.png') }}"
+    }
+  },
+  "datePublished": "{{ $artikel->created_at->toIso8601String() }}",
+  "dateModified": "{{ $artikel->updated_at->toIso8601String() }}",
+  "description": "{{ $artikel->excerpt ?: Str::limit(strip_tags($artikel->konten), 160) }}"
+}
+</script>
+@endsection
+
 @section('content')
     <section class="section-shell" style="background: var(--dark-color); padding-top: 6rem; padding-bottom: 8rem;">
         <div class="container">
@@ -314,6 +340,10 @@
                                     <span>{{ $artikel->created_at->format('d F Y') }}</span>
                                 </div>
                                 <div class="article-meta-item">
+                                    <i class="bi bi-clock"></i>
+                                    <span>{{ $artikel->reading_time }} Baca</span>
+                                </div>
+                                <div class="article-meta-item">
                                     <i class="bi bi-eye"></i>
                                     <span>{{ number_format($artikel->views) }} Views</span>
                                 </div>
@@ -328,7 +358,7 @@
 
                         @if($artikel->gambar_utama)
                             <figure class="article-figure">
-                                <img src="{{ asset($artikel->gambar_utama) }}" alt="{{ $artikel->judul }}">
+                                <img src="{{ asset($artikel->gambar_utama) }}" alt="Foto Utama: {{ $artikel->judul }}" loading="lazy">
                                 <figcaption>Dokumentasi: {{ $artikel->judul }}</figcaption>
                             </figure>
                         @endif
@@ -365,7 +395,7 @@
                                 @foreach($relatedArtikels as $related)
                                     <a href="{{ route('artikel.show', $related->slug) }}" class="article-related-item">
                                         <div class="article-related-item__media">
-                                            <img src="{{ $related->gambar_utama ? asset($related->gambar_utama) : asset('image/fotobersejarah2.jpg') }}" alt="{{ $related->judul }}">
+                                            <img src="{{ $related->gambar_utama ? asset($related->gambar_utama) : asset('image/fotobersejarah2.jpg') }}" alt="Artikel Terkait: {{ $related->judul }}" loading="lazy">
                                         </div>
                                         <div class="flex-grow-1">
                                             <h3 class="article-related-item__title">{{ Str::limit($related->judul, 50) }}</h3>

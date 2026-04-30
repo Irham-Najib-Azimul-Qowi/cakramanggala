@@ -11,6 +11,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PendaftarController;
 use App\Http\Controllers\StrukturController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SitemapController;
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 // Homepage routes
 Route::get('/', [HomeController::class, 'index'])->name('home');

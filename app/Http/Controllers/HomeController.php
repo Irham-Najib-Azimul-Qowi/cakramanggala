@@ -22,18 +22,20 @@ class HomeController extends Controller
         $data = Cache::remember('home_data', 3600, function () {
             return [
                 'artikels' => Artikel::published()
-                    ->with('user')
+                    ->with(['user:id,name'])
+                    ->select('id', 'judul', 'slug', 'excerpt', 'konten', 'gambar_utama', 'views', 'user_id', 'created_at')
                     ->latest()
                     ->limit(3)
                     ->get(),
 
-                'kegiatans' => \App\Models\Kegiatan::orderBy('tanggal_pelaksanaan', 'desc')
+                'kegiatans' => \App\Models\Kegiatan::select('id', 'judul_kegiatan', 'tanggal_pelaksanaan', 'tempat', 'sifat', 'materi', 'gambar_utama')
+                    ->orderBy('tanggal_pelaksanaan', 'desc')
                     ->limit(3)
                     ->get(),
 
                 'stats' => [
                     'total_artikel' => Artikel::published()->count(),
-                    'total_pendaftar' => class_exists('App\Models\Pendaftaran') ? \App\Models\Pendaftaran::count() : 0,
+                    'total_pendaftar' => \App\Models\Pendaftaran::count(),
                     'total_kegiatan' => \App\Models\Kegiatan::count(),
                 ]
             ];

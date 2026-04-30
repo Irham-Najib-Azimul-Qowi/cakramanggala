@@ -86,6 +86,14 @@ class Artikel extends Model
         return $this->created_at->format('d M Y');
     }
 
+    // Method untuk estimasi waktu baca
+    public function getReadingTimeAttribute()
+    {
+        $words = str_word_count(strip_tags($this->konten));
+        $minutes = ceil($words / 200); // 200 kata per menit
+        return $minutes . ' Menit';
+    }
+
     // Accessor untuk URL gambar
     public function getGambarUrlAttribute()
     {
@@ -93,6 +101,6 @@ class Artikel extends Model
             return asset($this->gambar_utama);
         }
 
-        return asset('image/default-article.jpg'); // Gambar default
+        return asset('image/fotobersejarah2.jpg'); // Gambar default
     }
 }

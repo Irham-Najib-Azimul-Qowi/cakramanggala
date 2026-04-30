@@ -310,7 +310,7 @@
                         <article class="doc-card">
                             <div class="doc-card__img-container">
                                 <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
-                                    alt="{{ $kegiatan->judul_kegiatan }}" class="doc-card__img">
+                                    alt="Kegiatan UKM Cakra Manggala: {{ $kegiatan->judul_kegiatan }}" class="doc-card__img" loading="lazy">
                                 <div class="doc-card__overlay"></div>
                             </div>
                             <div class="doc-card__content">
@@ -351,7 +351,7 @@
                         <div class="art-card">
                             <div class="art-card__img-wrap">
                                 <img src="{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/fotobersejarah2.jpg') }}"
-                                    alt="{{ $artikel->judul }}" class="art-card__img">
+                                    alt="Artikel Cakra Manggala: {{ $artikel->judul }}" class="art-card__img" loading="lazy">
                                 <span class="position-absolute top-0 end-0 bg-accent text-primary px-3 py-1 fw-bold x-small"
                                     style="background: var(--accent-color); color: var(--primary-color); z-index: 5;">
                                     ARTIKEL

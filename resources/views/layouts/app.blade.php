@@ -5,7 +5,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'UKM Cakra Manggala')</title>
+    <title>@yield('title', 'UKM Cakra Manggala - Pecinta Alam & Konservasi')</title>
+    
+    <meta name="description" content="@yield('meta_description', 'UKM Cakra Manggala adalah organisasi mahasiswa pecinta alam yang berdedikasi pada pelestarian lingkungan, pendidikan karakter, dan petualangan alam bebas.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'Cakra Manggala, Pecinta Alam Madiun, UKM Mapala, Konservasi Lingkungan, Survival, Pendakian Gunung, Pendidikan Karakter')">
+    <meta name="author" content="UKM Cakra Manggala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'UKM Cakra Manggala - Pecinta Alam & Konservasi')">
+    <meta property="og:description" content="@yield('meta_description', 'UKM Cakra Manggala adalah organisasi mahasiswa pecinta alam yang berdedikasi pada pelestarian lingkungan.')">
+    <meta property="og:image" content="@yield('og_image', asset('image/logo.png'))">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'UKM Cakra Manggala - Pecinta Alam & Konservasi')">
+    <meta property="twitter:description" content="@yield('meta_description', 'UKM Cakra Manggala adalah organisasi mahasiswa pecinta alam yang berdedikasi pada pelestarian lingkungan.')">
+    <meta property="twitter:image" content="@yield('og_image', asset('image/logo.png'))">
+
+    @yield('structured_data')
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "UKM Cakra Manggala",
+      "url": "https://cakramanggalapnm.com",
+      "logo": "{{ asset('image/logo.png') }}",
+      "description": "UKM Cakra Manggala adalah organisasi mahasiswa pecinta alam di Politeknik Negeri Madiun yang berfokus pada pelestarian lingkungan dan pendidikan karakter.",
+      "sameAs": [
+        "https://www.instagram.com/cakramanggala.pnm"
+      ]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

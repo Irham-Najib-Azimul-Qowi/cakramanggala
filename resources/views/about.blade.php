@@ -30,8 +30,8 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="position-relative" style="border: 1px solid var(--accent-color); padding: 1rem;">
-                        <img src="{{ asset('image/fotobersejarah1.jpg') }}" alt="Sejarah" class="img-fluid"
-                            style="filter: grayscale(0.2) contrast(1.1);">
+                        <img src="{{ asset('image/fotobersejarah1.jpg') }}" alt="Foto Bersejarah Pendirian UKM Cakra Manggala Tahun 2013" class="img-fluid"
+                            style="filter: grayscale(0.2) contrast(1.1);" loading="lazy">
                         <div class="position-absolute bottom-0 end-0 p-4 bg-accent text-primary fw-800"
                             style="background-color: var(--accent-color); color: var(--primary-color);">
                             EST. 2013
@@ -176,7 +176,7 @@
                                 <div class="oh-card__inner">
                                     <div class="oh-card__photo">
                                         @if($pengurus->foto)
-                                            <img src="{{ asset($pengurus->foto) }}" alt="{{ $pengurus->nama }}">
+                                            <img src="{{ asset($pengurus->foto) }}" alt="Pengurus Cakra Manggala: {{ $pengurus->nama }} - {{ $pengurus->jabatan }}" loading="lazy">
                                         @else
                                             <div class="oh-card__placeholder">
                                                 {{ strtoupper(substr($pengurus->nama, 0, 1)) }}

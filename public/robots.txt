@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /register
+
+Sitemap: https://cakramanggalapnm.com/sitemap.xml

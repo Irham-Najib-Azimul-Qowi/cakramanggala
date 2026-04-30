@@ -53,7 +53,7 @@
                             <div class="art-card">
                                 <div class="art-card__img-wrap">
                                     <img src="{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/fotobersejarah2.jpg') }}"
-                                        alt="{{ $artikel->judul }}" class="art-card__img">
+                                        alt="Artikel: {{ $artikel->judul }}" class="art-card__img" loading="lazy">
                                     <span class="art-card__badge">BLOG</span>
                                 </div>
                                 <div class="art-card__body">

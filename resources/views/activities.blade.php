@@ -91,9 +91,9 @@
                             <article class="doc-card" style="height: 440px;">
                                 <div class="doc-card__img-container">
                                     <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
-                                        alt="{{ $kegiatan->judul_kegiatan }}" class="doc-card__img">
-                                    <div class="doc-card__overlay"></div>
-                                </div>
+                                    alt="Dokumentasi Kegiatan: {{ $kegiatan->judul_kegiatan }} di {{ $kegiatan->tempat }}" class="doc-card__img" loading="lazy">
+                                <div class="doc-card__overlay"></div>
+                            </div>
                                 <div class="doc-card__content" style="padding: 2rem;">
                                     <span class="doc-card__tag"
                                         style="background: var(--accent-color); color: var(--primary-color); font-size: 0.6rem;">{{ $kegiatan->sifat }}</span>
