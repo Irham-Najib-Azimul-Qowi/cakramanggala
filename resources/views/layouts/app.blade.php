@@ -35,7 +35,7 @@
       "@type": "Organization",
       "name": "UKM Cakra Manggala",
       "url": "https://cakramanggalapnm.com",
-      "logo": "{{ asset('image/logo.png') }}",
+      "logo": "{{ asset('favicon.png') }}",
       "description": "UKM Cakra Manggala adalah organisasi mahasiswa pecinta alam di Politeknik Negeri Madiun yang berfokus pada pelestarian lingkungan dan pendidikan karakter.",
       "sameAs": [
         "https://www.instagram.com/cakramanggala.pnm"
@@ -51,7 +51,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('image/logo.png') }}">
+    
+    <!-- Favicon & App Icons -->
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     <style>
         :root {

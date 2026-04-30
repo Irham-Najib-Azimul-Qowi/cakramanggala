@@ -47,7 +47,7 @@
             <thead>
                 <tr>
                     <th>Mahasiswa</th>
-                    <th>NIM</th>
+                    <th>Kontak / NIM</th>
                     <th class="d-none d-md-table-cell">Jurusan</th>
                     <th class="d-none d-md-table-cell text-center">Status</th>
                     <th class="d-none d-md-table-cell">Terdaftar</th>
@@ -59,33 +59,43 @@
                     <tr>
                         <td>
                             <div class="d-flex align-items-center gap-3">
-                                <div class="avatar-sm">
-                                    @if($p->foto_diri)
+                                <div class="avatar-sm overflow-hidden shadow-sm" style="border-radius: 4px;">
+                                    @if($p->foto_diri && file_exists(public_path($p->foto_diri)))
                                         <img src="{{ asset($p->foto_diri) }}" style="width:100%;height:100%;object-fit:cover;">
                                     @else
-                                        {{ strtoupper(substr($p->nama_lengkap, 0, 1)) }}
+                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-accent text-primary fw-black">
+                                            {{ strtoupper(substr($p->nama_lengkap, 0, 1)) }}
+                                        </div>
                                     @endif
                                 </div>
-                                <span class="fw-bold">{{ $p->nama_lengkap }}</span>
+                                <div>
+                                    <span class="fw-bold d-block">{{ $p->nama_lengkap }}</span>
+                                    <span class="x-small text-white-50">{{ $p->program_studi }}</span>
+                                </div>
                             </div>
                         </td>
-                        <td class="font-monospace small text-white-50">{{ $p->nim }}</td>
+                        <td>
+                            <div class="small fw-bold">{{ $p->nim }}</div>
+                            <div class="x-small text-white-50">{{ $p->no_hp }}</div>
+                        </td>
                         <td class="small text-white-50 d-none d-md-table-cell">{{ $p->jurusan }}</td>
                         <td class="d-none d-md-table-cell text-center">
-                            @if($p->is_approved)
-                                <span class="admin-badge admin-badge--success">APPROVED</span>
-                            @elseif($p->status == 'rejected')
-                                <span class="admin-badge admin-badge--danger">REJECTED</span>
+                            @if($p->status == 'Diterima')
+                                <span class="admin-badge admin-badge--success" style="min-width: 100px; justify-content: center;">DITERIMA</span>
+                            @elseif($p->status == 'Tidak diterima')
+                                <span class="admin-badge admin-badge--danger" style="min-width: 100px; justify-content: center;">DITOLAK</span>
                             @else
-                                <span class="admin-badge admin-badge--warning">PENDING</span>
+                                <span class="admin-badge admin-badge--warning" style="min-width: 100px; justify-content: center;">PROSES</span>
                             @endif
                         </td>
                         <td class="small text-white-50 d-none d-md-table-cell text-uppercase">
                             {{ $p->created_at->format('d M Y') }}</td>
                         <td class="text-end">
-                            <a href="{{ route('dashboard.pendaftar.show', $p->id) }}"
-                                class="btn btn-sm btn-outline-light border-0 rounded-0 fw-bold px-3"
-                                style="font-size: 0.7rem; background: rgba(255,255,255,0.05); letter-spacing: 0.1em;">LIHAT</a>
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="{{ route('dashboard.pendaftar.show', $p->id) }}"
+                                    class="btn btn-sm btn-outline-light border-0 rounded-0 fw-bold px-3"
+                                    style="font-size: 0.7rem; background: rgba(255,255,255,0.05); letter-spacing: 0.1em;">LIHAT</a>
+                            </div>
                         </td>
                     </tr>
                 @empty

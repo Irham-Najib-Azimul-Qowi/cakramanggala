@@ -41,11 +41,11 @@
         <div class="col-lg-4">
             <div class="admin-card text-center sticky-top"
                 style="top: 120px; background: var(--primary) !important; border: none;">
-                <div class="detail-avatar mb-4 mx-auto">
-                    @if($pendaftar->foto_diri)
-                        <img src="{{ asset($pendaftar->foto_diri) }}" alt="{{ $pendaftar->nama_lengkap }}">
+                <div class="detail-avatar mb-4 mx-auto overflow-hidden">
+                    @if($pendaftar->foto_diri && file_exists(public_path($pendaftar->foto_diri)))
+                        <img src="{{ asset($pendaftar->foto_diri) }}" alt="{{ $pendaftar->nama_lengkap }}" class="w-100 h-100 object-fit-cover">
                     @else
-                        <div class="h-100 d-flex align-items-center justify-content-center bg-dark text-accent">
+                        <div class="h-100 w-100 d-flex align-items-center justify-content-center bg-dark text-accent fw-black">
                             {{ strtoupper(substr($pendaftar->nama_lengkap, 0, 1)) }}</div>
                     @endif
                 </div>
@@ -54,13 +54,12 @@
                 <p class="text-accent x-small fw-bold mb-4" style="letter-spacing: 0.15em;">{{ $pendaftar->nim }}</p>
 
                 <div class="mb-4">
-                    @if($pendaftar->is_approved)
-                        <span class="admin-badge admin-badge--success py-2 px-4 w-100 justify-content-center">APPROVED</span>
-                    @elseif($pendaftar->status == 'rejected')
-                        <span class="admin-badge admin-badge--danger py-2 px-4 w-100 justify-content-center">REJECTED</span>
+                    @if($pendaftar->status == 'Diterima')
+                        <span class="admin-badge admin-badge--success py-2 px-4 w-100 justify-content-center">DITERIMA / APPROVED</span>
+                    @elseif($pendaftar->status == 'Tidak diterima')
+                        <span class="admin-badge admin-badge--danger py-2 px-4 w-100 justify-content-center">DITOLAK / REJECTED</span>
                     @else
-                        <span class="admin-badge admin-badge--warning py-2 px-4 w-100 justify-content-center">PENDING
-                            VERIFICATION</span>
+                        <span class="admin-badge admin-badge--warning py-2 px-4 w-100 justify-content-center">BELUM DIPROSES</span>
                     @endif
                 </div>
 
