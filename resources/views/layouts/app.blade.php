@@ -1,1489 +1,593 @@
 {{-- File: resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'UKM Cakra Manggala')</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap"
-        rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
+    
     <style>
         :root {
-            --primary-color: #1a4331;
-            --secondary-color: #255b44;
-            --accent-color: #f2b661;
-            --dark-color: #07110c;
-            --surface-color: #f3efe7;
-            --surface-soft: #faf6ef;
-            --surface-panel: #fffdf8;
-            --text-color: #122119;
-            --muted-color: #5d675f;
-            --border-soft: rgba(18, 33, 25, 0.08);
-            --shadow-soft: 0 18px 45px rgba(7, 17, 12, 0.08);
-            --shadow-hover: 0 22px 55px rgba(7, 17, 12, 0.13);
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #ff6b35;
+            --dark-color: #1b5e20;
         }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--surface-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-            --nav-foreground: #ffffff;
-            --nav-chip-bg: rgba(255, 255, 255, 0.08);
-            --nav-chip-border: rgba(255, 255, 255, 0.18);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Sticky Navbar */
+        .navbar {
+            background: rgba(46, 125, 50, 0.95) !important;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(46, 125, 50, 0.98) !important;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem !important;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #ffeb3b !important;
+            transform: translateY(-2px);
         }
 
-        a {
-            color: inherit;
+        /* Logo Section Responsive */
+        .logo-section {
+            display: flex;
+            align-items: center;
         }
 
-        select.form-select,
-        select.form-control {
-            color: #ffffff !important;
-            background-color: #1a1a1a !important;
+        .logo-section img {
+            width: 70px;
+            height: 70px;
         }
 
-        select option {
-            background-color: #111111 !important;
-            color: #ffffff !important;
-            padding: 10px;
+        .logo-text {
+            display: flex;
+            flex-direction: column;
         }
 
-        img {
-            max-width: 100%;
+        .logo-title {
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
         }
 
-        .container {
-            width: min(100% - 2rem, 1180px);
+        .logo-divider {
+            width: 160px;
+            height: 2px;
+            background-color: black;
+            margin: 2px 0;
         }
 
-        body.site-menu-open {
+        .logo-subtitle {
+            font-style: italic;
+            color: #e8f5e8;
+            font-size: 0.9rem;
+        }
+
+        /* Navbar Toggler Custom */
+        .navbar-toggler {
+            border: 2px solid white;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Login Button */
+        .btn-login {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid white;
+            border-radius: 25px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-login:hover {
+            background-color: transparent;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            color: white;
             overflow: hidden;
+            z-index: 1;
         }
 
-        .layout-overlay-nav {
-            --nav-foreground: #ffffff;
-            --nav-chip-bg: rgba(255, 255, 255, 0.08);
-            --nav-chip-border: rgba(255, 255, 255, 0.18);
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            animation: bgSlider 18s infinite;
+            z-index: -2;
+            opacity: 0.5;
+        }
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        .section-title,
-        .footer-title {
-            font-family: 'Montserrat', sans-serif;
+        @keyframes bgSlider {
+            0%   { background-image: url('/image/fotobersejarah1.jpg'); }
+            33%  { background-image: url('/image/fotobersejarah2.jpg'); }
+            66%  { background-image: url('/image/fotobersejarah3.jpg'); }
+            100% { background-image: url('/image/fotobersejarah1.jpg'); }
         }
 
-        main {
-            padding-top: clamp(6rem, 9vw, 7rem);
+        .hero-title,
+        .hero-subtitle {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
-
-        .layout-overlay-nav main {
-            padding-top: 0;
+          
+        .btn-oprec {
+            background: var(--accent-color);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
+        
+        .btn-oprec:hover {
+            background: #e55722;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        /* Statistics Section */
+        .stats-section {
+            background: var(--primary-color);
+            color: white;
+            padding: 4rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* News Section */
+        .news-section {
+            padding: 5rem 0;
+            background: #f8f9fa;
+        }
+        
         .section-title {
             text-align: center;
             margin-bottom: 3rem;
             font-weight: 700;
             color: var(--primary-color);
         }
-
-        .section-shell {
-            padding: clamp(4rem, 8vw, 6rem) 0;
-        }
-
-        .section-shell--soft {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0.28) 100%);
-        }
-
-        .section-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.55rem;
-            padding: 0.55rem 0.85rem;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(26, 67, 49, 0.12);
-            background: rgba(255, 255, 255, 0.72);
-            color: var(--primary-color);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .section-heading {
-            margin-bottom: 1rem;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            line-height: 1.05;
-            letter-spacing: -0.04em;
-            color: var(--primary-color);
-        }
-
-        .section-lead {
-            max-width: 680px;
-            margin: 0;
-            color: var(--muted-color);
-            font-size: 1.02rem;
-            line-height: 1.8;
-        }
-
-        .text-accent {
-            color: var(--accent-color) !important;
-        }
-
-        .text-secondary-accent {
-            color: var(--secondary-color) !important;
-        }
-
-        .bg-white-10 {
-            background-color: rgba(255, 255, 255, 0.1) !important;
-        }
-
-        .section-intro {
-            max-width: 760px;
-            margin: 0 auto 2.75rem;
-            text-align: center;
-        }
-
-        .surface-card {
-            height: 100%;
-            padding: clamp(1.35rem, 2vw, 2rem);
-            border: 1px solid var(--border-soft);
-            background: rgba(255, 253, 248, 0.96);
-            box-shadow: var(--shadow-soft);
-            transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
-        }
-
-        .surface-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(26, 67, 49, 0.14);
-        }
-
-        .surface-card--compact {
-            padding: 1.2rem;
-        }
-
-        .media-panel {
-            position: relative;
-            overflow: hidden;
-            min-height: 100%;
-            background: #d9e1d9;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .media-panel img {
-            width: 100%;
-            height: 100%;
-            min-height: 320px;
-            object-fit: cover;
-        }
-
-        .icon-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 3.8rem;
-            height: 3.8rem;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-            color: #fff;
-            font-size: 1.5rem;
-            box-shadow: 0 14px 30px rgba(26, 67, 49, 0.18);
-        }
-
-        .chip-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.65rem;
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.55rem 0.8rem;
-            border: 1px solid rgba(26, 67, 49, 0.1);
-            background: rgba(26, 67, 49, 0.05);
-            color: var(--primary-color);
-            font-size: 0.86rem;
-            font-weight: 600;
-        }
-
-        .metric-strip {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.9rem;
-            margin-top: 1.5rem;
-        }
-
-        .metric-item {
-            padding: 1rem;
-            border: 1px solid var(--border-soft);
-            background: rgba(255, 255, 255, 0.78);
-        }
-
-        .metric-value {
-            display: block;
-            margin-bottom: 0.35rem;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .metric-label {
-            color: var(--muted-color);
-            font-size: 0.86rem;
-            line-height: 1.5;
-        }
-
-        /* Premium Card Component - Square & Dark Theme */
-        .premium-card {
-            background: var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 0;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            color: #fff;
-        }
-
-        .premium-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
-            border-color: var(--accent-color);
-        }
-
-        .premium-card__img-wrapper {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 16 / 11;
-            border-radius: 0;
-        }
-
-        .premium-card__img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .premium-card:hover .premium-card__img {
-            transform: scale(1.1);
-        }
-
-        .premium-card__badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 0.6rem 1.2rem;
-            background: var(--accent-color);
-            color: var(--primary-color);
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            z-index: 2;
-        }
-
-        .premium-card__body {
-            padding: 2.2rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .premium-card__meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .premium-card__meta i {
-            color: var(--accent-color);
-        }
-
-        .premium-card__title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-
-        .premium-card__text {
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .premium-card__footer {
-            margin-top: auto;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .btn-premium-link {
-            font-weight: 800;
-            color: var(--accent-color);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transition: all 0.3s ease;
-        }
-
-        .btn-premium-link:hover {
-            gap: 0.9rem;
-            color: #fff;
-        }
-
-        .btn-premium {
-            background: var(--accent-color);
-            color: var(--primary-color);
-            padding: 1rem 2rem;
-            font-weight: 800;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border: none;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .btn-premium:hover {
-            background: #fff;
-            color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        .page-hero {
-            position: relative;
-            overflow: hidden;
-            min-height: clamp(24rem, 58vw, 36rem);
-            display: flex;
-            align-items: flex-end;
-            padding: clamp(8rem, 13vw, 10.5rem) 0 clamp(4rem, 8vw, 6.2rem);
-            color: #fff;
-            background: #09110d;
-            background-image: var(--hero-image);
-            background-size: cover;
-            background-position: center;
-        }
-
-        .page-hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            background: linear-gradient(to bottom, rgba(4, 9, 7, 0.3) 0%, rgba(4, 9, 7, 0.5) 50%, rgba(4, 9, 7, 0.8) 100%);
-            pointer-events: none;
-        }
-
-        .page-hero__media {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-
-        .page-hero__title {
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .page-hero .container {
-            position: relative;
-            z-index: 2;
-            width: min(100% - 2rem, 1180px);
-        }
-
-        .page-hero__inner {
-            max-width: 820px;
-        }
-
-        .page-hero__eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.55rem;
-            padding: 0.7rem 1.1rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.88);
-        }
-
-        .page-hero__title {
-            margin-bottom: 1.2rem;
-            font-size: clamp(2.8rem, 8vw, 5.8rem);
-            font-weight: 800;
-            line-height: 0.92;
-            letter-spacing: -0.05em;
-            text-transform: uppercase;
-            text-wrap: balance;
-        }
-
-        .page-hero__title span {
-            color: var(--accent-color);
-        }
-
-        .page-hero__lead {
-            max-width: 680px;
-            margin: 0;
-            color: rgba(255, 255, 255, 0.82);
-            font-size: clamp(1rem, 2vw, 1.18rem);
-            line-height: 1.75;
-        }
-
-        .page-hero+.section-shell {
-            padding-top: clamp(3rem, 6vw, 4.5rem);
-        }
-
-        .news-section {
-            padding: 5rem 0;
-            background: #f8f9fa;
-        }
-
+        
         .news-card {
             border: none;
-            border-radius: 0;
+            border-radius: 15px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             height: 100%;
         }
-
+        
         .news-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
-
+        
         .news-card .card-img-top {
             height: 200px;
             object-fit: cover;
         }
-
+        
         .news-meta {
-            color: #5d675f;
+            color: #666;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
-
-        .site-navbar {
-            position: fixed;
-            inset: 0 0 auto;
-            z-index: 1080;
-            padding: 0;
-            background: rgba(26, 67, 49, 0.56);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 16px 40px rgba(6, 14, 10, 0.18);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        
+        /* Quick Links */
+        .quick-links {
+            padding: 4rem 0;
+            background: white;
         }
-
-        .site-navbar-shell {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            min-height: 82px;
-            padding: 0.65rem 0;
+        
+        .quick-link-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef;
         }
-
-        .site-navbar.is-scrolled {
-            background: rgba(18, 52, 37, 0.74);
-            border-color: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 46px rgba(6, 14, 10, 0.24);
+        
+        .quick-link-item:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.1);
         }
-
-        .site-brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.85rem;
-            min-width: 0;
-            text-decoration: none;
-            color: var(--nav-foreground);
+        
+        .quick-link-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
         }
-
-        .site-brand:hover {
-            color: var(--nav-foreground);
-        }
-
-        .site-brand img {
-            width: 58px;
-            height: 58px;
-            object-fit: contain;
-            padding: 0;
-            background: transparent;
-            border: none;
-            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
-        }
-
-        .site-brand-label {
-            color: var(--nav-foreground);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .site-navbar-links {
-            display: none;
-            align-items: center;
-            gap: 0.35rem;
-            margin-left: auto;
-            margin-right: 1rem;
-        }
-
-        .site-navbar-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 44px;
-            padding: 0.72rem 0.9rem;
-            color: rgba(255, 255, 255, 0.82);
-            text-decoration: none;
-            font-size: 0.92rem;
-            font-weight: 600;
-            transition: color 0.22s ease, background 0.22s ease;
-        }
-
-        .site-navbar-link:hover,
-        .site-navbar-link:focus-visible,
-        .site-navbar-link.is-active {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .site-navbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-left: auto;
-        }
-
-        .site-navbar-join,
-        .site-menu-join,
-        .btn-premium {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.95rem 1.45rem;
-            border: 1px solid rgba(242, 182, 97, 0.6);
-            background: linear-gradient(135deg, #f2c57b 0%, #de9541 100%);
-            color: #15120d;
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.84rem;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            box-shadow: 0 16px 40px rgba(222, 149, 65, 0.22);
-            transition: transform 0.25s ease, filter 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .site-navbar-join:hover,
-        .site-menu-join:hover,
-        .btn-premium:hover {
-            color: #15120d;
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-            box-shadow: 0 22px 50px rgba(222, 149, 65, 0.28);
-        }
-
-        .site-navbar-join {
-            white-space: nowrap;
-        }
-
-        .site-menu-join {
-            width: 100%;
-            gap: 0.8rem;
-            padding: 1.1rem 1.25rem;
-            font-size: 0.9rem;
-            box-shadow: 0 18px 40px rgba(222, 149, 65, 0.24);
-        }
-
-        .site-menu-trigger,
-        .site-menu-close {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.85rem;
-            min-height: auto;
-            padding: 0;
-            border: none;
-            background: transparent;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            transition: opacity 0.22s ease, transform 0.22s ease;
-        }
-
-        .site-menu-trigger {
-            color: var(--nav-foreground);
-        }
-
-        .site-menu-close {
-            color: #ffffff;
-        }
-
-        .site-navbar-join:hover,
-        .site-navbar-join:focus-visible,
-        .site-menu-join:hover,
-        .site-menu-join:focus-visible {
-            color: #15120d;
-            transform: translateY(-2px);
-            filter: brightness(1.03);
-        }
-
-        .site-menu-trigger:hover,
-        .site-menu-trigger:focus-visible,
-        .site-menu-close:hover,
-        .site-menu-close:focus-visible {
-            opacity: 1;
-            transform: translateY(-1px);
-            filter: none;
-        }
-
-        .site-menu-trigger:hover,
-        .site-menu-trigger:focus-visible {
-            color: var(--nav-foreground);
-        }
-
-        .site-menu-close:hover,
-        .site-menu-close:focus-visible {
-            color: #ffffff;
-        }
-
-        .site-menu-trigger__icon,
-        .site-menu-close__icon {
-            display: inline-flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .site-menu-trigger__icon span,
-        .site-menu-close__icon span {
-            width: 20px;
-            height: 2px;
-            background: currentColor;
-            transition: transform 0.22s ease, opacity 0.22s ease;
-        }
-
-        .site-menu-close__icon span:first-child {
-            transform: translateY(3px) rotate(45deg);
-        }
-
-        .site-menu-close__icon span:last-child {
-            transform: translateY(-3px) rotate(-45deg);
-        }
-
-        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(1) {
-            transform: translateY(6px) rotate(45deg);
-        }
-
-        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .site-menu-trigger[aria-expanded="true"] .site-menu-trigger__icon span:nth-child(3) {
-            transform: translateY(-6px) rotate(-45deg);
-        }
-
-        .site-menu-backdrop {
-            position: fixed;
-            inset: 0;
-            z-index: 1110;
-            background: rgba(3, 8, 6, 0.22);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.28s ease, visibility 0.28s ease;
-        }
-
-        .site-menu-panel {
-            position: fixed;
-            top: 0.75rem;
-            right: 0.75rem;
-            z-index: 1120;
-            width: min(430px, calc(100vw - 1.5rem));
-            height: calc(100vh - 1.5rem);
-            padding: 0.8rem;
-            background: rgba(8, 19, 13, 0.34);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 26px 80px rgba(4, 9, 7, 0.22);
-            backdrop-filter: blur(24px) saturate(120%);
-            -webkit-backdrop-filter: blur(24px) saturate(120%);
-            transform: translateX(100%);
-            opacity: 0;
-            visibility: hidden;
-            transition: transform 0.32s ease, opacity 0.32s ease, visibility 0.32s ease;
-        }
-
-        body.site-menu-open .site-menu-backdrop,
-        body.site-menu-open .site-menu-panel {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        body.site-menu-open .site-menu-panel {
-            transform: translateX(0);
-        }
-
-        .site-menu-panel__inner {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            padding: 1.15rem;
-            border: none;
-            background: transparent;
-        }
-
-        .site-menu-panel__header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding-bottom: 0.95rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .site-menu-panel__title {
-            margin: 0;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .site-menu-panel__eyebrow {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.66rem;
-            font-weight: 700;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .site-menu-panel__body {
-            display: flex;
-            flex-direction: column;
-            gap: 1.4rem;
-            padding-top: 1.15rem;
-            flex: 1;
-        }
-
-        .site-menu-links {
-            display: grid;
-            gap: 0.15rem;
-        }
-
-        .site-menu-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 0.95rem 0.2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.82);
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(1.02rem, 1.7vw, 1.18rem);
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            transition: color 0.22s ease, padding-left 0.22s ease, background 0.22s ease;
-        }
-
-        .site-menu-link:last-child {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .site-menu-link:hover,
-        .site-menu-link:focus-visible,
-        .site-menu-link.is-active {
-            color: #fff;
-            padding-left: 0.45rem;
-            background: rgba(255, 255, 255, 0.025);
-        }
-
-        .site-menu-panel__meta {
-            display: grid;
-            gap: 1rem;
-            margin-top: auto;
-        }
-
-        .site-menu-panel__contact {
-            margin: 0;
-            color: rgba(255, 255, 255, 0.62);
-            line-height: 1.7;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 767px) {
-            .site-navbar {
-                padding: 0;
-            }
-
-            .site-brand img {
-                width: 48px;
-                height: 48px;
-            }
-
-            .site-brand-label {
-                font-size: 0.88rem;
-            }
-
-            .site-navbar-shell {
-                min-height: 72px;
-                padding: 0.55rem 0;
-            }
-
-            .site-navbar-actions {
-                gap: 0.85rem;
-            }
-
-            .site-navbar-join {
-                padding: 0.78rem 0.9rem;
-                font-size: 0.72rem;
-            }
-
-            .site-menu-trigger {
-                min-height: auto;
-                padding: 0;
-            }
-
-            .site-menu-trigger__label {
-                font-size: 0.76rem;
-            }
-
-            .site-menu-panel {
-                top: 0.5rem;
-                right: 0.5rem;
-                width: calc(100vw - 1rem);
-                height: calc(100vh - 1rem);
-                padding: 0.65rem;
-            }
-
-            .site-menu-panel__inner {
-                padding: 0.95rem;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .site-navbar-links {
-                display: flex;
-            }
-
-            .site-navbar-actions {
-                margin-left: 0;
-            }
-
-            .site-menu-trigger {
-                display: none;
-            }
-        }
-
-        @media (max-width: 991px) {
-            .site-navbar-join {
-                display: none;
-            }
-        }
-
+        
+        /* Footer */
         .footer {
-            position: relative;
-            background: #07110c;
-            color: #fff;
-            padding: 4.25rem 0 0;
-            overflow: hidden;
+            background: var(--dark-color);
+            color: white;
+            padding: 3rem 0 1rem;
         }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            inset: 0 0 auto;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 80%, transparent 100%);
+        
+        .footer-content {
+            margin-bottom: 2rem;
         }
-
-        .footer-grid {
-            row-gap: 2rem;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .footer [data-footer-item] {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .footer.is-visible [data-footer-item] {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        
         .footer-title {
-            margin: 0;
-            font-size: 1rem;
             font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            margin-bottom: 1rem;
             color: var(--accent-color);
         }
-
-        .footer-logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.9rem;
-            text-decoration: none;
-            color: #fff;
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
         }
-
-        .footer-logo img {
-            width: 58px;
-            height: 58px;
-            padding: 0.35rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
         }
-
-        .footer-logo strong {
-            display: block;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.05rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .footer-logo span span,
-        .footer-description,
-        .footer-address,
-        .footer-list-date,
-        .footer-note {
-            color: rgba(255, 255, 255, 0.72);
-            line-height: 1.8;
-        }
-
-        .footer-list {
-            display: grid;
-            gap: 0.95rem;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .footer-list a {
-            color: rgba(255, 255, 255, 0.84);
-            text-decoration: none;
-            transition: color 0.22s ease, padding-left 0.22s ease;
-        }
-
-        .footer-list a:hover,
-        .footer-list a:focus-visible {
-            color: #fff;
-            padding-left: 0.3rem;
-        }
-
-        .footer-list-title {
-            display: block;
-            font-weight: 600;
-        }
-
-        .footer-list-date {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.82rem;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-social a,
-        .footer-action {
-            border-radius: 0;
-        }
-
-        .footer-social a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 46px;
-            height: 46px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.04);
-            color: #fff;
-            text-decoration: none;
-            transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
-        }
-
-        .footer-social a:hover,
-        .footer-social a:focus-visible {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .footer-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.65rem;
-            padding: 0.95rem 1.2rem;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.04);
-            color: #fff;
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
-        }
-
-        .footer-action:hover,
-        .footer-action:focus-visible {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .footer-bottom {
-            margin-top: 3rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .footer-bottom__inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1.25rem 0;
-            color: rgba(255, 255, 255, 0.56);
-            font-size: 0.88rem;
-        }
-
+        
+        /* Mobile Responsive */
         @media (max-width: 991px) {
-            .footer-bottom__inner {
-                flex-direction: column;
-                align-items: flex-start;
+            .navbar-collapse {
+                background: rgba(46, 125, 50, 0.98);
+                border-radius: 15px;
+                margin-top: 1rem;
+                padding: 1.5rem;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+            .navbar-nav .nav-item {
+                margin: 0.25rem 0;
+            }
+
+            .navbar-nav .nav-link {
+                padding: 0.75rem 1rem !important;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-nav .nav-link:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(5px);
+            }
+
+            .btn-login {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+                padding: 0.75rem 1.5rem;
             }
         }
 
-        @media (max-width: 767px) {
-            .footer {
-                padding-top: 3.5rem;
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
             }
 
-            .metric-strip {
-                grid-template-columns: 1fr;
+            .logo-section img {
+                width: 50px;
+                height: 50px;
             }
 
-            .page-hero {
-                padding-top: 7.6rem;
+            .logo-title {
+                font-size: 1.2rem;
             }
 
-            .section-shell {
-                padding: 3.5rem 0;
+            .logo-divider {
+                width: 120px;
+            }
+
+            .logo-subtitle {
+                font-size: 0.8rem;
+            }
+
+            /* Hero section height adjustment */
+            .hero-section {
+                height: 70vh;
             }
         }
 
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.75rem 0;
+            }
+
+            .hero-section {
+                height: 60vh;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .logo-title {
+                font-size: 1.1rem;
+            }
+
+            .logo-divider {
+                width: 100px;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .stat-item {
+                padding: 1rem;
+            }
+        }
+        
+        /* Animation */
         .fade-in-up {
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.6s ease;
         }
-
+        
         .fade-in-up.show {
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Ensure proper z-index for navbar */
+        .navbar {
+            position: relative;
+            z-index: 1030;
+        }
+
+        /* Fix for small screens */
+        @media (max-width: 350px) {
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .logo-text {
+                margin-left: 0.5rem;
+            }
+        }
     </style>
-
-    @stack('styles')
 </head>
-@php
-    $bodyClasses = implode(' ', array_filter([
-        trim($__env->yieldContent('body_class')),
-        request()->routeIs('home', 'home.alt', 'about', 'contact', 'struktur-kepengurusan', 'artikel.index', 'activities') ? 'layout-overlay-nav' : null,
-    ]));
-@endphp
-
-<body class="{{ $bodyClasses }}">
-    <nav class="site-navbar" data-site-navbar>
+<body>
+   <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            <div class="site-navbar-shell">
-                <a class="site-brand" href="{{ route('home') }}">
-                    <img src="{{ asset('image/logo.png') }}" alt="Logo Cakra Manggala">
-                    <span class="site-brand-label">Cakra Manggala</span>
-                </a>
-
-                <nav class="site-navbar-links" aria-label="Navigasi desktop">
-                    <a class="site-navbar-link {{ request()->routeIs('home', 'home.alt') ? 'is-active' : '' }}"
-                        href="{{ route('home') }}">Beranda</a>
-                    <a class="site-navbar-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
-                        href="{{ route('about') }}">Tentang</a>
-                    <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
-                        href="{{ route('artikel.index') }}">Artikel</a>
-                    <a class="site-navbar-link {{ request()->routeIs('activities') ? 'is-active' : '' }}"
-                        href="{{ route('activities') }}">Kegiatan</a>
-                    <a class="site-navbar-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
-                        href="{{ route('contact') }}">Kontak</a>
-
-                </nav>
-
-                <div class="site-navbar-actions">
-                    <a href="{{ route('join') }}" class="site-navbar-join">Gabung</a>
-                    <button type="button" class="site-menu-trigger" data-site-menu-trigger aria-expanded="false"
-                        aria-controls="siteMenuPanel" aria-label="Buka menu navigasi">
-                        <span class="site-menu-trigger__label">Menu</span>
-                        <span class="site-menu-trigger__icon" aria-hidden="true">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </span>
-                    </button>
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="me-2 me-md-3">
+                <div class="logo-text">
+                    <span class="logo-title">Cakra Manggala</span>
+                    <div class="logo-divider"></div>
+                    <small class="logo-subtitle">Tabah, Tangguh, Terampil</small>
                 </div>
+            </div>
+
+            <!-- Navbar Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{ route('home') }}">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{ route('about') }}">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{ route('struktur-kepengurusan') }}">Kepengurusan</a>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link text-light" href="{{ route('activities') }}">Galeri</a>
+                    </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{ route('contact') }}">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="btn-login">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            <span>Masuk</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <div class="site-menu-backdrop" data-site-menu-close></div>
-
-    <aside class="site-menu-panel" id="siteMenuPanel" aria-hidden="true">
-        <div class="site-menu-panel__inner">
-            <div class="site-menu-panel__header">
-                <div>
-                    <div class="site-menu-panel__eyebrow">Navigasi</div>
-                    <h2 class="site-menu-panel__title">Menu</h2>
-                </div>
-                <button type="button" class="site-menu-close" data-site-menu-close aria-label="Tutup menu">
-                    <span>Tutup</span>
-                    <span class="site-menu-close__icon" aria-hidden="true">
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
-            </div>
-
-            <div class="site-menu-panel__body">
-                <nav class="site-menu-links" aria-label="Menu utama">
-                    <a class="site-menu-link {{ request()->routeIs('home', 'home.alt') ? 'is-active' : '' }}"
-                        href="{{ route('home') }}">
-                        <span>Beranda</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-                    <a class="site-menu-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
-                        href="{{ route('about') }}">
-                        <span>Tentang</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-                    <a class="site-menu-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
-                        href="{{ route('artikel.index') }}">
-                        <span>Artikel</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-                    <a class="site-menu-link {{ request()->routeIs('activities') ? 'is-active' : '' }}"
-                        href="{{ route('activities') }}">
-                        <span>Kegiatan</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-                    <a class="site-menu-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
-                        href="{{ route('contact') }}">
-                        <span>Kontak</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-                </nav>
-
-                <div class="mt-4">
-                    <a href="{{ route('join') }}" class="site-menu-join">
-                        <span>Gabung Sekarang</span>
-                        <i class="bi bi-person-plus-fill"></i>
-                    </a>
-                </div>
-
-                <div class="site-menu-panel__meta">
-                    <div class="site-menu-panel__contact">
-                        Sekretariat UKM Pecinta Alam Cakra Manggala<br>
-                        Politeknik Negeri Madiun
-                    </div>
-                </div>
-            </div>
-        </div>
-    </aside>
-
+    <!-- Main Content -->
     <main>
         @yield('content')
     </main>
 
-    <footer class="footer" data-footer-reveal>
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
-            <div class="row footer-grid">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="footer-column" data-footer-item>
-                        <a href="{{ route('home') }}" class="footer-logo">
-                            <img src="{{ asset('image/logo.png') }}" alt="Logo Cakra Manggala">
-                            <span>
-                                <strong>Cakra Manggala</strong>
-                                <span>UKM Pecinta Alam</span>
-                            </span>
-                        </a>
-                        <h5 class="footer-title">Visi Singkat</h5>
-                        <p class="footer-description">Menjadi ruang bertumbuh bagi mahasiswa yang tangguh, terampil, dan
-                            bertanggung jawab dalam petualangan serta pelestarian alam.</p>
-                    </div>
+            <div class="row footer-content">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">UKM Pecinta Alam Cakra Manggala</h5>
+                    <p>CAKRA MANGGALA adalah organisasi mahasiswa pecinta alam di Politeknik Negeri Madiun yang didirikan pada 26 Juli 2013 yang berfungsi sebagai wadah bagi mahasiswa yang mencintai alam untuk menyalurkan minat mereka melalui kegiatan positif di alam bebas, sekaligus menjadi tempat pembentukan karakter pribadi yang tangguh, berjiwa sosial, dan peduli lingkungan</p>
                 </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="footer-column" data-footer-item>
-                        <h5 class="footer-title">Quick Links</h5>
-                        <ul class="footer-list">
-                            <li><a href="{{ route('home') }}">Beranda</a></li>
-                            <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
-                            <li><a href="{{ route('activities') }}">Kegiatan</a></li>
-                            <li><a href="{{ route('join') }}">Gabung</a></li>
-                            <li><a href="{{ route('contact') }}">Kontak</a></li>
-                        </ul>
-                    </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ route('about') }}" class="text-light text-decoration-none">Tentang Kami</a></li>
+                        <li class="mb-2"><a href="{{ route('activities') }}" class="text-light text-decoration-none">Kegiatan</a></li>
+                        <li class="mb-2"><a href="{{ route('join') }}" class="text-light text-decoration-none">Bergabung</a></li>
+                        <li class="mb-2"><a href="{{ route('contact') }}" class="text-light text-decoration-none">Kontak</a></li>
+                    </ul>
                 </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="footer-column" data-footer-item>
-                        <h5 class="footer-title">Latest Activities</h5>
-                        <ul class="footer-list">
-                            @forelse(($footerActivities ?? collect()) as $activity)
-                                <li>
-                                    <a href="{{ route('activities') }}#activity-{{ $activity->id }}">
-                                        <span class="footer-list-title">{{ $activity->judul_kegiatan }}</span>
-                                        <span class="footer-list-date">{{ $activity->tanggal_pelaksanaan->format('d M Y') }}
-                                            · {{ $activity->tempat }}</span>
-                                    </a>
-                                </li>
-                            @empty
-                                <li>
-                                    <a href="{{ route('activities') }}">
-                                        <span class="footer-list-title">Lihat arsip kegiatan</span>
-                                        <span class="footer-list-date">Dokumentasi kegiatan dan aktivitas lapangan
-                                            terbaru.</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('artikel.index') }}">
-                                        <span class="footer-list-title">Buka halaman artikel</span>
-                                        <span class="footer-list-date">Update artikel, catatan perjalanan, dan laporan
-                                            kegiatan.</span>
-                                    </a>
-                                </li>
-                            @endforelse
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="footer-column" data-footer-item>
-                        <h5 class="footer-title">Stay Connected</h5>
-                        <div class="footer-social">
-                            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                        </div>
-                        <p class="footer-address">Sekretariat UKM Pecinta Alam Cakra Manggala<br>Politeknik Negeri
-                            Madiun<br>Madiun, Jawa Timur</p>
-                        <a href="{{ route('contact') }}" class="footer-action">
-                            <i class="bi bi-envelope-open"></i>
-                            <span>Contact</span>
-                        </a>
+                <div class="col-md-4">
+                    <h5 class="footer-title">Ikuti Sosial Media Cakra Manggala</h5>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="footer-bottom__inner">
-                    <p class="mb-0">&copy; {{ date('Y') }} Cakra Manggala. All rights reserved.</p>
-                    <p class="footer-note mb-0">Build for explorers, training, and environmental stewardship.</p>
-                </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; {{ date('Y') }} Cakra Manggala. All rights reserved.</p>
             </div>
         </div>
     </footer>
-
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
+    
     <script>
-        if (window.AOS) {
-            AOS.init({
-                duration: 800,
-                once: true
-            });
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Counter animation
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = Math.floor(current);
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 20);
         }
-
-        const siteNavbar = document.querySelector('[data-site-navbar]');
-
-        if (siteNavbar) {
-            const syncNavbarState = () => {
-                siteNavbar.classList.toggle('is-scrolled', window.scrollY > 24);
-            };
-
-            syncNavbarState();
-            window.addEventListener('scroll', syncNavbarState, { passive: true });
-        }
-
-        const menuTrigger = document.querySelector('[data-site-menu-trigger]');
-        const menuPanel = document.getElementById('siteMenuPanel');
-        const menuCloseTargets = document.querySelectorAll('[data-site-menu-close]');
-
-        if (menuTrigger && menuPanel) {
-            const toggleMenu = (forceState) => {
-                const nextState = typeof forceState === 'boolean'
-                    ? forceState
-                    : !document.body.classList.contains('site-menu-open');
-
-                document.body.classList.toggle('site-menu-open', nextState);
-                menuTrigger.setAttribute('aria-expanded', String(nextState));
-                menuPanel.setAttribute('aria-hidden', String(!nextState));
-            };
-
-            menuTrigger.addEventListener('click', () => toggleMenu());
-
-            menuCloseTargets.forEach((target) => {
-                target.addEventListener('click', () => toggleMenu(false));
-            });
-
-            document.querySelectorAll('.site-menu-link').forEach((link) => {
-                link.addEventListener('click', () => toggleMenu(false));
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    toggleMenu(false);
+        
+        // Trigger counter animation when in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    animateCounter(counter, target);
+                    observer.unobserve(counter);
                 }
             });
-        }
+        });
+        
+        document.querySelectorAll('.stat-number').forEach(counter => {
+            observer.observe(counter);
+        });
 
-        const counters = document.querySelectorAll('.stat-number');
-
-        if (counters.length && 'IntersectionObserver' in window) {
-            const animateCounter = (element, target) => {
-                let current = 0;
-                const increment = target / 100;
-                const timer = setInterval(() => {
-                    current += increment;
-                    element.textContent = Math.floor(current);
-
-                    if (current >= target) {
-                        element.textContent = target;
-                        clearInterval(timer);
-                    }
-                }, 20);
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    }
-
-                    const counter = entry.target;
-                    const target = parseInt(counter.getAttribute('data-target'), 10);
-
-                    if (!Number.isNaN(target)) {
-                        animateCounter(counter, target);
-                    }
-
-                    observer.unobserve(counter);
+        // Close navbar on link click (mobile)
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                    toggle: false
                 });
+                bsCollapse.hide();
             });
-
-            counters.forEach((counter) => observer.observe(counter));
-        }
-
-        const footer = document.querySelector('[data-footer-reveal]');
-
-        if (footer && 'IntersectionObserver' in window) {
-            const footerObserver = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    }
-
-                    footer.classList.add('is-visible');
-                    footerObserver.unobserve(entry.target);
-                });
-            }, { threshold: 0.18 });
-
-            footerObserver.observe(footer);
-        } else if (footer) {
-            footer.classList.add('is-visible');
-        }
+        });
     </script>
-
+    
     @stack('scripts')
 </body>
-
 </html>

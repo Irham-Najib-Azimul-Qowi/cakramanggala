@@ -1,235 +1,140 @@
-@extends('layouts.app')
+{{-- File: resources/views/artikel/index.blade.php --}}
+@extends('layouts.app') {{-- Sesuaikan dengan layout utama website Anda --}}
 
-@section('title', 'Artikel - UKM Cakra Manggala')
+@section('title', 'Artikel & Berita')
 
 @section('content')
-    @php
-        $heroImage = asset('image/fotobersejarah2.jpg');
-    @endphp
-
-    <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
-        <div class="container">
-            <div class="page-hero__inner">
-                <span class="page-hero__eyebrow" data-aos="fade-up">
-                    <i class="bi bi-journal-richtext"></i>
-                    Koleksi Tulisan
-                </span>
-                <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">Artikel & Catatan Perjalanan</h1>
-                <p class="page-hero__lead" data-aos="fade-up" data-aos-delay="200">
-                    Ruang bagi anggota untuk berbagi wawasan, teknis lapangan, hingga laporan eksplorasi alam bebas.
-                </p>
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3">Artikel & Berita</h1>
+                <p class="lead mb-4">Kumpulan artikel, berita, dan informasi terbaru dari UKM Pecinta Alam Cakra Manggala</p>
+            </div>
+            <div class="col-lg-4">
+                <!-- Search Form -->
+                <form method="GET" action="{{ route('artikel.index') }}" class="d-flex">
+                    <input type="text" 
+                           class="form-control me-2" 
+                           name="search" 
+                           value="{{ $search }}" 
+                           placeholder="Cari artikel...">
+                    <button type="submit" class="btn btn-light">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="section-shell" style="background-color: var(--dark-color); color: #fff; min-height: 80vh;">
-        <div class="container">
-            <!-- Search Bar -->
-            <div class="row justify-content-center mb-5" data-aos="fade-up">
-                <div class="col-lg-7">
-                    <form method="GET" action="{{ route('artikel.index') }}">
-                        <div class="input-group input-group-lg"
-                            style="border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
-                            <span class="input-group-text bg-transparent border-0 ps-4">
-                                <i class="bi bi-search" style="color: var(--accent-color);"></i>
-                            </span>
-                            <input type="text" name="search"
-                                class="form-control bg-transparent border-0 text-white py-3 shadow-none"
-                                value="{{ $search }}" placeholder="Cari topik artikel..."
-                                style="font-size: 1.1rem; letter-spacing: 0.02em;">
-                            <button class="btn px-4" type="submit"
-                                style="background: var(--accent-color); color: var(--primary-color); border-radius: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem;">
-                                Cari
-                            </button>
-                        </div>
-                    </form>
-                </div>
+<!-- Articles Section -->
+<section class="py-5">
+    <div class="container">
+        @if($search)
+            <div class="alert alert-info">
+                <i class="bi bi-search"></i> 
+                Hasil pencarian untuk: <strong>"{{ $search }}"</strong> 
+                ({{ $artikels->total() }} artikel ditemukan)
+                <a href="{{ route('artikel.index') }}" class="btn btn-sm btn-outline-info ms-2">
+                    <i class="bi bi-x"></i> Hapus Filter
+                </a>
             </div>
+        @endif
 
-            @if($artikels->count() > 0)
-                <div class="row g-4">
-                    @foreach($artikels as $artikel)
-                        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
-                            <div class="art-card">
-                                <div class="art-card__img-wrap">
-                                    <img src="{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/fotobersejarah2.jpg') }}"
-                                        alt="{{ $artikel->judul }}" class="art-card__img">
-                                    <span class="art-card__badge">BLOG</span>
-                                </div>
-                                <div class="art-card__body">
-                                    <div class="art-card__meta">
-                                        <span><i
-                                                class="bi bi-calendar3 me-2"></i>{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
-                                        <span class="ms-3"><i class="bi bi-person-fill me-2"></i>{{ $artikel->user->name }}</span>
-                                    </div>
-                                    <h3 class="art-card__title">{{ $artikel->judul }}</h3>
-                                    <p class="art-card__text">
-                                        {{ $artikel->excerpt ?: Str::limit(strip_tags($artikel->konten), 110) }}
-                                    </p>
-                                    <div class="art-card__footer">
-                                        <a href="{{ route('artikel.show', $artikel->slug) }}" class="art-card__link">
-                                            Baca Lanjut <i class="bi bi-chevron-right"></i>
-                                        </a>
-                                        <div class="art-card__views">
-                                            <i class="bi bi-eye"></i> {{ number_format($artikel->views) }}
-                                        </div>
-                                    </div>
-                                </div>
+        @if($artikels->count() > 0)
+            <div class="row g-4">
+                @foreach($artikels as $artikel)
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm hover-card">
+                        @if($artikel->gambar_utama)
+                            <img src="{{ asset($artikel->gambar_utama) }}"                                 class="card-img-top" 
+                                 alt="{{ $artikel->judul }}"
+                                 style="height: 200px; object-fit: cover;">
+                        @else
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                                 style="height: 200px;">
+                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                        @endif
+                        
+                        <div class="card-body d-flex flex-column">
+                            <div class="article-meta mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> {{ $artikel->created_at->format('d F Y') }} | 
+                                    <i class="bi bi-person"></i> {{ $artikel->user->name }}
+                                    @if($artikel->views > 0)
+                                        | <i class="bi bi-eye"></i> {{ number_format($artikel->views) }}
+                                    @endif
+                                </small>
+                            </div>
+                            
+                            <h5 class="card-title">
+                                <a href="{{ route('artikel.show', $artikel->slug) }}" 
+                                   class="text-decoration-none text-dark">
+                                    {{ $artikel->judul }}
+                                </a>
+                            </h5>
+                            
+                            <p class="card-text flex-grow-1">
+                                {{ $artikel->excerpt ?: Str::limit(strip_tags($artikel->konten), 120) }}
+                            </p>
+                            
+                            <div class="mt-auto">
+                                <a href="{{ route('artikel.show', $artikel->slug) }}" 
+                                   class="btn btn-outline-primary btn-sm">
+                                    Baca Selengkapnya <i class="bi bi-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-
-                <div class="d-flex justify-content-center mt-5 custom-pagination">
-                    {{ $artikels->appends(request()->query())->links() }}
-                </div>
-            @else
-                <div class="text-center py-5" data-aos="fade-up">
-                    <div
-                        style="background: rgba(255,255,255,0.05); width: 120px; height: 120px; border-radius: 0; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem;">
-                        <i class="bi bi-search display-3" style="color: rgba(255,255,255,0.15);"></i>
                     </div>
-                    <h3 class="fw-bold" style="color: #fff;">Artikel Tidak Ditemukan</h3>
-                    <p style="color: rgba(255,255,255,0.5);">Maaf, kami tidak menemukan artikel dengan kata kunci
-                        "{{ $search }}".</p>
-                    <a href="{{ route('artikel.index') }}" class="btn-join-premium mt-4"
-                        style="padding: 0.8rem 2.5rem; font-size: 0.85rem;">Reset Pencarian</a>
                 </div>
-            @endif
-        </div>
-    </section>
+                @endforeach
+            </div>
 
-    <style>
-        .art-card {
-            background: var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .art-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .art-card__img-wrap {
-            height: 240px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .art-card__img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s ease;
-        }
-
-        .art-card:hover .art-card__img {
-            transform: scale(1.1);
-        }
-
-        .art-card__badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--accent-color);
-            color: var(--primary-color);
-            padding: 0.4rem 1.2rem;
-            font-size: 0.65rem;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            z-index: 5;
-        }
-
-        .art-card__body {
-            padding: 2.2rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .art-card__meta {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .art-card__title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 800;
-            line-height: 1.3;
-            color: #fff;
-            margin-bottom: 1.2rem;
-            letter-spacing: -0.01em;
-        }
-
-        .art-card__text {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
-
-        .art-card__footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .art-card__link {
-            color: #fff;
-            text-decoration: none !important;
-            font-weight: 800;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .art-card__link:hover {
-            color: var(--accent-color);
-        }
-
-        .art-card__views {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 700;
-        }
-
-        .custom-pagination .pagination {
-            gap: 5px;
-        }
-
-        .custom-pagination .page-link {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border-radius: 0 !important;
-            padding: 0.6rem 1rem;
-            font-weight: 700;
-        }
-
-        .custom-pagination .page-item.active .page-link {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-            color: var(--primary-color);
-        }
-
-        .custom-pagination .page-link:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #fff;
-        }
-    </style>
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-5">
+                {{ $artikels->appends(request()->query())->links() }}
+            </div>
+        @else
+            <div class="text-center py-5">
+                <i class="bi bi-newspaper display-1 text-muted"></i>
+                <h3 class="mt-3 text-muted">
+                    @if($search)
+                        Tidak Ada Hasil
+                    @else
+                        Belum Ada Artikel
+                    @endif
+                </h3>
+                @if($search)
+                    <a href="{{ route('artikel.index') }}" class="btn btn-primary">
+                        <i class="bi bi-arrow-left"></i> Kembali ke Semua Artikel
+                    </a>
+                @endif
+            </div>
+        @endif
+    </div>
+</section>
 @endsection
+
+@push('styles')
+<style>
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.article-meta {
+    font-size: 0.875rem;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color, #2e7d32) 0%, var(--dark-color, #1b5e20) 100%);
+}
+</style>
+@endpush

@@ -1,17 +1,15 @@
 <?php
-
 // File: app/Models/Artikel.php
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Artikel extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $fillable = [
         'judul',
@@ -21,7 +19,7 @@ class Artikel extends Model
         'gambar_utama',
         'status',
         'user_id',
-        'views',
+        'views'
     ];
 
     protected $casts = [
@@ -33,23 +31,23 @@ class Artikel extends Model
     protected static function boot()
     {
         parent::boot();
-
+        
         static::creating(function ($artikel) {
             if (empty($artikel->slug)) {
                 $artikel->slug = Str::slug($artikel->judul);
             }
-
+            
             // Generate excerpt jika kosong
             if (empty($artikel->excerpt)) {
                 $artikel->excerpt = Str::limit(strip_tags($artikel->konten), 150);
             }
         });
-
+        
         static::updating(function ($artikel) {
             if ($artikel->isDirty('judul') && empty($artikel->slug)) {
                 $artikel->slug = Str::slug($artikel->judul);
             }
-
+            
             if ($artikel->isDirty('konten') && empty($artikel->excerpt)) {
                 $artikel->excerpt = Str::limit(strip_tags($artikel->konten), 150);
             }
@@ -90,9 +88,8 @@ class Artikel extends Model
     public function getGambarUrlAttribute()
     {
         if ($this->gambar_utama) {
-            return asset($this->gambar_utama);
+            return asset('storage/' . $this->gambar_utama);
         }
-
         return asset('image/default-article.jpg'); // Gambar default
     }
 }

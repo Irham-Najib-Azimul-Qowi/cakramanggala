@@ -4,225 +4,303 @@
 @section('title', 'Pendaftaran Berhasil - UKM Cakra Manggala')
 
 @section('content')
-    <style>
-        .success-wrapper {
-            min-height: 100vh;
-            background: var(--surface-color);
-            display: flex;
-            align-items: center;
-            padding: 4rem 0;
-        }
+<style>
+    .success-section {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
 
-        /* Hide Navbar & Footer */
-        .site-navbar,
-        .footer {
-            display: none !important;
-        }
+    .success-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        overflow: hidden;
+        text-align: center;
+    }
 
-        main {
-            padding-top: 0 !important;
-        }
+    .success-header {
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        color: white;
+        padding: 4rem 2rem;
+    }
 
-        .success-card {
-            background: var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0;
-            padding: clamp(2rem, 5vw, 4rem);
-            box-shadow: 0 40px 100px rgba(7, 17, 12, 0.15);
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto;
-            color: #fff;
+    .success-icon {
+        font-size: 5rem;
+        margin-bottom: 1rem;
+        color: #4caf50;
+        animation: checkmark 1s ease-in-out;
+    }
+
+    @keyframes checkmark {
+        0% { transform: scale(0); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    .success-body {
+        padding: 3rem 2rem;
+    }
+
+    .welcome-message {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+    }
+
+    .sub-welcome {
+        font-size: 1.2rem;
+        color: var(--secondary-color);
+        margin-bottom: 2rem;
+        font-weight: 500;
+    }
+
+    .info-card {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border-left: 5px solid var(--accent-color);
+    }
+
+    .whatsapp-btn {
+        background: #25d366;
+        color: white;
+        padding: 1.2rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        margin: 1rem 0.5rem;
+    }
+
+    .whatsapp-btn:hover {
+        background: #20c157;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        text-decoration: none;
+    }
+
+    .home-btn {
+        background: var(--primary-color);
+        color: white;
+        padding: 1.2rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        margin: 1rem 0.5rem;
+    }
+
+    .home-btn:hover {
+        background: var(--dark-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+        text-decoration: none;
+    }
+
+    .user-info {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+
+    .user-info h6 {
+        color: var(--primary-color);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .next-steps {
+        background: linear-gradient(135deg, #fff3e0, #ffcc02);
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border-left: 5px solid #ff9800;
+    }
+
+    .next-steps h5 {
+        color: #e65100;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .step-list {
+        text-align: left;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .step-list li {
+        padding: 0.5rem 0;
+        color: #bf360c;
+        font-weight: 500;
+    }
+
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--accent-color);
+        animation: confetti-fall 3s linear infinite;
+    }
+
+    @keyframes confetti-fall {
+        0% {
+            transform: translateY(-100vh) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh) rotate(720deg);
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s forwards;
         }
+    }
 
-        .success-icon-box {
-            width: 100px;
-            height: 100px;
-            background: var(--accent-color);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            font-size: 3rem;
-            color: var(--primary-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+        .welcome-message {
+            font-size: 1.5rem;
         }
-
-        .success-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: #fff;
+        
+        .sub-welcome {
+            font-size: 1rem;
         }
-
-        .success-lead {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
+        
+        .whatsapp-btn, .home-btn {
+            display: block;
+            margin: 1rem 0;
+            width: 100%;
+            text-align: center;
         }
+    }
+</style>
 
-        .info-list {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 0;
-            padding: 2.5rem;
-            margin-bottom: 2.5rem;
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+<section class="success-section">
+    <!-- Confetti Animation -->
+    @for($i = 0; $i < 50; $i++)
+        @php
+            $left = rand(0, 100) . '%';
+            $delay = rand(0, 3000) . 'ms';
+            $colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'];
+            $color = $colors[array_rand($colors)];
+            $style = "left: $left; animation-delay: $delay; background: $color;";
+        @endphp
+    @endfor
 
-        .info-item {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="success-container" data-aos="zoom-in">
+                    <div class="success-header">
+                        <div class="success-icon pulse">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <h2>Pendaftaran Berhasil!</h2>
+                    </div>
 
-        .info-item:last-child {
-            margin-bottom: 0;
-        }
+                    <div class="success-body">
+                        <div class="welcome-message">
+                            🎉 Selamat Datang Calon Anggota Baru Angkatan XIV! 🎉
+                        </div>
+                        
+                        <div class="sub-welcome">
+                            di <strong>Unit Kegiatan Mahasiswa Pecinta Alam Cakra Manggala</strong>
+                        </div>
 
-        .info-icon {
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            background: var(--accent-color);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-            font-weight: 800;
-        }
+                        @if(isset($user))
+                        <div class="user-info" data-aos="fade-up" data-aos-delay="200">
+                            <h6><i class="bi bi-person-circle"></i> Informasi Pendaftar</h6>
+                            <p><strong>Nama:</strong> {{ $user->name ?? 'Calon Anggota' }}</p>
+                            <p><strong>Email:</strong> {{ $user->email ?? '-' }}</p>
+                            <p><strong>No. Telepon:</strong> {{ $user->phone ?? '-' }}</p>
+                            <p class="mb-0"><strong>Tanggal Pendaftaran:</strong> {{ date('d F Y, H:i') }} WIB</p>
+                        </div>
+                        @endif
 
-        .info-text h6 {
-            margin: 0 0 4px;
-            font-weight: 700;
-            color: #fff;
-        }
+                        <div class="next-steps" data-aos="fade-up" data-aos-delay="300">
+                            <h5><i class="bi bi-list-check"></i> Langkah Selanjutnya</h5>
+                            <ul class="step-list">
+                                <li><i class="bi bi-1-circle-fill text-primary"></i> Bergabung dengan grup WhatsApp</li>
+                                <li><i class="bi bi-3-circle-fill text-primary"></i> Dapatkan informasi kegiatan terbaru</li>
+                                <li><i class="bi bi-4-circle-fill text-primary"></i> Mulai petualangan bersama CAKRA MANGGALA!</li>
+                            </ul>
+                        </div>
 
-        .info-text p {
-            margin: 0;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
+                        <div class="info-card" data-aos="fade-up" data-aos-delay="400">
+                            <h5><i class="bi bi-whatsapp text-success"></i> Bergabung</h5>
+                            <p class="mb-3">
+                                Yukk bergabung dengan grup WhatsApp Calon Anggota Baru UKM Cakra Manggala untuk mendapatkan informasi terbaru tentang kegiatan, jadwal latihan, dan pengumuman penting lainnya.
+                            </p>
+                            <a href="https://chat.whatsapp.com/JAT9OtV5e9V3HAw5P3unca" class="whatsapp-btn" target="_blank" data-aos="bounce" data-aos-delay="600">
+                                <i class="bi bi-whatsapp"></i>
+                                Gabung Grup WhatsApp
+                            </a>
+                        </div>
 
-        .action-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
+                        <div class="mt-4" data-aos="fade-up" data-aos-delay="700">
+                            <a href="{{ route('home') }}" class="home-btn">
+                                <i class="bi bi-house-fill"></i>
+                                Kembali ke Beranda
+                            </a>
+                            <a href="{{ route('about') }}" class="home-btn" style="background: var(--secondary-color);">
+                                <i class="bi bi-info-circle"></i>
+                                Tentang Cakra Manggala
+                            </a>
+                        </div>
 
-        .btn-action {
-            padding: 1.1rem 2rem;
-            border-radius: 0;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.15rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            border: none;
-        }
-
-        .btn-wa {
-            background: #25d366;
-            color: #fff;
-        }
-
-        .btn-wa:hover {
-            background: #20c157;
-            color: #fff;
-            transform: translateY(-3px);
-        }
-
-        .btn-accent {
-            background: var(--accent-color);
-            color: var(--primary-color);
-        }
-
-        .btn-accent:hover {
-            background: #fff;
-            color: var(--primary-color);
-            transform: translateY(-3px);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (min-width: 576px) {
-            .action-group {
-                flex-direction: row;
-                justify-content: center;
-            }
-
-            .btn-action {
-                min-width: 220px;
-            }
-        }
-    </style>
-
-    <div class="success-wrapper">
-        <div class="container">
-            <div class="success-card">
-                <div class="success-icon-box">
-                    <i class="bi bi-check2"></i>
-                </div>
-
-                <h1 class="success-title">Pendaftaran Terkirim!</h1>
-                <p class="success-lead">
-                    Halo Calon Anggota Angkatan XIV. Data kamu sudah kami terima di sistem. Panitia akan segera meninjau
-                    formulir pendaftaranmu.
-                </p>
-
-                <div class="info-list">
-                    <div class="info-item">
-                        <div class="info-icon">1</div>
-                        <div class="info-text">
-                            <h6>Grup WhatsApp</h6>
-                            <p>Wajib bergabung untuk informasi seleksi dan jadwal terbaru.</p>
+                        <div class="mt-4">
+                            <p class="text-muted">
+                                <small><i class="bi bi-shield-check"></i> Data Anda aman dan akan digunakan sesuai dengan kebijakan privasi kami</small>
+                            </p>
                         </div>
                     </div>
-                    <div class="info-item">
-                        <div class="info-icon">2</div>
-                        <div class="info-text">
-                            <h6>Cek Email</h6>
-                            <p>Kami mungkin mengirimkan konfirmasi atau berkas tambahan melalui email.</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-icon">3</div>
-                        <div class="info-text">
-                            <h6>Mulai Persiapan</h6>
-                            <p>Siapkan fisik dan semangatmu untuk petualangan bersama Cakra Manggala.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-group">
-                    <a href="https://chat.whatsapp.com/JAT9OtV5e9V3HAw5P3unca" target="_blank" class="btn-action btn-wa">
-                        <i class="bi bi-whatsapp"></i> Gabung Grup WA
-                    </a>
-                    <a href="{{ route('home') }}" class="btn-action btn-accent">
-                        <i class="bi bi-house"></i> Kembali Beranda
-                    </a>
                 </div>
             </div>
         </div>
     </div>
+</section>
+
+<script>
+    // Add some interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto scroll to top
+        window.scrollTo(0, 0);
+        
+        // Add click tracking for WhatsApp button
+        const whatsappBtn = document.querySelector('.whatsapp-btn');
+        if (whatsappBtn) {
+            whatsappBtn.addEventListener('click', function() {
+                // You can add analytics tracking here
+                console.log('WhatsApp group link clicked');
+            });
+        }
+        
+    });
+</script>
 @endsection

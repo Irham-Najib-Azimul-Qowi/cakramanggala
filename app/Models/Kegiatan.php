@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Kegiatan extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $fillable = [
         'tahun',
@@ -18,13 +17,12 @@ class Kegiatan extends Model
         'tempat',
         'kapel_pj',
         'sifat',
-        'gambar_utama',
-        'user_id',
+        'user_id'
     ];
 
     protected $casts = [
         'tanggal_pelaksanaan' => 'date',
-        'tahun' => 'integer',
+        'tahun' => 'integer'
     ];
 
     /**

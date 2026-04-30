@@ -1,192 +1,243 @@
+{{-- File: resources/views/dashboard/pendaftar/show.blade.php --}}
 @extends('layouts.dashboard')
 
 @section('title', 'Detail Pendaftar')
+@section('page-title', 'Detail Pendaftar')
 
 @section('content')
-    <div class="mb-5 d-flex justify-content-between align-items-center flex-wrap gap-3">
-        <a href="{{ route('dashboard.pendaftar') }}"
-            class="btn btn-sm d-inline-flex align-items-center gap-2 border-0 rounded-0"
-            style="background: rgba(255,255,255,0.05); color: #fff; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.5rem;">
-            <i class="bi bi-arrow-left"></i> KEMBALI
-        </a>
-        <div class="d-flex gap-2">
-            @if(!$pendaftar->is_approved)
-                <form action="{{ route('dashboard.pendaftar.approve', $pendaftar->id) }}" method="POST">
-                    @csrf @method('PATCH')
-                    <button type="submit" class="btn btn-accent px-4 fw-black">
-                        <i class="bi bi-shield-check me-2"></i> APPROVE
-                    </button>
-                </form>
-            @endif
-
-            @if($pendaftar->status != 'rejected')
-                <form action="{{ route('dashboard.pendaftar.reject', $pendaftar->id) }}" method="POST">
-                    @csrf @method('PATCH')
-                    <button type="submit" class="btn btn-sm px-4 fw-bold border-0 rounded-0"
-                        style="background: rgba(255,99,102,0.1); color: #ff6366; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;">
-                        <i class="bi bi-shield-x me-2"></i> REJECT
-                    </button>
-                </form>
-            @endif
-
-            <button type="button" class="btn btn-sm px-3 border-0 rounded-0"
-                style="background: rgba(255,255,255,0.05); color: #fff;" data-bs-toggle="modal"
-                data-bs-target="#deleteModal">
-                <i class="bi bi-trash3-fill text-danger"></i>
-            </button>
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">Detail Pendaftar</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard.pendaftar') }}">Data Pendaftar</a></li>
+                    <li class="breadcrumb-item active">Detail</li>
+                </ol>
+            </nav>
+        </div>
+        <div>
+            <a href="{{ route('dashboard.pendaftar') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
         </div>
     </div>
+</div>
 
-    <div class="row g-4">
-        <div class="col-lg-4">
-            <div class="admin-card text-center sticky-top"
-                style="top: 120px; background: var(--primary) !important; border: none;">
-                <div class="detail-avatar mb-4 mx-auto">
-                    @if($pendaftar->foto_diri)
-                        <img src="{{ asset($pendaftar->foto_diri) }}" alt="{{ $pendaftar->nama_lengkap }}">
-                    @else
-                        <div class="h-100 d-flex align-items-center justify-content-center bg-dark text-accent">
-                            {{ strtoupper(substr($pendaftar->nama_lengkap, 0, 1)) }}</div>
-                    @endif
-                </div>
-                <h2 class="h4 fw-black text-white mb-1" style="letter-spacing: -0.02em;">
-                    {{ strtoupper($pendaftar->nama_lengkap) }}</h2>
-                <p class="text-accent x-small fw-bold mb-4" style="letter-spacing: 0.15em;">{{ $pendaftar->nim }}</p>
-
-                <div class="mb-4">
-                    @if($pendaftar->is_approved)
-                        <span class="admin-badge admin-badge--success py-2 px-4 w-100 justify-content-center">APPROVED</span>
-                    @elseif($pendaftar->status == 'rejected')
-                        <span class="admin-badge admin-badge--danger py-2 px-4 w-100 justify-content-center">REJECTED</span>
-                    @else
-                        <span class="admin-badge admin-badge--warning py-2 px-4 w-100 justify-content-center">PENDING
-                            VERIFICATION</span>
-                    @endif
-                </div>
-
-                <div class="text-start pt-4" style="border-top: 1px solid rgba(255,255,255,0.1);">
-                    <div class="mb-4">
-                        <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-1"
-                            style="letter-spacing: 0.1em; font-size: 0.65rem;">Program Studi</label>
-                        <div class="fw-bold small">{{ $pendaftar->program_studi }}</div>
+<div class="row">
+    <!-- Profile Card -->
+    <div class="col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                @if($pendaftar->foto_diri)
+                    <img src="{{ asset($pendaftar->foto_diri) }}"
+                        alt="Foto {{ $pendaftar->nama_lengkap }}"
+                        class="rounded-circle mb-3 shadow-sm"
+                        style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #e9ecef;">
+                @else
+                    <div class="bg-secondary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white shadow-sm"
+                        style="width: 150px; height: 150px; font-size: 3rem; font-weight: 600; border: 3px solid #e9ecef;">
+                        {{ strtoupper(substr($pendaftar->nama_lengkap, 0, 1)) }}
                     </div>
-                    <div class="mb-4">
-                        <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-1"
-                            style="letter-spacing: 0.1em; font-size: 0.65rem;">WhatsApp</label>
-                        <a href="https://wa.me/{{ $pendaftar->no_hp }}" target="_blank"
-                            class="text-accent text-decoration-none fw-black small">
-                            <i class="bi bi-whatsapp me-2"></i> {{ $pendaftar->no_hp }}
-                        </a>
+                @endif
+                
+                <h4 class="card-title">{{ $pendaftar->nama_lengkap }}</h4>
+                <p class="text-muted">{{ $pendaftar->nim }}</p>
+                
+                <div class="row text-center mt-4">
+                    <div class="col">
+                        <div class="border-end">
+                            <h6 class="fw-bold text-primary">{{ $pendaftar->jurusan }}</h6>
+                            <small class="text-muted">Jurusan</small>
+                        </div>
                     </div>
-                    <div>
-                        <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-1"
-                            style="letter-spacing: 0.1em; font-size: 0.65rem;">Terdaftar Pada</label>
-                        <div class="fw-bold small text-white">{{ $pendaftar->created_at->translatedFormat('d M Y, H:i') }}
+                    <div class="col">
+                        <h6 class="fw-bold text-success">{{ \Carbon\Carbon::parse($pendaftar->tanggal_lahir)->age }} Tahun</h6>
+                        <small class="text-muted">Usia</small>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="tel:{{ $pendaftar->no_hp }}" class="btn btn-primary btn-sm me-2">
+                        <i class="bi bi-telephone"></i> Hubungi
+                    </a>
+                    <button type="button" 
+                            class="btn btn-outline-danger btn-sm delete-btn" 
+                            data-id="{{ $pendaftar->id }}"
+                            data-name="{{ $pendaftar->nama_lengkap }}">
+                        <i class="bi bi-trash"></i> Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Detail Information -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-person-lines-fill me-2"></i>Informasi Lengkap
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Personal Information -->
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-primary fw-bold mb-3">
+                            <i class="bi bi-person me-2"></i>Data Pribadi
+                        </h6>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Nama Lengkap</label>
+                            <div class="border-bottom pb-1">{{ $pendaftar->nama_lengkap }}</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Jenis Kelamin</label>
+                            <div class="border-bottom pb-1">
+                                <i class="bi bi-{{ $pendaftar->jenis_kelamin == 'Laki-laki' ? 'person' : 'person-dress' }} me-2"></i>
+                                {{ $pendaftar->jenis_kelamin }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Tempat, Tanggal Lahir</label>
+                            <div class="border-bottom pb-1">
+                                {{ $pendaftar->tempat_lahir }}, 
+                                {{ \Carbon\Carbon::parse($pendaftar->tanggal_lahir)->format('d F Y') }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">No. HP</label>
+                            <div class="border-bottom pb-1">
+                                <a href="tel:{{ $pendaftar->no_hp }}" class="text-decoration-none">
+                                    {{ $pendaftar->no_hp }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Academic Information -->
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-success fw-bold mb-3">
+                            <i class="bi bi-mortarboard me-2"></i>Data Akademik
+                        </h6>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">NIM</label>
+                            <div class="border-bottom pb-1">
+                                <span class="badge bg-primary">{{ $pendaftar->nim }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Jurusan</label>
+                            <div class="border-bottom pb-1">
+                                <span class="badge bg-{{ $pendaftar->jurusan == 'Teknik' ? 'info' : ($pendaftar->jurusan == 'Akuntansi' ? 'success' : 'warning') }}">
+                                    {{ $pendaftar->jurusan }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Program Studi</label>
+                            <div class="border-bottom pb-1">{{ $pendaftar->program_studi }}</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Tanggal Pendaftaran</label>
+                            <div class="border-bottom pb-1">
+                                <i class="bi bi-calendar me-2"></i>
+                                {{ \Carbon\Carbon::parse($pendaftar->created_at)->format('d F Y, H:i') }} WIB
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-lg-8">
-            <div class="admin-card mb-4">
-                <h2 class="h6 fw-black text-accent text-uppercase mb-4"
-                    style="letter-spacing: 0.15em; border-bottom: 1px solid rgba(242,182,97,0.1); padding-bottom: 1rem;">
-                    IDENTITAS MAHASISWA</h2>
-                <div class="row g-4">
-                    <div class="col-sm-6">
-                        <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-2"
-                            style="letter-spacing: 0.1em; font-size: 0.65rem;">Tempat, Tanggal Lahir</label>
-                        <div class="fw-bold text-white">{{ $pendaftar->tempat_lahir }},
-                            {{ \Carbon\Carbon::parse($pendaftar->tanggal_lahir)->translatedFormat('d F Y') }}</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-2"
-                            style="letter-spacing: 0.1em; font-size: 0.65rem;">Jenis Kelamin</label>
-                        <div class="fw-bold text-white">{{ strtoupper($pendaftar->jenis_kelamin) }}</div>
-                    </div>
-                    <div class="col-12">
-                        <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-2"
-                            style="letter-spacing: 0.1em; font-size: 0.65rem;">Alamat Domisili</label>
-                        <div class="fw-bold text-white lh-base">{{ strtoupper($pendaftar->alamat) }}</div>
+                
+                <!-- Address -->
+                <div class="mb-4">
+                    <h6 class="text-warning fw-bold mb-3">
+                        <i class="bi bi-geo-alt me-2"></i>Alamat
+                    </h6>
+                    <div class="bg-light p-3 rounded">
+                        {{ $pendaftar->alamat }}
                     </div>
                 </div>
-            </div>
-
-            <div class="admin-card">
-                <h2 class="h6 fw-black text-accent text-uppercase mb-4"
-                    style="letter-spacing: 0.15em; border-bottom: 1px solid rgba(242,182,97,0.1); padding-bottom: 1rem;">
-                    LATAR BELAKANG & MOTIVASI</h2>
-                <div class="mb-5">
-                    <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-3"
-                        style="letter-spacing: 0.1em; font-size: 0.65rem;">Pengalaman Organisasi</label>
-                    <div class="p-4 bg-dark border border-white-5 small lh-lg italic text-white-50">
-                        {{ $pendaftar->organisasi_yang_pernah_diikuti ?: 'TIDAK ADA PENGALAMAN ORGANISASI SEBELUMNYA.' }}
+                
+                <!-- Previous Organizations -->
+                @if($pendaftar->organisasi_yang_pernah_diikuti)
+                <div class="mb-4">
+                    <h6 class="text-info fw-bold mb-3">
+                        <i class="bi bi-people me-2"></i>Organisasi yang Pernah Diikuti
+                    </h6>
+                    <div class="bg-light p-3 rounded">
+                        {{ $pendaftar->organisasi_yang_pernah_diikuti }}
                     </div>
                 </div>
-                <div>
-                    <label class="x-small fw-bold text-white-50 text-uppercase d-block mb-3"
-                        style="letter-spacing: 0.1em; font-size: 0.65rem;">Alasan Bergabung</label>
-                    <div class="p-4 bg-dark border border-white-5 small lh-lg text-white">
-                        "{{ $pendaftar->alasan_bergabung }}"
+                @endif
+                
+                <!-- Reason to Join -->
+                <div class="mb-4">
+                    <h6 class="text-danger fw-bold mb-3">
+                        <i class="bi bi-heart me-2"></i>Alasan Bergabung
+                    </h6>
+                    <div class="bg-light p-3 rounded">
+                        {{ $pendaftar->alasan_bergabung }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    {{-- Modal --}}
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg bg-dark-card rounded-0">
-                <div class="modal-body p-5 text-center">
-                    <div class="mb-4 text-danger"><i class="bi bi-exclamation-square-fill display-3"></i></div>
-                    <h3 class="fw-black text-white px-2">HAPUS DATA PENDAFTAR?</h3>
-                    <p class="text-white-50 small mb-5">Tindakan ini tidak dapat dibatalkan. Data
-                        <strong>{{ $pendaftar->nama_lengkap }}</strong> akan dihapus secara permanen dari basis data.</p>
-                    <div class="d-flex gap-3">
-                        <button type="button" class="btn flex-grow-1 py-3 fw-black border-0 rounded-0"
-                            style="background: rgba(255,255,255,0.05); color: #fff;" data-bs-dismiss="modal">BATAL</button>
-                        <form action="{{ route('dashboard.pendaftar.destroy', $pendaftar->id) }}" method="POST"
-                            class="flex-grow-1">
-                            @csrf @method('DELETE')
-                            <button type="submit"
-                                class="btn btn-danger w-100 py-3 fw-black rounded-0 shadow-none">KONFIRMASI</button>
-                        </form>
-                    </div>
-                </div>
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus data pendaftar <strong id="deleteName"></strong>?</p>
+                <p class="text-muted small">Data yang dihapus tidak dapat dikembalikan.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Hapus
+                    </button>
+                </form>
             </div>
         </div>
     </div>
-
-    <style>
-        .detail-avatar {
-            width: 160px;
-            height: 160px;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--accent);
-            overflow: hidden;
-            border: 5px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        .detail-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .bg-dark-card {
-            background: var(--dark-card);
-        }
-
-        .border-white-5 {
-            border-color: rgba(255, 255, 255, 0.05) !important;
-        }
-    </style>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+// Event listener untuk tombol delete
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteBtn = document.querySelector('.delete-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            confirmDelete(id, name);
+        });
+    }
+});
+
+function confirmDelete(id, name) {
+    document.getElementById('deleteName').textContent = name;
+    document.getElementById('deleteForm').action = `/dashboard/pendaftar/${id}`;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+@endpush

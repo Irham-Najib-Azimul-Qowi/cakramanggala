@@ -1,5 +1,4 @@
 <?php
-
 // File: app/Http/Controllers/ArtikelController.php (untuk frontend)
 
 namespace App\Http\Controllers;
@@ -19,10 +18,10 @@ class ArtikelController extends Controller
             ->latest();
 
         if ($search) {
-            $query->where(function ($q) use ($search) {
+            $query->where(function($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                    ->orWhere('konten', 'like', "%{$search}%")
-                    ->orWhere('excerpt', 'like', "%{$search}%");
+                  ->orWhere('konten', 'like', "%{$search}%")
+                  ->orWhere('excerpt', 'like', "%{$search}%");
             });
         }
 
@@ -38,12 +37,8 @@ class ArtikelController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        // Increment views with session check to prevent artificial inflation
-        $viewedKey = 'viewed_artikel_' . $artikel->id;
-        if (!session()->has($viewedKey)) {
-            $artikel->incrementViews();
-            session()->put($viewedKey, true);
-        }
+        // Increment views
+        $artikel->incrementViews();
 
         // Get related articles (3 artikel terbaru lainnya)
         $relatedArtikels = Artikel::published()

@@ -1,106 +1,281 @@
+{{-- File: resources/views/dashboard/index.blade.php --}}
 @extends('layouts.dashboard')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'Dashboard')
+@section('page-title', 'Dashboard Overview')
 
 @section('content')
-    <div class="row g-4 mb-5">
-        @php
-            $summaryItems = [
-                ['icon' => 'bi-people-fill', 'label' => 'Total Pendaftar', 'value' => $stats['total_pendaftar'] ?? 0, 'color' => 'var(--accent)'],
-                ['icon' => 'bi-journal-text', 'label' => 'Artikel Baru', 'value' => $stats['artikel_bulan_ini'] ?? 0, 'color' => '#fff'],
-                ['icon' => 'bi-calendar-event', 'label' => 'Kegiatan Aktif', 'value' => $stats['kegiatan_aktif'] ?? 0, 'color' => 'var(--accent)'],
-                ['icon' => 'bi-chat-dots-fill', 'label' => 'Pesan Masuk', 'value' => $stats['pesan_baru'] ?? 0, 'color' => '#ff6366'],
-            ];
-        @endphp
-        @foreach($summaryItems as $item)
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: {{ $item['color'] }};">
-                        <i class="bi {{ $item['icon'] }}"></i>
-                    </div>
-                    <div>
-                        <div class="stat-label">{{ $item['label'] }}</div>
-                        <div class="stat-value">{{ number_format($item['value']) }}</div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
+<div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+</div>
 
-    <div class="row g-4 mb-5">
-        <div class="col-xl-8">
-            <div class="admin-card">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="h6 fw-bold mb-0 text-uppercase text-accent" style="letter-spacing: 0.15em;">Pendaftar Terbaru</h2>
-                    <a href="{{ route('dashboard.pendaftar') }}" class="text-decoration-none small fw-bold text-white-50 shadow-none">
-                        KELOLA SEMUA <i class="bi bi-arrow-right ms-1"></i>
-                    </a>
-                </div>
-
-                <div class="admin-table-wrapper">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Nama Lengkap</th>
-                                <th>Jurusan</th>
-                                <th>NIM</th>
-                                <th class="text-end">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($recent_pendaftar as $pendaftar)
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-3">
-                                            <div class="avatar-sm">{{ strtoupper(substr($pendaftar->nama_lengkap, 0, 1)) }}</div>
-                                            <span class="fw-bold">{{ $pendaftar->nama_lengkap }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="text-white-50">{{ $pendaftar->jurusan }}</td>
-                                    <td class="text-white-50 font-monospace small">{{ $pendaftar->nim }}</td>
-                                    <td class="text-end">
-                                        <a href="{{ route('dashboard.pendaftar.show', $pendaftar->id) }}" class="btn btn-sm btn-outline-light border-0 rounded-0 fw-bold" style="font-size: 0.7rem; letter-spacing: 0.1em; background: rgba(255,255,255,0.05);">DETAIL</a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-5 text-white-50 italic">Data pendaftar belum tersedia.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+<!-- Welcome Card -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 20px;">
+            <div class="card-body p-4 text-white">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="mb-2">Selamat Datang, {{ $user->name }}! 👋</h3>
+                        <p class="mb-0 opacity-90">Kelola website dan data UKM Pecinta Alam Cakra Manggala dengan mudah melalui dashboard ini.</p>
+                    </div>
+                    <div class="col-md-4 text-end d-none d-md-block">
+                        <i class="bi bi-speedometer2" style="font-size: 4rem; opacity: 0.3;"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4">
-            <div class="admin-card mb-4">
-                <h2 class="h6 fw-bold mb-4 text-uppercase text-accent" style="letter-spacing: 0.15em;">Aksi Cepat</h2>
-                <div class="d-grid gap-3">
-                    <a href="{{ route('dashboard.artikel.create') }}" class="quick-link">
-                        <div class="quick-link__icon"><i class="bi bi-plus-lg"></i></div>
-                        <div class="quick-link__body">
-                            <span class="d-block fw-bold mb-1">Tulis Artikel</span>
-                            <small class="text-white-50">Publikasi berita terbaru</small>
-                        </div>
-                    </a>
-                    <a href="{{ route('dashboard.kegiatan.create') }}" class="quick-link">
-                        <div class="quick-link__icon" style="background: rgba(255,255,255,0.05); color: var(--accent);"><i class="bi bi-calendar-plus"></i></div>
-                        <div class="quick-link__body">
-                            <span class="d-block fw-bold mb-1">Tambah Agenda</span>
-                            <small class="text-white-50">Jadwalkan kegiatan baru</small>
-                        </div>
-                    </a>
-                </div>
-            </div>
+    </div>
+</div>
 
-            <div class="admin-card text-center" style="background: var(--primary) !important; border: none;">
-                <h2 class="h6 fw-bold mb-4 text-uppercase text-white" style="letter-spacing: 0.15em;">Sistem Log</h2>
-                <div class="icon-badge mb-4 mx-auto" style="width: 60px; height: 60px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;"><i class="bi bi-shield-check"></i></div>
-                <p class="small text-white-50 mb-4 px-3">Pastikan data pendaftar selalu dicadangkan secara berkala untuk keperluan arsip organisasi.</p>
-                <a href="{{ route('dashboard.pendaftar.export') }}" class="btn btn-accent w-100">
-                    <i class="bi bi-cloud-arrow-down me-2"></i> BACKUP SEKARANG
-                </a>
+<!-- Statistics Cards -->
+<!--<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #3b82f6;">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="stat-number">{{ $stats['total_pendaftar'] }}</div>
+            <div class="stat-label">Total Pendaftar</div>
+            <div class="small text-success mt-1">
+                <i class="bi bi-arrow-up"></i> +12% dari bulan lalu
             </div>
         </div>
     </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #10b981;">
+                <i class="bi bi-newspaper"></i>
+            </div>
+            <div class="stat-number">{{ $stats['artikel_bulan_ini'] }}</div>
+            <div class="stat-label">Artikel Bulan Ini</div>
+            <div class="small text-success mt-1">
+                <i class="bi bi-arrow-up"></i> +5 artikel baru
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #f59e0b;">
+                <i class="bi bi-calendar-event"></i>
+            </div>
+            <div class="stat-number">{{ $stats['kegiatan_aktif'] }}</div>
+            <div class="stat-label">Kegiatan Aktif</div>
+            <div class="small text-warning mt-1">
+                <i class="bi bi-clock"></i> 2 kegiatan mendatang
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #8b5cf6;">
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <div class="stat-number">{{ $stats['anggota_aktif'] }}</div>
+            <div class="stat-label">Anggota Aktif</div>
+            <div class="small text-info mt-1">
+                <i class="bi bi-people"></i> Status aktif
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts and Recent Activity -->
+<!--<div class="row">
+    <div class="col-xl-8 col-lg-7">
+        <div class="card border-0 shadow-sm h-100" style="border-radius: 15px;">
+            <div class="card-header bg-white border-0 pb-0" style="border-radius: 15px 15px 0 0;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-dark">Statistik Pendaftaran</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-calendar3"></i> 6 Bulan Terakhir
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">3 Bulan Terakhir</a></li>
+                            <li><a class="dropdown-item" href="#">6 Bulan Terakhir</a></li>
+                            <li><a class="dropdown-item" href="#">1 Tahun Terakhir</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="registrationChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>-->
+    
+    <!-- Recent Activities -->
+    <!--<div class="col-xl-4 col-lg-5">
+        <div class="card border-0 shadow-sm h-100" style="border-radius: 15px;">
+            <div class="card-header bg-white border-0 pb-0" style="border-radius: 15px 15px 0 0;">
+                <h5 class="mb-0 fw-bold text-dark">Aktivitas Terbaru</h5>
+            </div>
+            <div class="card-body">
+                <div class="activity-item d-flex align-items-center mb-3 pb-3 border-bottom">
+                    <div class="activity-icon me-3" style="width: 40px; height: 40px; background: #3b82f6; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-person-plus text-white"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">Pendaftar Baru</div>
+                        <div class="small text-muted">Ahmad Rizki mendaftar</div>
+                        <div class="small text-muted">2 jam yang lalu</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item d-flex align-items-center mb-3 pb-3 border-bottom">
+                    <div class="activity-icon me-3" style="width: 40px; height: 40px; background: #10b981; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-file-earmark-text text-white"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">Artikel Diterbitkan</div>
+                        <div class="small text-muted">"Tips Mendaki Gunung"</div>
+                        <div class="small text-muted">5 jam yang lalu</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item d-flex align-items-center mb-3 pb-3 border-bottom">
+                    <div class="activity-icon me-3" style="width: 40px; height: 40px; background: #f59e0b; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-calendar-plus text-white"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">Kegiatan Baru</div>
+                        <div class="small text-muted">Hiking Gunung Salak</div>
+                        <div class="small text-muted">1 hari yang lalu</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item d-flex align-items-center">
+                    <div class="activity-icon me-3" style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-images text-white"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">Galeri Diperbarui</div>
+                        <div class="small text-muted">15 foto baru ditambahkan</div>
+                        <div class="small text-muted">2 hari yang lalu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+            <div class="card-header bg-white border-0 pb-0" style="border-radius: 15px 15px 0 0;">
+                <h5 class="mb-0 fw-bold text-dark">Aksi Cepat</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="{{ route('dashboard.pendaftar') }}" class="text-decoration-none">
+                            <div class="quick-action-card p-3 text-center border rounded-3 h-100" style="transition: all 0.3s ease;">
+                                <i class="bi bi-person-plus-fill text-primary" style="font-size: 2rem;"></i>
+                                <h6 class="mt-2 mb-0">Lihat Pendaftar</h6>
+                                <small class="text-muted">Kelola data pendaftar</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="{{ route('dashboard.artikel.index') }}" class="text-decoration-none">
+                            <div class="quick-action-card p-3 text-center border rounded-3 h-100" style="transition: all 0.3s ease;">
+                                <i class="bi bi-plus-circle-fill text-success" style="font-size: 2rem;"></i>
+                                <h6 class="mt-2 mb-0">Tambah Artikel</h6>
+                                <small class="text-muted">Buat artikel baru</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="{{ route('dashboard.kegiatan.index') }}" class="text-decoration-none">
+                            <div class="quick-action-card p-3 text-center border rounded-3 h-100" style="transition: all 0.3s ease;">
+                                <i class="bi bi-images text-warning" style="font-size: 2rem;"></i>
+                                <h6 class="mt-2 mb-0">Jadwal Kegiatan</h6>
+                                <small class="text-muted">Lihat Jadwal kegiatan</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="#" class="text-decoration-none">
+                            <div class="quick-action-card p-3 text-center border rounded-3 h-100" style="transition: all 0.3s ease;">
+                                <i class="bi bi-gear-fill text-info" style="font-size: 2rem;"></i>
+                                <h6 class="mt-2 mb-0">Pengaturan</h6>
+                                <small class="text-muted">Konfigurasi website</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.quick-action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+    border-color: var(--secondary-color) !important;
+}
+</style>
 @endsection
+
+@push('scripts')
+<script>
+// Registration Chart
+const ctx = document.getElementById('registrationChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Pendaftar',
+            data: [12, 19, 8, 15, 25, 22],
+            borderColor: '#2e7d32',
+            backgroundColor: 'rgba(46, 125, 50, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: '#f1f3f4'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        },
+        elements: {
+            point: {
+                radius: 6,
+                backgroundColor: '#2e7d32',
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }
+        }
+    }
+});
+</script>
+@endpush

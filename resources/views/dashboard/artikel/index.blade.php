@@ -1,106 +1,287 @@
+{{-- File: resources/views/dashboard/artikel/index.blade.php --}}
 @extends('layouts.dashboard')
 
-@section('title', 'Manajemen Artikel')
+@section('title', 'Artikel & Berita')
+@section('page-title', 'Artikel & Berita')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-5">
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h1 class="h3 fw-black mb-1" style="letter-spacing: -0.02em;">KONTEN & ARTIKEL</h1>
-            <p class="text-white-50 small fw-bold text-uppercase" style="letter-spacing: 0.1em;">Pusat Publikasi Cakra
-                Manggala</p>
+            <h1 class="page-title">Artikel & Berita</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Artikel & Berita</li>
+                </ol>
+            </nav>
         </div>
-        <a href="{{ route('dashboard.artikel.create') }}" class="btn btn-accent d-inline-flex align-items-center gap-2">
-            <i class="bi bi-plus-lg"></i> TULIS ARTIKEL
-        </a>
+        <div>
+            <a href="{{ route('dashboard.artikel.create') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Buat Artikel
+            </a>
+        </div>
     </div>
+</div>
 
-    <div class="admin-table-wrapper">
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Informasi Artikel</th>
-                    <th class="d-none d-md-table-cell">Penulis</th>
-                    <th class="d-none d-md-table-cell text-center">Interaksi</th>
-                    <th class="d-none d-md-table-cell text-center">Status</th>
-                    <th class="text-end">Opsi Manajemen</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($artikels as $artikel)
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center gap-4">
-                                <div
-                                    style="width: 80px; height: 54px; background: rgba(0,0,0,0.5); flex-shrink: 0; border: 1px solid rgba(255,255,255,0.05);">
-                                    @if($artikel->gambar_utama)
-                                        <img src="{{ asset($artikel->gambar_utama) }}"
-                                            style="width:100%;height:100%;object-fit:cover; opacity: 0.8;">
-                                    @else
-                                        <div class="d-flex align-items-center justify-content-center h-100"><i
-                                                class="bi bi-image text-white-50"></i></div>
-                                    @endif
-                                </div>
-                                <div class="overflow-hidden">
-                                    <div class="fw-bold mb-1" style="font-size: 1rem;">
-                                        {{ $artikel->judul }}
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="bi bi-newspaper"></i>
+            </div>
+            <div class="stat-number">{{ $stats['total'] }}</div>
+            <div class="stat-label">Total Artikel</div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="stat-number">{{ $stats['published'] }}</div>
+            <div class="stat-label">Dipublikasikan</div>
+        </div>
+    </div>
+    <!--<div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <div class="stat-number">{{ $stats['draft'] }}</div>
+            <div class="stat-label">Draft</div>
+        </div>
+    </div>-->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <i class="bi bi-eye"></i>
+            </div>
+            <div class="stat-number">{{ number_format($stats['total_views']) }}</div>
+            <div class="stat-label">Total Views</div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter & Search -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ route('dashboard.artikel.index') }}" class="row g-3">
+            <div class="col-md-4">
+                <label for="search" class="form-label">Cari Artikel</label>
+                <input type="text" class="form-control" id="search" name="search" 
+                       value="{{ $search }}" placeholder="Judul atau konten artikel">
+            </div>
+            <div class="col-md-3">
+                <label for="status" class="form-label">Filter Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="">Semua Status</option>
+                    <option value="published" {{ $status == 'published' ? 'selected' : '' }}>Dipublikasikan</option>
+                    <option value="draft" {{ $status == 'draft' ? 'selected' : '' }}>Draft</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="per_page" class="form-label">Per Halaman</label>
+                <select class="form-select" id="per_page" name="per_page">
+                    <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
+                    <option value="25" {{ $perPage == 25 ? 'selected' : '' }}>25</option>
+                    <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-search"></i> Cari
+                </button>
+                <a href="{{ route('dashboard.artikel.index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise"></i> Reset
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Data Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="bi bi-table me-2"></i>Daftar Artikel
+            @if($search || $status)
+                <span class="badge bg-info ms-2">
+                    {{ $artikels->total() }} hasil ditemukan
+                </span>
+            @endif
+        </h5>
+    </div>
+    <div class="card-body p-0">
+        @if($artikels->count() > 0)
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No</th>
+                            <th>Gambar</th>
+                            <th>Judul</th>
+                            <th>Penulis</th>
+                            <th>Status</th>
+                            <th>Views</th>
+                            <th>Tanggal</th>
+                            <th width="150">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($artikels as $index => $artikel)
+                        <tr>
+                            <td>{{ ($artikels->currentPage() - 1) * $artikels->perPage() + $index + 1 }}</td>
+                            <td>
+                                {{-- UPDATED: Menggunakan asset() untuk path yang benar --}}
+                                @if($artikel->gambar_utama)
+                                    <img src="{{ asset($artikel->gambar_utama) }}" 
+                                         alt="{{ $artikel->judul }}" 
+                                         class="rounded" 
+                                         style="width: 60px; height: 40px; object-fit: cover;">
+                                @else
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                         style="width: 60px; height: 40px;">
+                                        <i class="bi bi-image text-muted"></i>
                                     </div>
-                                    <div class="text-white-50 x-small fw-bold text-uppercase"
-                                        style="font-size: 0.65rem; letter-spacing: 0.05em;">
-                                        {{ $artikel->created_at->translatedFormat('d M Y') }}
+                                @endif
+                            </td>
+                            <td>
+                                <div class="fw-semibold">{{ Str::limit($artikel->judul, 50) }}</div>
+                                <small class="text-muted">{{ Str::limit($artikel->excerpt, 80) }}</small>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white me-2" 
+                                         style="width: 30px; height: 30px; font-size: 12px;">
+                                        {{ strtoupper(substr($artikel->user->name, 0, 1)) }}
                                     </div>
+                                    <span class="small">{{ $artikel->user->name }}</span>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="small text-white-50 d-none d-md-table-cell">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-person-circle"></i>
-                                {{ optional($artikel->user)->name ?? 'Administrator' }}
-                            </div>
-                        </td>
-                        <td class="text-center d-none d-md-table-cell">
-                            <div class="small fw-bold"><i class="bi bi-eye-fill text-accent me-1"></i>
-                                {{ number_format($artikel->views) }}</div>
-                        </td>
-                        <td class="text-center d-none d-md-table-cell">
-                            @if($artikel->status == 'published')
-                                <span class="admin-badge admin-badge--success">PUBLISHED</span>
-                            @else
-                                <span class="admin-badge">DRAFT</span>
-                            @endif
-                        </td>
-                        <td class="text-end">
-                            <div class="d-flex justify-content-end gap-2">
-                                <a href="{{ route('dashboard.artikel.edit', $artikel) }}"
-                                    class="btn btn-sm btn-outline-light border-0 rounded-0 fw-bold px-3"
-                                    style="font-size: 0.7rem; background: rgba(255,255,255,0.05); letter-spacing: 0.1em;">EDIT</a>
-                                <form action="{{ route('dashboard.artikel.toggle-status', $artikel) }}" method="POST"
-                                    class="d-inline">
-                                    @csrf @method('PATCH')
-                                    <button type="submit" class="btn btn-sm border-0 rounded-0 fw-bold px-3"
-                                        style="font-size: 0.7rem; background: {{ $artikel->status == 'published' ? 'rgba(255,99,102,0.1)' : 'var(--primary)' }}; color: {{ $artikel->status == 'published' ? '#ff6366' : 'var(--accent)' }}; letter-spacing: 0.1em;">
-                                        {{ $artikel->status == 'published' ? 'DRAFT' : 'PUBLISH' }}
+                            </td>
+                            <td>
+                                <span class="badge bg-{{ $artikel->status == 'published' ? 'success' : 'warning' }}">
+                                    {{ ucfirst($artikel->status) }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ number_format($artikel->views) }}</span>
+                            </td>
+                            <td>
+                                <small class="text-muted">
+                                    {{ $artikel->created_at->format('d/m/Y H:i') }}
+                                </small>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a href="{{ route('dashboard.artikel.show', $artikel) }}" 
+                                       class="btn btn-outline-info btn-sm" 
+                                       title="Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="{{ route('dashboard.artikel.edit', $artikel) }}" 
+                                       class="btn btn-outline-warning btn-sm" 
+                                       title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form method="POST" action="{{ route('dashboard.artikel.toggle-status', $artikel) }}" style="display: inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" 
+                                                class="btn btn-outline-{{ $artikel->status == 'published' ? 'secondary' : 'success' }} btn-sm" 
+                                                title="{{ $artikel->status == 'published' ? 'Unpublish' : 'Publish' }}">
+                                            <i class="bi bi-{{ $artikel->status == 'published' ? 'eye-slash' : 'check-circle' }}"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" 
+                                            class="btn btn-outline-danger btn-sm delete-btn" 
+                                            title="Hapus"
+                                            data-id="{{ $artikel->id }}"
+                                            data-title="{{ $artikel->judul }}">
+                                        <i class="bi bi-trash"></i>
                                     </button>
-                                </form>
-                                <form action="{{ route('dashboard.artikel.destroy', $artikel) }}" method="POST" class="d-inline"
-                                    onsubmit="return confirm('Hapus artikel ini?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-sm border-0 rounded-0 fw-bold px-3"
-                                        style="font-size: 0.7rem; background: rgba(255, 255, 255, 0.05); color: #ff6366; letter-spacing: 0.1em;">HAPUS</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-5 text-white-50 italic">Belum ada artikel yang dipublikasikan.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center p-3">
+                <div class="text-muted">
+                    Menampilkan {{ $artikels->firstItem() }} - {{ $artikels->lastItem() }} 
+                    dari {{ $artikels->total() }} data
+                </div>
+                {{ $artikels->appends(request()->query())->links() }}
+            </div>
+        @else
+            <div class="text-center py-5">
+                <i class="bi bi-newspaper display-1 text-muted"></i>
+                <h5 class="mt-3 text-muted">Belum ada artikel</h5>
+                <p class="text-muted">
+                    @if($search || $status)
+                        Tidak ada artikel yang sesuai dengan kriteria pencarian.
+                    @else
+                        Mulai buat artikel pertama Anda!
+                    @endif
+                </p>
+                @if(!$search && !$status)
+                    <a href="{{ route('dashboard.artikel.create') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Buat Artikel
+                    </a>
+                @endif
+            </div>
+        @endif
     </div>
+</div>
 
-    <div class="mt-5 d-flex justify-content-center">
-        {{ $artikels->links() }}
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus artikel <strong id="deleteTitle"></strong>?</p>
+                <p class="text-muted small">Data yang dihapus tidak dapat dikembalikan.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+// Event listener untuk tombol delete
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const title = this.getAttribute('data-title');
+            confirmDelete(id, title);
+        });
+    });
+});
+
+function confirmDelete(id, title) {
+    document.getElementById('deleteTitle').textContent = title;
+    document.getElementById('deleteForm').action = `/dashboard/artikel/${id}`;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+@endpush

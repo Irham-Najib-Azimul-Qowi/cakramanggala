@@ -1,5 +1,4 @@
 <?php
-
 // File: app/Http/Middleware/RecaptchaMiddleware.php
 
 namespace App\Http\Middleware;
@@ -19,31 +18,24 @@ class RecaptchaMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! config('services.recaptcha.enabled')) {
-            Log::info('reCAPTCHA disabled via local override');
-
-            return $next($request);
-        }
-
         // Skip reCAPTCHA validation in testing environment
         if (app()->environment('testing')) {
             return $next($request);
         }
 
         // Skip if reCAPTCHA is disabled (useful for development)
-        if (! config('services.recaptcha.site_key') || ! config('services.recaptcha.secret_key')) {
+        if (!config('services.recaptcha.site_key') || !config('services.recaptcha.secret_key')) {
             Log::warning('reCAPTCHA keys not configured, skipping validation');
-
             return $next($request);
         }
 
         // Get reCAPTCHA response from request
         $recaptchaResponse = $request->input('g-recaptcha-response');
-
+        
         // Check if reCAPTCHA response exists
-        if (! $recaptchaResponse) {
+        if (!$recaptchaResponse) {
             return back()->withErrors([
-                'g-recaptcha-response' => 'Mohon selesaikan verifikasi reCAPTCHA.',
+                'g-recaptcha-response' => 'Mohon selesaikan verifikasi reCAPTCHA.'
             ])->withInput($request->except('password', 'g-recaptcha-response'));
         }
 
@@ -58,9 +50,9 @@ class RecaptchaMiddleware
             $result = $response->json();
 
             // Check if verification was successful
-            if (! $result || ! isset($result['success']) || ! $result['success']) {
+            if (!$result || !isset($result['success']) || !$result['success']) {
                 $errorMessages = [];
-
+                
                 if (isset($result['error-codes'])) {
                     foreach ($result['error-codes'] as $errorCode) {
                         switch ($errorCode) {
@@ -87,7 +79,7 @@ class RecaptchaMiddleware
                                 break;
                             default:
                                 $errorMessages[] = 'Verifikasi reCAPTCHA gagal. Silakan coba lagi.';
-                                Log::warning('reCAPTCHA unknown error: '.$errorCode);
+                                Log::warning('reCAPTCHA unknown error: ' . $errorCode);
                         }
                     }
                 } else {
@@ -96,16 +88,15 @@ class RecaptchaMiddleware
                 }
 
                 return back()->withErrors([
-                    'g-recaptcha-response' => implode(' ', $errorMessages),
+                    'g-recaptcha-response' => implode(' ', $errorMessages)
                 ])->withInput($request->except('password', 'g-recaptcha-response'));
             }
 
             // Optional: Check score for reCAPTCHA v3 (if you want to implement it later)
             if (isset($result['score']) && $result['score'] < 0.5) {
                 Log::warning('reCAPTCHA score too low', ['score' => $result['score']]);
-
                 return back()->withErrors([
-                    'g-recaptcha-response' => 'Verifikasi keamanan gagal. Silakan coba lagi.',
+                    'g-recaptcha-response' => 'Verifikasi keamanan gagal. Silakan coba lagi.'
                 ])->withInput($request->except('password', 'g-recaptcha-response'));
             }
 
@@ -122,7 +113,7 @@ class RecaptchaMiddleware
             ]);
 
             return back()->withErrors([
-                'g-recaptcha-response' => 'Terjadi kesalahan saat memverifikasi reCAPTCHA. Silakan coba lagi.',
+                'g-recaptcha-response' => 'Terjadi kesalahan saat memverifikasi reCAPTCHA. Silakan coba lagi.'
             ])->withInput($request->except('password', 'g-recaptcha-response'));
         }
 

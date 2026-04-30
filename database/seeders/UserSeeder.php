@@ -1,5 +1,4 @@
 <?php
-
 // File: database/seeders/UserSeeder.php
 
 namespace Database\Seeders;
@@ -12,31 +11,18 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::updateOrCreate(
-            ['email' => 'admin@cakramanggala.com'],
-            [
-                'name' => 'Admin Cakra Manggala',
-                'password' => Hash::make('admin123'),
-                'role' => 'admin',
-            ]
-        );
+        User::create([
+            'name' => 'Admin Cakra Manggala',
+            'email' => 'admin@cakramanggala.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin',
+        ]);
 
-        User::updateOrCreate(
-            ['email' => 'moderator@cakramanggala.com'],
-            [
-                'name' => 'Moderator',
-                'password' => Hash::make('moderator123'),
-                'role' => 'moderator',
-            ]
-        );
-
-        User::updateOrCreate(
-            ['email' => 'admin2@gmail.com'],
-            [
-                'name' => 'Admin Dua',
-                'password' => Hash::make('password123'),
-                'role' => 'admin',
-            ]
-        );
+        User::create([
+            'name' => 'Moderator',
+            'email' => 'moderator@cakramanggala.com',
+            'password' => Hash::make('moderator123'),
+            'role' => 'moderator',
+        ]);
     }
 }

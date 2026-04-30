@@ -1,20 +1,18 @@
 <?php
-
 // File: app/Models/Pendaftaran.php
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Pendaftaran extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $table = 'pendaftaran';
-
+    
     protected $fillable = [
         'nama_lengkap',
         'nim',
@@ -27,13 +25,11 @@ class Pendaftaran extends Model
         'alamat',
         'organisasi_yang_pernah_diikuti',
         'alasan_bergabung',
-        'foto_diri',
-        'status',
-        'is_approved',
+        'foto_diri'
     ];
 
     protected $casts = [
-        'tanggal_lahir' => 'date',
+        'tanggal_lahir' => 'date'
     ];
 
     // Accessor untuk mendapatkan usia
@@ -52,9 +48,8 @@ class Pendaftaran extends Model
     public function getFotoUrlAttribute()
     {
         if ($this->foto_diri) {
-            return asset($this->foto_diri);
+            return asset('storage/' . $this->foto_diri);
         }
-
         return null;
     }
 
@@ -73,10 +68,10 @@ class Pendaftaran extends Model
     // Scope untuk search
     public function scopeSearch($query, $search)
     {
-        return $query->where(function ($q) use ($search) {
+        return $query->where(function($q) use ($search) {
             $q->where('nama_lengkap', 'LIKE', "%{$search}%")
-                ->orWhere('nim', 'LIKE', "%{$search}%")
-                ->orWhere('program_studi', 'LIKE', "%{$search}%");
+              ->orWhere('nim', 'LIKE', "%{$search}%")
+              ->orWhere('program_studi', 'LIKE', "%{$search}%");
         });
     }
 
@@ -84,6 +79,6 @@ class Pendaftaran extends Model
     public function scopeThisMonth($query)
     {
         return $query->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year);
+                    ->whereYear('created_at', now()->year);
     }
 }

@@ -1,23 +1,17 @@
 <?php
-
 // File: app/Http/Controllers/Dashboard/ArtikelController.php
 
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Artikel;
-use App\Traits\ImageUploadTrait;
-use App\Http\Requests\StoreArtikelRequest;
-use App\Http\Requests\UpdateArtikelRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ArtikelController extends Controller
 {
-    use ImageUploadTrait;
-
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -27,9 +21,9 @@ class ArtikelController extends Controller
         $query = Artikel::with('user')->latest();
 
         if ($search) {
-            $query->where(function ($q) use ($search) {
+            $query->where(function($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                    ->orWhere('konten', 'like', "%{$search}%");
+                  ->orWhere('konten', 'like', "%{$search}%");
             });
         }
 
@@ -39,27 +33,19 @@ class ArtikelController extends Controller
 
         $artikels = $query->paginate($perPage);
 
-        // Optimized statistics in one query
-        $allStats = Artikel::selectRaw('
-                COUNT(*) as total,
-                SUM(CASE WHEN status = "published" THEN 1 ELSE 0 END) as published,
-                SUM(CASE WHEN status = "draft" THEN 1 ELSE 0 END) as draft,
-                SUM(views) as total_views
-            ')
-            ->first();
-
+        // Statistics
         $stats = [
-            'total' => $allStats->total ?? 0,
-            'published' => $allStats->published ?? 0,
-            'draft' => $allStats->draft ?? 0,
-            'total_views' => $allStats->total_views ?? 0,
+            'total' => Artikel::count(),
+            'published' => Artikel::where('status', 'published')->count(),
+            'draft' => Artikel::where('status', 'draft')->count(),
+            'total_views' => Artikel::sum('views')
         ];
 
         return view('dashboard.artikel.index', compact(
-            'artikels',
-            'stats',
-            'search',
-            'status',
+            'artikels', 
+            'stats', 
+            'search', 
+            'status', 
             'perPage'
         ));
     }
@@ -69,10 +55,20 @@ class ArtikelController extends Controller
         return view('dashboard.artikel.create');
     }
 
-    public function store(StoreArtikelRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
-        $validated['user_id'] = Auth::id();
+        $request->validate([
+            'judul' => 'required|max:200',
+            'konten' => 'required',
+            'excerpt' => 'nullable|max:300',
+            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:draft,published'
+        ]);
+
+        $data = $request->all();
+        
+        // Gunakan Auth::id() yang lebih eksplisit
+        $data['user_id'] = Auth::id();
 
         $baseSlug = Str::slug($request->judul);
         $slug = $baseSlug;
@@ -83,13 +79,27 @@ class ArtikelController extends Controller
             $counter++;
         }
 
-        $validated['slug'] = $slug;
+        $data['slug'] = $slug;
 
+        // Upload gambar jika ada - SOLUSI BARU
         if ($request->hasFile('gambar_utama')) {
-            $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/articles');
+            // Pastikan folder ada
+            $uploadPath = public_path('uploads/articles');
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+            
+            // Generate nama file unik
+            $filename = time() . '_' . Str::slug($request->judul) . '.' . $request->file('gambar_utama')->getClientOriginalExtension();
+            
+            // Upload langsung ke public/uploads/articles/
+            $request->file('gambar_utama')->move($uploadPath, $filename);
+            
+            // Simpan path relatif ke database
+            $data['gambar_utama'] = 'uploads/articles/' . $filename;
         }
 
-        Artikel::create($validated);
+        Artikel::create($data);
 
         return redirect()->route('dashboard.artikel.index')
             ->with('success', 'Artikel berhasil dibuat!');
@@ -105,29 +115,56 @@ class ArtikelController extends Controller
         return view('dashboard.artikel.edit', compact('artikel'));
     }
 
-    public function update(UpdateArtikelRequest $request, Artikel $artikel)
+    public function update(Request $request, Artikel $artikel)
     {
-        $validated = $request->validated();
+        $request->validate([
+            'judul' => 'required|max:200',
+            'konten' => 'required',
+            'excerpt' => 'nullable|max:300',
+            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:draft,published'
+        ]);
+
+        $data = $request->all();
 
         // Update slug jika judul berubah
         if ($request->judul !== $artikel->judul) {
             $baseSlug = Str::slug($request->judul);
             $slug = $baseSlug;
             $counter = 1;
-
+            
             while (Artikel::where('slug', $slug)->where('id', '!=', $artikel->id)->exists()) {
                 $slug = $baseSlug . '-' . $counter;
                 $counter++;
             }
-
-            $validated['slug'] = $slug;
+            
+            $data['slug'] = $slug;
         }
 
+        // Upload gambar baru jika ada - SOLUSI BARU
         if ($request->hasFile('gambar_utama')) {
-            $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/articles', $artikel->gambar_utama);
+            // Hapus gambar lama jika ada
+            if ($artikel->gambar_utama && File::exists(public_path($artikel->gambar_utama))) {
+                File::delete(public_path($artikel->gambar_utama));
+            }
+            
+            // Pastikan folder ada
+            $uploadPath = public_path('uploads/articles');
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+            
+            // Generate nama file unik
+            $filename = time() . '_' . Str::slug($request->judul) . '.' . $request->file('gambar_utama')->getClientOriginalExtension();
+            
+            // Upload langsung ke public/uploads/articles/
+            $request->file('gambar_utama')->move($uploadPath, $filename);
+            
+            // Simpan path relatif ke database
+            $data['gambar_utama'] = 'uploads/articles/' . $filename;
         }
 
-        $artikel->update($validated);
+        $artikel->update($data);
 
         return redirect()->route('dashboard.artikel.index')
             ->with('success', 'Artikel berhasil diperbarui!');
@@ -151,8 +188,8 @@ class ArtikelController extends Controller
         $newStatus = $artikel->status === 'published' ? 'draft' : 'published';
         $artikel->update(['status' => $newStatus]);
 
-        $message = $newStatus === 'published'
-            ? 'Artikel berhasil dipublikasikan!'
+        $message = $newStatus === 'published' 
+            ? 'Artikel berhasil dipublikasikan!' 
             : 'Artikel berhasil diubah menjadi draft!';
 
         return redirect()->back()->with('success', $message);

@@ -1,422 +1,424 @@
+{{-- File: resources/views/home.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Beranda - UKM Cakra Manggala')
-@section('body_class', 'page-home')
-
-@push('styles')
-    <style>
-        .home-hero {
-            min-height: 100svh !important;
-            padding-top: 12rem !important;
-            padding-bottom: clamp(4rem, 7vw, 7.5rem) !important;
-            display: flex !important;
-            align-items: flex-end !important;
-        }
-
-        .home-hero .page-hero__title {
-            font-size: clamp(3rem, 9.5vw, 5.4rem);
-            line-height: 0.92;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-label {
-            display: block;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            font-size: 0.85rem;
-        }
-
-        /* Documentary Activity Card */
-        .doc-card {
-            position: relative;
-            background: var(--dark-color);
-            height: 480px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .doc-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-color);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .doc-card__img-container {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
-
-        .doc-card__img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(0.8) brightness(0.7);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .doc-card:hover .doc-card__img {
-            transform: scale(1.1);
-            filter: saturate(1.1) brightness(0.6);
-        }
-
-        .doc-card__overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top,
-                    rgba(7, 17, 12, 1) 0%,
-                    rgba(7, 17, 12, 0.4) 50%,
-                    transparent 100%);
-            z-index: 2;
-        }
-
-        .doc-card__content {
-            position: relative;
-            z-index: 3;
-            padding: 2.5rem;
-            transition: transform 0.5s ease;
-        }
-
-        .doc-card:hover .doc-card__content {
-            transform: translateY(-5px);
-        }
-
-        .doc-card__tag {
-            display: inline-block;
-            background: var(--accent-color);
-            color: var(--primary-color);
-            padding: 0.4rem 1rem;
-            font-size: 0.65rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1.2rem;
-        }
-
-        .doc-card__date {
-            display: block;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.05em;
-        }
-
-        .doc-card__title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            line-height: 1.2;
-            color: #fff;
-            margin-bottom: 1rem;
-            letter-spacing: -0.01em;
-        }
-
-        .doc-card__excerpt {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.5s ease;
-        }
-
-        .doc-card:hover .doc-card__excerpt {
-            height: auto;
-            opacity: 1;
-            margin-bottom: 1.5rem;
-        }
-
-        .doc-card__link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--accent-color);
-            text-decoration: none !important;
-            font-weight: 800;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.4s ease;
-        }
-
-        .doc-card:hover .doc-card__link {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Article Card (Sleek Perspective) */
-        .art-card {
-            background: var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
-            height: 100%;
-        }
-
-        .art-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-8px);
-        }
-
-        .art-card__img-wrap {
-            height: 240px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .art-card__img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .art-card:hover .art-card__img {
-            transform: scale(1.1);
-        }
-
-        .art-card__body {
-            padding: 2.2rem;
-        }
-
-        .join-cta-card {
-            background: linear-gradient(135deg, #1a4331 0%, #123124 100%);
-            border-radius: 0;
-            padding: 6rem 3rem;
-            position: relative;
-            overflow: hidden;
-            color: #fff;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .join-cta-card::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(242, 182, 97, 0.1), transparent 70%);
-            z-index: 1;
-        }
-
-        .join-cta-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .join-cta-desc {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .btn-join-premium {
-            background: var(--accent-color);
-            color: var(--primary-color);
-            padding: 1.2rem 3rem;
-            border-radius: 0;
-            font-weight: 800;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-join-premium:hover {
-            transform: scale(1.05);
-            background: #fff;
-            color: var(--primary-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .home-hero.is-video-ready .home-hero__video {
-            opacity: 1 !important;
-        }
-    </style>
-@endpush
 
 @section('content')
     <!-- Hero Section -->
-    <section class="page-hero home-hero" id="homeHero" data-hero-video>
-        <div class="page-hero__media" aria-hidden="true">
-            <div class="page-hero__fallback"
-                style="background-image: url('{{ asset('image/fotobersejarah2.jpg') }}'); position: absolute; inset: -4%; background-size: cover; background-position: center; filter: saturate(0.9) contrast(1.1); transform: scale(1.05);">
-            </div>
-            <video class="home-hero__video" autoplay muted loop playsinline preload="metadata"
-                poster="{{ asset('image/fotobersejarah2.jpg') }}"
-                style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; opacity: 0; transition: opacity 1s ease-in-out;">
-                <source src="{{ asset('videos/cinematic.mp4') }}" type="video/mp4">
-            </video>
-        </div>
-
+    <section class="hero-section">
         <div class="container">
-            <div class="page-hero__inner text-center mx-auto">
-                <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">
-                    Mendaki Tinggi,<br>
-                    <span>Menjaga Bumi</span>
-                </h1>
-                <p class="page-hero__lead mx-auto" data-aos="fade-up" data-aos-delay="200">
-                    Wadah pembentukan karakter melalui alam bebas untuk mereka yang berani melangkah lebih jauh.
-                </p>
-                <div class="mt-5" data-aos="fade-up" data-aos-delay="300">
-                    <a href="{{ route('join') }}" class="btn-join-premium">
-                        Mulai Petualangan <i class="bi bi-arrow-right"></i>
-                    </a>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="hero-content text-center">
+                        <h1 class="hero-title" data-aos="fade-up">
+                            UKM Pecinta Alam<br>
+                            <span style="color: #ff6b35;">CAKRA MANGGALA</span>
+                        </h1>
+                        <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400">
+                            <a href="{{ route('join') }}" class="btn btn-oprec btn-lg me-3">
+                                <i class="bi bi-person-plus"></i> 
+                                Daftar Sekarang
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Latest Activities Section - New Documentary Style -->
-    <section class="section-shell" style="background-color: var(--dark-color); color: #fff;">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
-                <div>
-                    <span class="section-label" style="color: var(--accent-color);">Dokumentasi</span>
-                    <h2 class="section-heading mb-0" style="color: #fff;">Agenda & Kegiatan</h2>
-                </div>
-                <a href="{{ route('activities') }}" class="btn-premium-link d-none d-md-inline-flex">Lihat Semua <i
-                        class="bi bi-arrow-right"></i></a>
-            </div>
-
-            <div class="row g-4">
-                @forelse($kegiatans as $kegiatan)
-                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                        <article class="doc-card">
-                            <div class="doc-card__img-container">
-                                <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
-                                    alt="{{ $kegiatan->judul_kegiatan }}" class="doc-card__img">
-                                <div class="doc-card__overlay"></div>
-                            </div>
-                            <div class="doc-card__content">
-                                <span class="doc-card__tag">{{ $kegiatan->sifat }}</span>
-                                <span class="doc-card__date">{{ $kegiatan->tanggal_pelaksanaan->format('d M Y') }} —
-                                    {{ $kegiatan->tempat }}</span>
-                                <h3 class="doc-card__title">{{ $kegiatan->judul_kegiatan }}</h3>
-                                <div class="doc-card__excerpt">
-                                    {{ Str::limit($kegiatan->materi, 120) }}
-                                </div>
-                                <a href="{{ route('activities') }}" class="doc-card__link">
-                                    Buka Detail <i class="bi bi-plus-lg"></i>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <p class="text-white-50">Belum ada data kegiatan.</p>
-                    </div>
-                @endforelse
-            </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <i class="bi bi-chevron-down text-white fs-3"></i>
         </div>
     </section>
 
-    <!-- Latest Articles Section - Refined Card -->
-    <section class="section-shell" style="background-color: var(--primary-color); color: #fff;">
+        <!-- News Section -->
+    <section class="news-section">
         <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label" style="color: var(--accent-color);">Literasi</span>
-                <h2 class="section-heading" style="color: #fff;">Artikel & Catatan</h2>
-                <div class="mx-auto mt-3" style="width: 80px; height: 1px; background: rgba(255,255,255,0.2);"></div>
-            </div>
-
-            <div class="row g-4">
-                @forelse($artikels as $artikel)
-                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                        <div class="art-card">
-                            <div class="art-card__img-wrap">
-                                <img src="{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/fotobersejarah2.jpg') }}"
-                                    alt="{{ $artikel->judul }}" class="art-card__img">
-                                <span class="position-absolute top-0 end-0 bg-accent text-primary px-3 py-1 fw-bold x-small"
-                                    style="background: var(--accent-color); color: var(--primary-color); z-index: 5;">
-                                    ARTIKEL
-                                </span>
+            <h2 class="section-title" data-aos="fade-up">
+                <i class="bi bi-newspaper me-2"></i>
+                Berita, Artikel & Catatan Perjalanan 
+            </h2>
+            
+            @if($artikels->count() > 0)
+                <div class="row g-3 g-md-4">
+                    @foreach($artikels as $artikel)
+                    <!-- News Card -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card news-card h-100" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                        @if($artikel->gambar_utama)
+                            <img src="{{ asset($artikel->gambar_utama) }}"
+                                class="card-img-top"
+                                alt="{{ $artikel->judul }}"
+                                loading="lazy"
+                                style="height: 200px; object-fit: cover;">
+                        @else
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                                style="height: 200px;">
+                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
                             </div>
-                            <div class="art-card__body">
-                                <div class="premium-card__meta mb-3">
-                                    <span><i class="bi bi-person me-2"></i>{{ $artikel->user->name }}</span>
-                                    <span class="ms-3"><i class="bi bi-eye me-2"></i>{{ number_format($artikel->views) }}</span>
+                        @endif
+                            <div class="card-body d-flex flex-column">
+                                <div class="news-meta">
+                                    <i class="bi bi-calendar"></i> 
+                                    <span class="d-none d-sm-inline">{{ $artikel->created_at->format('d F Y') }}</span>
+                                    <span class="d-sm-none">{{ $artikel->created_at->format('d/m/y') }}</span> | 
+                                    <i class="bi bi-person"></i> {{ $artikel->user->name }}
+                                    @if($artikel->views > 0)
+                                        | <i class="bi bi-eye"></i> {{ number_format($artikel->views) }}
+                                    @endif
                                 </div>
-                                <h3 class="premium-card__title">{{ $artikel->judul }}</h3>
-                                <p class="premium-card__text">
-                                    {{ $artikel->excerpt ?: Str::limit(strip_tags($artikel->konten), 100) }}
+                                
+                                <h5 class="card-title">{{ $artikel->judul }}</h5>
+                                
+                                <p class="card-text flex-grow-1">
+                                    {{ $artikel->excerpt ?: Str::limit(strip_tags($artikel->konten), 120) }}
                                 </p>
-                                <div class="mt-4 pt-4" style="border-top: 1px solid rgba(255,255,255,0.05);">
-                                    <a href="{{ route('artikel.show', $artikel->slug) }}" class="btn-premium-link">Baca
-                                        Selengkapnya <i class="bi bi-arrow-right"></i></a>
-                                </div>
+                                
+                                <a href="{{ route('artikel.show', $artikel->slug) }}" 
+                                class="btn btn-outline-primary btn-sm mt-auto">
+                                    <span class="d-none d-sm-inline">Baca Selengkapnya</span>
+                                    <span class="d-sm-none">Baca</span>
+                                </a>
                             </div>
                         </div>
                     </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <p class="text-white-50">Belum ada artikel terbaru.</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
-    </section>
-
-    <!-- Join CTA Section -->
-    <section class="section-shell" style="background-color: var(--dark-color); padding: 0;">
-        <div class="join-cta-card"
-            style="border: none; padding: 10rem 2rem; background: linear-gradient(rgba(7, 17, 12, 0.85), rgba(7, 17, 12, 0.85)), url('{{ asset('image/fotobersejarah2.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
-            <div class="container">
-                <div data-aos="fade-up">
-                    <span class="section-label" style="color: var(--accent-color); margin-bottom: 2rem;">Kesempatan
-                        Bergabung</span>
-                    <h2 class="join-cta-title"
-                        style="font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; margin-bottom: 2.5rem;">Terlahir
-                        untuk<br><span style="color: var(--accent-color);">Menjadi Legenda</span></h2>
-                    <p class="join-cta-desc" style="font-size: 1.25rem; color: rgba(255,255,255,0.7); margin-bottom: 4rem;">
-                        Jadilah bagian dari Angkatan XIV Cakra Manggala. Tempa mental, fisik, dan karaktermu dalam dekapan
-                        alam.
-                    </p>
-                    <a href="{{ route('join') }}" class="btn-join-premium" style="font-size: 1rem; padding: 1.5rem 4rem;">
-                        Gabung Sekarang <i class="bi bi-chevron-right"></i>
-                    </a>
+                    @endforeach
                 </div>
+                
+                <!-- Link ke halaman artikel lengkap -->
+                @if($artikels->count() >= 6)
+                    <div class="text-center mt-4" data-aos="fade-up">
+                        <a href="{{ route('artikel.index') }}" class="btn btn-primary">
+                            <i class="bi bi-arrow-right"></i> Lihat Semua Artikel
+                        </a>
+                    </div>
+                @endif
+            @else
+                <!-- Jika belum ada artikel -->
+                <div class="text-center py-5" data-aos="fade-up">
+                    <i class="bi bi-newspaper display-1 text-muted"></i>
+                    <h5 class="mt-3 text-muted">Belum Ada Artikel</h5>
+                    <p class="text-muted">Artikel dan berita terbaru akan segera hadir.</p>
+                </div>
+            @endif
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container text-center text-white">
+            <div data-aos="fade-up">
+                <h2 class="cta-title">Hello Gengs! Siap Memulai Petualangan?</h2>
+                <p class="cta-subtitle">Bergabunglah dengan keluarga besar Cakra Manggala dan temukan pengalaman tak terlupakan di alam bebas</p>
+                <a href="{{ route('join') }}" class="btn btn-oprec btn-lg cta-button">
+                    <i class="bi bi-arrow-right-circle"></i> 
+                    <span class="d-none d-sm-inline">Mulai Perjalananmu</span>
+                    <span class="d-sm-none">Mulai Sekarang</span>
+                </a>
             </div>
         </div>
     </section>
+
+    <!-- Additional Responsive Styles -->
+    <style>
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            animation: bgSlider 18s infinite;
+            z-index: -2;
+            opacity: 0.5;
+        }
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* lapisan hitam transparan */
+            z-index: -1;
+        }
+
+        @keyframes bgSlider {
+            0%   { background-image: url('/image/fotobersejarah1.jpg'); }
+            33%  { background-image: url('/image/fotobersejarah2.jpg'); }
+            66%  { background-image: url('/image/fotobersejarah3.jpg'); }
+            100% { background-image: url('/image/fotobersejarah1.jpg'); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-oprec {
+            background: var(--accent-color);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+        }
+        
+        .btn-oprec:hover {
+            background: #e55722;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+            color: white;
+        }
+
+        .btn-outline-light {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-outline-light:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+        
+        /* News Cards */
+        .news-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .news-card .card-img-top {
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .news-meta {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+        
+        .card-text {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 3rem 0;
+            background: var(--primary-color);
+        }
+        
+        .cta-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            font-size: 1rem;
+            padding: 1rem 2rem;
+        }
+        
+        /* Mobile Responsive Breakpoints */
+        @media (max-width: 991px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 80vh;
+                padding: 2rem 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero-buttons .btn {
+                padding: 0.8rem 1.8rem;
+                font-size: 1rem;
+            }
+            
+            .news-section, .quick-links {
+                padding: 3rem 0;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .cta-section {
+                padding: 2rem 0;
+            }
+            
+            .cta-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section {
+                height: 70vh;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hero-buttons .btn {
+                font-size: 0.9rem;
+                padding: 0.75rem 1.5rem;
+                width: 100%;
+                max-width: 280px;
+            }
+           
+            .news-card .card-img-top {
+                height: 160px;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+            
+            .cta-title {
+                font-size: 1.5rem;
+            }
+            
+            .cta-subtitle {
+                font-size: 1rem;
+            }
+            
+            .scroll-indicator {
+                bottom: 0.5rem;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 350px) {
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons .btn {
+                font-size: 0.85rem;
+                padding: 0.7rem 1.25rem;
+            }
+            
+            .news-card .card-img-top {
+                height: 140px;
+            }
+        }
+        
+        /* Ensure equal height for cards */
+        .news-card,
+        .quick-link-item {
+            height: 100%;
+        }
+    </style>
 @endsection
-
-@push('scripts')
-    <script>
-        (() => {
-            const hero = document.querySelector('[data-hero-video]');
-            const video = hero?.querySelector('video');
-
-            if (!hero || !video) return;
-
-            const revealVideo = () => hero.classList.add('is-video-ready');
-            video.addEventListener('playing', revealVideo, { once: true });
-            video.play().then(revealVideo).catch(() => hero.classList.add('is-video-fallback'));
-        })();
-    </script>
-@endpush
