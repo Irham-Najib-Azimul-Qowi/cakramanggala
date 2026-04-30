@@ -10,27 +10,27 @@
             <i class="bi bi-arrow-left"></i> KEMBALI
         </a>
         <div class="d-flex gap-2">
-            @if(!$pendaftar->is_approved)
+            @if($pendaftar->status != 'Diterima')
                 <form action="{{ route('dashboard.pendaftar.approve', $pendaftar->id) }}" method="POST">
                     @csrf @method('PATCH')
-                    <button type="submit" class="btn btn-accent px-4 fw-black">
+                    <button type="submit" class="btn btn-accent px-4 fw-black d-inline-flex align-items-center" style="height: 45px; font-size: 0.75rem;">
                         <i class="bi bi-shield-check me-2"></i> APPROVE
                     </button>
                 </form>
             @endif
 
-            @if($pendaftar->status != 'rejected')
+            @if($pendaftar->status != 'Tidak diterima')
                 <form action="{{ route('dashboard.pendaftar.reject', $pendaftar->id) }}" method="POST">
                     @csrf @method('PATCH')
-                    <button type="submit" class="btn btn-sm px-4 fw-bold border-0 rounded-0"
-                        style="background: rgba(255,99,102,0.1); color: #ff6366; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;">
+                    <button type="submit" class="btn px-4 fw-black border-0 rounded-0 d-inline-flex align-items-center"
+                        style="background: rgba(255,99,102,0.1); color: #ff6366; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; height: 45px;">
                         <i class="bi bi-shield-x me-2"></i> REJECT
                     </button>
                 </form>
             @endif
 
-            <button type="button" class="btn btn-sm px-3 border-0 rounded-0"
-                style="background: rgba(255,255,255,0.05); color: #fff;" data-bs-toggle="modal"
+            <button type="button" class="btn px-3 border-0 rounded-0 d-inline-flex align-items-center justify-content-center"
+                style="background: rgba(255,255,255,0.05); color: #fff; height: 45px;" data-bs-toggle="modal"
                 data-bs-target="#deleteModal">
                 <i class="bi bi-trash3-fill text-danger"></i>
             </button>
