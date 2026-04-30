@@ -61,12 +61,37 @@
                         </div>
                     </div>
 
+                    @if($kegiatan->deskripsi)
+                        <div class="mt-5 pt-5" style="border-top: 1px solid rgba(255,255,255,0.05);">
+                            <label class="x-small fw-black text-accent text-uppercase mb-3 d-block"
+                                style="letter-spacing: 0.15em; font-size: 0.65rem;">DESKRIPSI LENGKAP KEGIATAN</label>
+                            <div class="p-4 bg-dark border border-white-5 text-white-50 lh-lg" style="white-space: pre-line;">
+                                {!! nl2br(e($kegiatan->deskripsi)) !!}</div>
+                        </div>
+                    @endif
+
                     @if($kegiatan->materi)
                         <div class="mt-5 pt-5" style="border-top: 1px solid rgba(255,255,255,0.05);">
                             <label class="x-small fw-black text-accent text-uppercase mb-3 d-block"
-                                style="letter-spacing: 0.15em; font-size: 0.65rem;">DESKRIPSI MATERI & AGENDA</label>
+                                style="letter-spacing: 0.15em; font-size: 0.65rem;">CATATAN MATERI / AGENDA</label>
                             <div class="p-4 bg-dark border border-white-5 text-white-50 lh-lg" style="white-space: pre-line;">
                                 {{ $kegiatan->materi }}</div>
+                        </div>
+                    @endif
+
+                    @if(is_array($kegiatan->dokumentasi) && count($kegiatan->dokumentasi) > 0)
+                        <div class="mt-5 pt-5" style="border-top: 1px solid rgba(255,255,255,0.05);">
+                            <label class="x-small fw-black text-accent text-uppercase mb-3 d-block"
+                                style="letter-spacing: 0.15em; font-size: 0.65rem;">GALERI DOKUMENTASI</label>
+                            <div class="row g-3">
+                                @foreach($kegiatan->dokumentasi as $img)
+                                    <div class="col-md-4 col-6">
+                                        <div class="position-relative overflow-hidden" style="aspect-ratio: 1/1; border: 1px solid rgba(255,255,255,0.05);">
+                                            <img src="{{ asset($img) }}" class="w-100 h-100 object-fit-cover">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     @endif
                 </div>

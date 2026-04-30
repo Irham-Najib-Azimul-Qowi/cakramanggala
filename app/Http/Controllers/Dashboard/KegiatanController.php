@@ -100,6 +100,15 @@ class KegiatanController extends Controller
             $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/kegiatan');
         }
 
+        // Handle dokumentasi (multiple images)
+        if ($request->hasFile('dokumentasi')) {
+            $docs = [];
+            foreach ($request->file('dokumentasi') as $file) {
+                $docs[] = $this->uploadAndConvert($file, 'uploads/kegiatan/dokumentasi');
+            }
+            $validated['dokumentasi'] = $docs;
+        }
+
         Kegiatan::create($validated);
 
         return redirect()->route('dashboard.kegiatan.index')
@@ -133,6 +142,24 @@ class KegiatanController extends Controller
             $validated['gambar_utama'] = $this->uploadAndConvert($request->file('gambar_utama'), 'uploads/kegiatan', $kegiatan->gambar_utama);
         }
 
+        // Handle dokumentasi (multiple images)
+        if ($request->hasFile('dokumentasi')) {
+            // Delete old documentation images
+            if (is_array($kegiatan->dokumentasi)) {
+                foreach ($kegiatan->dokumentasi as $oldImg) {
+                    if (File::exists(public_path($oldImg))) {
+                        File::delete(public_path($oldImg));
+                    }
+                }
+            }
+
+            $docs = [];
+            foreach ($request->file('dokumentasi') as $file) {
+                $docs[] = $this->uploadAndConvert($file, 'uploads/kegiatan/dokumentasi');
+            }
+            $validated['dokumentasi'] = $docs;
+        }
+
         $kegiatan->update($validated);
 
         return redirect()->route('dashboard.kegiatan.index')
@@ -144,9 +171,18 @@ class KegiatanController extends Controller
      */
     public function destroy(Kegiatan $kegiatan)
     {
-        // Delete photo if exists
+        // Delete main photo
         if ($kegiatan->gambar_utama && File::exists(public_path($kegiatan->gambar_utama))) {
             File::delete(public_path($kegiatan->gambar_utama));
+        }
+
+        // Delete documentation images
+        if (is_array($kegiatan->dokumentasi)) {
+            foreach ($kegiatan->dokumentasi as $img) {
+                if (File::exists(public_path($img))) {
+                    File::delete(public_path($img));
+                }
+            }
         }
 
         $kegiatan->delete();

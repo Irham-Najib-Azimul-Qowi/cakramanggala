@@ -105,19 +105,38 @@
 
                         <div class="mb-5">
                             <label class="form-label fw-black small text-uppercase text-accent mb-3"
-                                style="letter-spacing: 0.15em; font-size: 0.7rem;">DESKRIPSI MATERI / CATATAN <span
-                                    class="text-muted">(OPSIONAL)</span></label>
-                            <textarea class="form-control admin-input @error('materi') is-invalid @enderror" name="materi"
-                                rows="5" placeholder="Detail tambahan mengenai kegiatan...">{{ old('materi') }}</textarea>
-                            @error('materi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                                style="letter-spacing: 0.15em; font-size: 0.7rem;">DESKRIPSI LENGKAP KEGIATAN <span
+                                    class="text-danger">*</span></label>
+                            <textarea class="form-control admin-input @error('deskripsi') is-invalid @enderror" name="deskripsi"
+                                rows="8" placeholder="Tuliskan deskripsi lengkap kegiatan di sini..." required>{{ old('deskripsi') }}</textarea>
+                            @error('deskripsi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="mb-5">
                             <label class="form-label fw-black small text-uppercase text-accent mb-3"
-                                style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO DOKUMENTASI / GAMBAR UTAMA</label>
-                            <input type="file" name="gambar_utama" class="form-control admin-input @error('gambar_utama') is-invalid @enderror" accept="image/*">
-                            <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP. MAKSIMAL 2MB.</div>
-                            @error('gambar_utama') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                                style="letter-spacing: 0.15em; font-size: 0.7rem;">DESKRIPSI MATERI / CATATAN SINGKAT <span
+                                    class="text-muted">(OPSIONAL)</span></label>
+                            <textarea class="form-control admin-input @error('materi') is-invalid @enderror" name="materi"
+                                rows="3" placeholder="Detail materi tambahan atau ringkasan...">{{ old('materi') }}</textarea>
+                            @error('materi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO UTAMA (COVER)</label>
+                                <input type="file" name="gambar_utama" class="form-control admin-input @error('gambar_utama') is-invalid @enderror" accept="image/*">
+                                <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP. MAKSIMAL 2MB.</div>
+                                @error('gambar_utama') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO DOKUMENTASI (MAKS 6)</label>
+                                <input type="file" name="dokumentasi[]" multiple class="form-control admin-input @error('dokumentasi') is-invalid @enderror" accept="image/*">
+                                <div class="mt-2 x-small text-white-50 fw-bold">BISA PILIH HINGGA 6 GAMBAR SEKALIGUS.</div>
+                                @error('dokumentasi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                                @error('dokumentasi.*') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center pt-5"

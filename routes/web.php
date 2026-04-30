@@ -22,6 +22,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.alt');
 // Static pages routes
 Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
 Route::get('/kegiatan', [HomeController::class, 'activities'])->name('activities');
+Route::get('/kegiatan/{id}', [HomeController::class, 'activityDetail'])->name('activities.show');
 Route::get('/bergabung', [HomeController::class, 'join'])->name('join');
 Route::get('/kontak', [HomeController::class, 'contact'])->name('contact');
 Route::post('/kontak/kirim', [HomeController::class, 'sendContact'])->name('contact.send');

@@ -15,16 +15,19 @@ class Kegiatan extends Model
         'judul_kegiatan',
         'tanggal_pelaksanaan',
         'materi',
+        'deskripsi',
         'tempat',
         'kapel_pj',
         'sifat',
         'gambar_utama',
+        'dokumentasi',
         'user_id',
     ];
 
     protected $casts = [
         'tanggal_pelaksanaan' => 'date',
         'tahun' => 'integer',
+        'dokumentasi' => 'array',
     ];
 
     /**

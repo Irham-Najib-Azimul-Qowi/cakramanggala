@@ -88,26 +88,28 @@
                 <div class="row g-4">
                     @foreach($kegiatans as $kegiatan)
                         <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
-                            <article class="doc-card" style="height: 440px;">
-                                <div class="doc-card__img-container">
-                                    <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
-                                    alt="Dokumentasi Kegiatan: {{ $kegiatan->judul_kegiatan }} di {{ $kegiatan->tempat }}" class="doc-card__img" loading="lazy">
-                                <div class="doc-card__overlay"></div>
-                            </div>
-                                <div class="doc-card__content" style="padding: 2rem;">
-                                    <span class="doc-card__tag"
-                                        style="background: var(--accent-color); color: var(--primary-color); font-size: 0.6rem;">{{ $kegiatan->sifat }}</span>
-                                    <span class="doc-card__date"
-                                        style="font-size: 0.7rem;">{{ $kegiatan->tanggal_pelaksanaan->translatedFormat('d M Y') }}</span>
-                                    <h3 class="doc-card__title" style="font-size: 1.4rem;">{{ $kegiatan->judul_kegiatan }}</h3>
-                                    <p class="x-small text-white-50 mb-0"><i
-                                            class="bi bi-geo-alt-fill text-accent me-2"></i>{{ $kegiatan->tempat }}</p>
-                                    <div class="doc-card__excerpt" style="font-size: 0.85rem;">
-                                        {{ Str::limit($kegiatan->materi, 100) }}
-                                    </div>
-                                    <span class="doc-card__link mt-3">Detail <i class="bi bi-arrow-right"></i></span>
+                            <a href="{{ route('activities.show', $kegiatan->id) }}" class="text-decoration-none">
+                                <article class="doc-card" style="height: 440px;">
+                                    <div class="doc-card__img-container">
+                                        <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
+                                        alt="Dokumentasi Kegiatan: {{ $kegiatan->judul_kegiatan }} di {{ $kegiatan->tempat }}" class="doc-card__img" loading="lazy">
+                                    <div class="doc-card__overlay"></div>
                                 </div>
-                            </article>
+                                    <div class="doc-card__content" style="padding: 2rem;">
+                                        <span class="doc-card__tag"
+                                            style="background: var(--accent-color); color: var(--primary-color); font-size: 0.6rem;">{{ $kegiatan->sifat }}</span>
+                                        <span class="doc-card__date"
+                                            style="font-size: 0.7rem;">{{ $kegiatan->tanggal_pelaksanaan->translatedFormat('d M Y') }}</span>
+                                        <h3 class="doc-card__title" style="font-size: 1.4rem;">{{ $kegiatan->judul_kegiatan }}</h3>
+                                        <p class="x-small text-white-50 mb-0"><i
+                                                class="bi bi-geo-alt-fill text-accent me-2"></i>{{ $kegiatan->tempat }}</p>
+                                        <div class="doc-card__excerpt" style="font-size: 0.85rem;">
+                                            {{ Str::limit($kegiatan->deskripsi ?: $kegiatan->materi, 100) }}
+                                        </div>
+                                        <span class="doc-card__link mt-3">Detail <i class="bi bi-arrow-right"></i></span>
+                                    </div>
+                                </article>
+                            </a>
                         </div>
                     @endforeach
                 </div>

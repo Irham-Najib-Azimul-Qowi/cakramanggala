@@ -78,6 +78,19 @@ class HomeController extends Controller
         return view('activities', compact('kegiatans', 'search'));
     }
 
+    public function activityDetail($id)
+    {
+        $kegiatan = \App\Models\Kegiatan::findOrFail($id);
+
+        // Get related activities (random 3)
+        $related = \App\Models\Kegiatan::where('id', '!=', $id)
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+
+        return view('kegiatan.show', compact('kegiatan', 'related'));
+    }
+
     public function join()
     {
         return view('join');

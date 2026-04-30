@@ -77,21 +77,47 @@
                         </div>
 
                         <div class="mb-5">
-                            <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">DESKRIPSI MATERI / CATATAN <span class="text-muted">(OPSIONAL)</span></label>
-                            <textarea class="form-control admin-input @error('materi') is-invalid @enderror" name="materi" rows="6">{{ old('materi', $kegiatan->materi) }}</textarea>
-                            @error('materi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">DESKRIPSI LENGKAP KEGIATAN <span class="text-danger">*</span></label>
+                            <textarea class="form-control admin-input @error('deskripsi') is-invalid @enderror" name="deskripsi" rows="8" required>{{ old('deskripsi', $kegiatan->deskripsi) }}</textarea>
+                            @error('deskripsi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="mb-5">
-                            <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO DOKUMENTASI / GAMBAR UTAMA</label>
-                            @if($kegiatan->gambar_utama)
-                                <div class="mb-3" style="max-width: 200px; border: 2px solid rgba(255,255,255,0.05);">
-                                    <img src="{{ asset($kegiatan->gambar_utama) }}" class="w-100">
-                                </div>
-                            @endif
-                            <input type="file" name="gambar_utama" class="form-control admin-input @error('gambar_utama') is-invalid @enderror" accept="image/*">
-                            <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP. MAKSIMAL 2MB. BIARKAN KOSONG JIKA TIDAK INGIN MENGUBAH.</div>
-                            @error('gambar_utama') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">DESKRIPSI MATERI / CATATAN <span class="text-muted">(OPSIONAL)</span></label>
+                            <textarea class="form-control admin-input @error('materi') is-invalid @enderror" name="materi" rows="4">{{ old('materi', $kegiatan->materi) }}</textarea>
+                            @error('materi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO UTAMA (COVER)</label>
+                                @if($kegiatan->gambar_utama)
+                                    <div class="mb-3" style="max-width: 200px; border: 2px solid rgba(255,255,255,0.05);">
+                                        <img src="{{ asset($kegiatan->gambar_utama) }}" class="w-100">
+                                    </div>
+                                @endif
+                                <input type="file" name="gambar_utama" class="form-control admin-input @error('gambar_utama') is-invalid @enderror" accept="image/*">
+                                <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP. MAKSIMAL 2MB.</div>
+                                @error('gambar_utama') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO DOKUMENTASI (MAKS 6)</label>
+                                @if(is_array($kegiatan->dokumentasi) && count($kegiatan->dokumentasi) > 0)
+                                    <div class="row g-2 mb-3">
+                                        @foreach($kegiatan->dokumentasi as $doc)
+                                            <div class="col-4">
+                                                <div style="aspect-ratio: 1/1; border: 1px solid rgba(255,255,255,0.05);">
+                                                    <img src="{{ asset($doc) }}" class="w-100 h-100 object-fit-cover">
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                <input type="file" name="dokumentasi[]" multiple class="form-control admin-input @error('dokumentasi') is-invalid @enderror" accept="image/*">
+                                <div class="mt-2 x-small text-white-50 fw-bold">BISA PILIH HINGGA 6 GAMBAR. MENGUNGGAH BARU AKAN MENGGANTI SEMUA FOTO LAMA.</div>
+                                @error('dokumentasi') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                                @error('dokumentasi.*') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center pt-5" style="border-top: 1px solid rgba(255,255,255,0.05);">
