@@ -10,63 +10,30 @@ class Kegiatan extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'kegiatan';
+
     protected $fillable = [
-        'tahun',
-        'judul_kegiatan',
-        'tanggal_pelaksanaan',
-        'materi',
-        'deskripsi',
-        'tempat',
-        'kapel_pj',
-        'sifat',
-        'gambar_utama',
-        'dokumentasi',
-        'user_id',
+        'name',
+        'description',
+        'date',
+        'status',
+        'created_by',
     ];
 
-    protected $casts = [
-        'tanggal_pelaksanaan' => 'date',
-        'tahun' => 'integer',
-        'dokumentasi' => 'array',
-    ];
-
-    /**
-     * Relasi ke model User
-     */
-    public function user()
+    public function creator()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(AppUser::class, 'created_by');
     }
 
-    /**
-     * Scope untuk filter berdasarkan tahun
-     */
-    public function scopeByYear($query, $year)
+    public function alats()
     {
-        return $query->where('tahun', $year);
+        return $this->belongsToMany(Alat::class, 'kegiatan_alat', 'kegiatan_id', 'alat_id')
+                    ->withPivot('qty')
+                    ->withTimestamps();
     }
 
-    /**
-     * Scope untuk filter berdasarkan sifat
-     */
-    public function scopeBySifat($query, $sifat)
+    public function images()
     {
-        return $query->where('sifat', $sifat);
-    }
-
-    /**
-     * Accessor untuk format tanggal Indonesia
-     */
-    public function getFormattedDateAttribute()
-    {
-        return $this->tanggal_pelaksanaan->format('d/m/Y');
-    }
-
-    /**
-     * Accessor untuk status kegiatan (sudah lewat atau belum)
-     */
-    public function getStatusAttribute()
-    {
-        return $this->tanggal_pelaksanaan->isPast() ? 'selesai' : 'akan_datang';
+        return $this->hasMany(InventoryImage::class, 'entity_id')->where('entity_type', 'kegiatan');
     }
 }

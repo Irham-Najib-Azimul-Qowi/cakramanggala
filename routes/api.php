@@ -49,3 +49,27 @@ Route::middleware(['auth:sanctum', 'throttle:120,1'])->group(function () {
     });
 });
 
+// V1 API for Perkapp (Mobile)
+Route::prefix('v1')->group(function () {
+    // Auth
+    Route::post('/auth/register', [App\Http\Controllers\Api\V1\AuthController::class, 'register']);
+    Route::post('/auth/login', [App\Http\Controllers\Api\V1\AuthController::class, 'login']);
+
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/auth/me', [App\Http\Controllers\Api\V1\AuthController::class, 'me']);
+        Route::post('/auth/logout', [App\Http\Controllers\Api\V1\AuthController::class, 'logout']);
+
+        // Kegiatan
+        Route::apiResource('kegiatan', App\Http\Controllers\Api\V1\KegiatanController::class);
+        Route::get('/kegiatan/{id}/alat', [App\Http\Controllers\Api\V1\KegiatanAlatController::class, 'getAlatByKegiatan']);
+
+        // Alat
+        Route::apiResource('alat', App\Http\Controllers\Api\V1\AlatController::class);
+
+        // Kegiatan Alat (Add tool to activity)
+        Route::post('/kegiatan-alat', [App\Http\Controllers\Api\V1\KegiatanAlatController::class, 'store']);
+
+        // Image Upload
+        Route::post('/upload-image', [App\Http\Controllers\Api\V1\ImageUploadController::class, 'upload']);
+    });
+});

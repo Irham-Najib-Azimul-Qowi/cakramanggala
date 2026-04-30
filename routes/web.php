@@ -81,6 +81,10 @@ Route::middleware('auth')->group(function () {
         Route::get('pesan', [DashboardController::class, 'messages'])->name('pesan');
         Route::get('pesan/{pesan}', [DashboardController::class, 'showMessage'])->name('pesan.show');
         Route::delete('pesan/{pesan}', [DashboardController::class, 'destroyMessage'])->name('pesan.destroy');
+
+        // Inventaris (Equipment Management)
+        Route::get('inventaris', [\App\Http\Controllers\Dashboard\InventoryController::class, 'index'])->name('inventaris.index');
+        Route::get('inventaris/kegiatan/{id}', [\App\Http\Controllers\Dashboard\InventoryController::class, 'showKegiatan'])->name('inventaris.kegiatan');
     });
 
     // Future routes for dashboard modules

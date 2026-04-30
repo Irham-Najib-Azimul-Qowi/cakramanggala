@@ -558,6 +558,10 @@
                 class="nav-link {{ request()->routeIs('dashboard.pesan*') ? 'active' : '' }}">
                 <i class="bi bi-chat-left-dots"></i> Pesan
             </a>
+            <a href="{{ route('dashboard.inventaris.index') }}"
+                class="nav-link {{ request()->routeIs('dashboard.inventaris*') ? 'active' : '' }}">
+                <i class="bi bi-box-seam-fill"></i> Manajemen Perlengkapan
+            </a>
         </nav>
 
         <div class="sidebar-footer">
