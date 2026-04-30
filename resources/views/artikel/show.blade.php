@@ -291,22 +291,22 @@
 @section('structured_data')
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "{{ $artikel->judul }}",
-  "image": "{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/logo.png') }}",
-  "author": {
-    "@type": "Person",
-    "name": "{{ $artikel->user->name }}"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "UKM Cakra Manggala",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ asset('image/logo.png') }}"
-    }
-  },
+    "@@context": "https://schema.org",
+    "@@type": "BlogPosting",
+    "headline": "{{ $artikel->judul }}",
+    "image": "{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/logo.png') }}",
+    "author": {
+      "@@type": "Person",
+      "name": "{{ $artikel->user->name }}"
+    },
+    "publisher": {
+      "@@type": "Organization",
+      "name": "UKM Cakra Manggala",
+      "logo": {
+        "@@type": "ImageObject",
+        "url": "{{ asset('image/logo.png') }}"
+      }
+    },
   "datePublished": "{{ $artikel->created_at->toIso8601String() }}",
   "dateModified": "{{ $artikel->updated_at->toIso8601String() }}",
   "description": "{{ $artikel->excerpt ?: Str::limit(strip_tags($artikel->konten), 160) }}"
