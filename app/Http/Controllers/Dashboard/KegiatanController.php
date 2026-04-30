@@ -48,14 +48,20 @@ class KegiatanController extends Controller
 
         $kegiatans = $query->paginate($perPage);
 
-        // Statistik
+        // Optimized statistics in one query
+        $allStats = Kegiatan::selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN sifat = "internal" THEN 1 ELSE 0 END) as internal,
+                SUM(CASE WHEN sifat = "eksternal" THEN 1 ELSE 0 END) as eksternal,
+                SUM(CASE WHEN MONTH(tanggal_pelaksanaan) = ? AND YEAR(tanggal_pelaksanaan) = ? THEN 1 ELSE 0 END) as bulan_ini
+            ', [now()->month, now()->year])
+            ->first();
+
         $stats = [
-            'total' => Kegiatan::count(),
-            'internal' => Kegiatan::where('sifat', 'internal')->count(),
-            'eksternal' => Kegiatan::where('sifat', 'eksternal')->count(),
-            'bulan_ini' => Kegiatan::whereMonth('tanggal_pelaksanaan', now()->month)
-                ->whereYear('tanggal_pelaksanaan', now()->year)
-                ->count(),
+            'total' => $allStats->total ?? 0,
+            'internal' => $allStats->internal ?? 0,
+            'eksternal' => $allStats->eksternal ?? 0,
+            'bulan_ini' => $allStats->bulan_ini ?? 0,
         ];
 
         // Tahun yang tersedia untuk filter
@@ -138,6 +144,11 @@ class KegiatanController extends Controller
      */
     public function destroy(Kegiatan $kegiatan)
     {
+        // Delete photo if exists
+        if ($kegiatan->gambar_utama && File::exists(public_path($kegiatan->gambar_utama))) {
+            File::delete(public_path($kegiatan->gambar_utama));
+        }
+
         $kegiatan->delete();
 
         return redirect()->route('dashboard.kegiatan.index')

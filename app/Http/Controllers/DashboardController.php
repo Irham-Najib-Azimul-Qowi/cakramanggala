@@ -1,53 +1,61 @@
 <?php
 
-// File: app/Http/Controllers/DashboardController.php
-
 namespace App\Http\Controllers;
 
+use App\Models\Artikel;
+use App\Models\Kegiatan;
+use App\Models\Pendaftaran;
+use App\Models\Pesan;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    /**
+     * Show the application dashboard.
+     */
     public function index()
     {
         $user = Auth::user();
 
-        $recent_pendaftar = class_exists('App\Models\Pendaftaran') ? \App\Models\Pendaftaran::latest()->limit(8)->get() : collect([]);
+        $recent_pendaftar = Pendaftaran::latest()->limit(8)->get();
 
         $stats = [
-            'total_pendaftar' => class_exists('App\Models\Pendaftaran') ? \App\Models\Pendaftaran::count() : 0,
-            'artikel_bulan_ini' => class_exists('App\Models\Artikel') ? \App\Models\Artikel::whereMonth('created_at', now()->month)->count() : 0,
-            'kegiatan_aktif' => class_exists('App\Models\Kegiatan') ? \App\Models\Kegiatan::where('tanggal_pelaksanaan', '>=', now())->count() : 0,
-            'pesan_baru' => class_exists('App\Models\Pesan') ? \App\Models\Pesan::where('is_read', false)->count() : 0,
+            'total_pendaftar' => Pendaftaran::count(),
+            'artikel_bulan_ini' => Artikel::whereMonth('created_at', now()->month)->count(),
+            'kegiatan_aktif' => Kegiatan::where('tanggal_pelaksanaan', '>=', now()->toDateString())->count(),
+            'pesan_baru' => Pesan::where('is_read', false)->count(),
         ];
 
         return view('dashboard.index', compact('user', 'stats', 'recent_pendaftar'));
     }
 
+    /**
+     * Display a listing of messages.
+     */
     public function messages()
     {
-        $pesans = \App\Models\Pesan::latest()->paginate(10);
+        $pesans = Pesan::latest()->paginate(10);
         return view('dashboard.pesan.index', compact('pesans'));
     }
 
-    public function showMessage($id)
+    /**
+     * Display the specified message.
+     */
+    public function showMessage(Pesan $pesan)
     {
-        $pesan = \App\Models\Pesan::findOrFail($id);
         $pesan->update(['is_read' => true]);
         
         return view('dashboard.pesan.show', compact('pesan'));
     }
 
-    public function destroyMessage($id)
+    /**
+     * Remove the specified message from storage.
+     */
+    public function destroyMessage(Pesan $pesan)
     {
-        $pesan = \App\Models\Pesan::findOrFail($id);
         $pesan->delete();
 
         return redirect()->route('dashboard.pesan')->with('success', 'Pesan berhasil dihapus!');
     }
 }
+

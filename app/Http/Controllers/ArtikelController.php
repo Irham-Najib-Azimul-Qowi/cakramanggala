@@ -38,8 +38,12 @@ class ArtikelController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        // Increment views
-        $artikel->incrementViews();
+        // Increment views with session check to prevent artificial inflation
+        $viewedKey = 'viewed_artikel_' . $artikel->id;
+        if (!session()->has($viewedKey)) {
+            $artikel->incrementViews();
+            session()->put($viewedKey, true);
+        }
 
         // Get related articles (3 artikel terbaru lainnya)
         $relatedArtikels = Artikel::published()

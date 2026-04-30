@@ -39,12 +39,20 @@ class ArtikelController extends Controller
 
         $artikels = $query->paginate($perPage);
 
-        // Statistics
+        // Optimized statistics in one query
+        $allStats = Artikel::selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN status = "published" THEN 1 ELSE 0 END) as published,
+                SUM(CASE WHEN status = "draft" THEN 1 ELSE 0 END) as draft,
+                SUM(views) as total_views
+            ')
+            ->first();
+
         $stats = [
-            'total' => Artikel::count(),
-            'published' => Artikel::where('status', 'published')->count(),
-            'draft' => Artikel::where('status', 'draft')->count(),
-            'total_views' => Artikel::sum('views'),
+            'total' => $allStats->total ?? 0,
+            'published' => $allStats->published ?? 0,
+            'draft' => $allStats->draft ?? 0,
+            'total_views' => $allStats->total_views ?? 0,
         ];
 
         return view('dashboard.artikel.index', compact(
