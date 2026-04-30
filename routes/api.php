@@ -35,14 +35,10 @@ Route::middleware(['auth:sanctum', 'throttle:120,1'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
 
-    // Shared Management (Admin & Moderator)
-    Route::middleware('role:admin,moderator')->group(function () {
+    // Management (Admin Only)
+    Route::middleware('role:admin')->group(function () {
         Route::apiResource('artikel', ArtikelController::class)->except(['index', 'show']);
         Route::apiResource('kegiatan', KegiatanController::class)->except(['index', 'show']);
-    });
-
-    // Admin Only Management
-    Route::middleware('role:admin')->group(function () {
         Route::apiResource('pengurus', PengurusController::class)->except(['index']);
         
         Route::get('/pendaftaran', [PendaftaranController::class, 'index']);

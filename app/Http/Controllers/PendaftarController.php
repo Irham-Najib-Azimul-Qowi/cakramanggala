@@ -19,7 +19,11 @@ class PendaftarController extends Controller
         $jurusan = $request->get('jurusan');
         $perPage = $request->get('per_page', 12);
 
-        $query = Pendaftaran::latest();
+        $query = Pendaftaran::query();
+
+        // Order by Status: Belum diproses -> Diterima -> Tidak diterima
+        $query->orderByRaw("FIELD(status, 'Belum diproses', 'Diterima', 'Tidak diterima') ASC")
+            ->orderBy('created_at', 'desc');
 
         if ($search) {
             $query->search($search);
@@ -60,16 +64,45 @@ class PendaftarController extends Controller
     }
 
     /**
+     * Show the form for editing the specified pendaftar.
+     */
+    public function edit(Pendaftaran $pendaftar)
+    {
+        return view('dashboard.pendaftar.edit', compact('pendaftar'));
+    }
+
+    /**
+     * Update the specified pendaftar in storage.
+     */
+    public function update(Request $request, Pendaftaran $pendaftar)
+    {
+        $validated = $request->validate([
+            'nama_lengkap' => 'required|string|max:255',
+            'nim' => 'required|string|max:50|unique:pendaftaran,nim,' . $pendaftar->id,
+            'jurusan' => 'required|in:Teknik,Administrasi Bisnis,Akuntansi',
+            'program_studi' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:20',
+            'alamat' => 'required|string',
+            'status' => 'required|in:Belum diproses,Diterima,Tidak diterima',
+        ]);
+
+        $pendaftar->update($validated);
+
+        return redirect()->route('dashboard.pendaftar.show', $pendaftar->id)
+            ->with('success', 'Data pendaftar berhasil diperbarui.');
+    }
+
+    /**
      * Approve a pendaftaran.
      */
     public function approve(Pendaftaran $pendaftar)
     {
         $pendaftar->update([
-            'status' => 'approved',
+            'status' => 'Diterima',
             'is_approved' => true
         ]);
 
-        return redirect()->back()->with('success', "Pendaftaran {$pendaftar->nama_lengkap} telah disetujui!");
+        return redirect()->back()->with('success', "Pendaftaran {$pendaftar->nama_lengkap} telah diterima!");
     }
 
     /**
@@ -78,11 +111,11 @@ class PendaftarController extends Controller
     public function reject(Pendaftaran $pendaftar)
     {
         $pendaftar->update([
-            'status' => 'rejected',
+            'status' => 'Tidak diterima',
             'is_approved' => false
         ]);
 
-        return redirect()->back()->with('success', "Pendaftaran {$pendaftar->nama_lengkap} telah ditolak.");
+        return redirect()->back()->with('success', "Pendaftaran {$pendaftar->nama_lengkap} ditolak.");
     }
 
     /**

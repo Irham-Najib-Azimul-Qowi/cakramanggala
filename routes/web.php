@@ -53,11 +53,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/pendaftar/{pendaftar}', [PendaftarController::class, 'show'])->name('dashboard.pendaftar.show');
         Route::patch('/dashboard/pendaftar/{pendaftar}/approve', [PendaftarController::class, 'approve'])->name('dashboard.pendaftar.approve');
         Route::patch('/dashboard/pendaftar/{pendaftar}/reject', [PendaftarController::class, 'reject'])->name('dashboard.pendaftar.reject');
+        Route::get('/dashboard/pendaftar/{pendaftar}/edit', [PendaftarController::class, 'edit'])->name('dashboard.pendaftar.edit');
+        Route::put('/dashboard/pendaftar/{pendaftar}', [PendaftarController::class, 'update'])->name('dashboard.pendaftar.update');
         Route::delete('/dashboard/pendaftar/{pendaftar}', [PendaftarController::class, 'destroy'])->name('dashboard.pendaftar.destroy');
     });
 
     // Dashboard Routes (Authenticated & Role Protected)
-    Route::prefix('dashboard')->name('dashboard.')->middleware('role:admin,moderator')->group(function () {
+    Route::prefix('dashboard')->name('dashboard.')->middleware('role:admin')->group(function () {
         // Artikel CRUD
         Route::resource('artikel', DashboardArtikelController::class);
 

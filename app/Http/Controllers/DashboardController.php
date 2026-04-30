@@ -17,11 +17,21 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $recent_pendaftar = Pendaftaran::latest()->limit(8)->get();
+        // Optimize: Select only needed columns and use limit
+        $recent_pendaftar = Pendaftaran::select('id', 'nama_lengkap', 'nim', 'jurusan', 'status', 'created_at')
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        // Optimized: Combined stats query
+        $allStats = \DB::table('pendaftaran')->selectRaw('
+            COUNT(*) as total_pendaftar,
+            SUM(CASE WHEN created_at >= ? THEN 1 ELSE 0 END) as pendaftar_bulan_ini
+        ', [now()->startOfMonth()])->first();
 
         $stats = [
-            'total_pendaftar' => Pendaftaran::count(),
-            'artikel_bulan_ini' => Artikel::whereMonth('created_at', now()->month)->count(),
+            'total_pendaftar' => $allStats->total_pendaftar ?? 0,
+            'pendaftar_bulan_ini' => $allStats->pendaftar_bulan_ini ?? 0,
             'kegiatan_aktif' => Kegiatan::where('tanggal_pelaksanaan', '>=', now()->toDateString())->count(),
             'pesan_baru' => Pesan::where('is_read', false)->count(),
         ];

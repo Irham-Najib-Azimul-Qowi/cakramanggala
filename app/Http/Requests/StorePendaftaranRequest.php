@@ -20,7 +20,7 @@ class StorePendaftaranRequest extends FormRequest
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'jurusan' => 'required|string|max:100',
+            'jurusan' => 'required|in:Teknik,Administrasi Bisnis,Akuntansi',
             'program_studi' => 'required|string|max:100',
             'alamat' => 'required|string',
             'organisasi_yang_pernah_diikuti' => 'nullable|string',

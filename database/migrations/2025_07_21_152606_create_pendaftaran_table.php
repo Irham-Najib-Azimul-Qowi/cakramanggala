@@ -23,6 +23,8 @@ return new class extends Migration {
             $table->text('organisasi_yang_pernah_diikuti')->nullable();
             $table->text('alasan_bergabung');
             $table->string('foto_diri')->nullable();
+            $table->enum('status', ['Belum diproses', 'Diterima', 'Tidak diterima'])->default('Belum diproses');
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

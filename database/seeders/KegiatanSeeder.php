@@ -11,69 +11,45 @@ class KegiatanSeeder extends Seeder
     public function run(): void
     {
         $user = User::first();
-        if (!$user)
-            return;
+        if (!$user) return;
 
         $kegiatans = [
             [
-                'tahun' => 2026,
-                'judul_kegiatan' => 'Pendidikan Dasar Angkatan XV',
-                'tanggal_pelaksanaan' => now()->addMonths(2),
-                'materi' => 'Navigasi Darat, Survival, Management Perjalanan',
-                'tempat' => 'Lereng Gunung Wilis',
-                'kapel_pj' => 'Dian Wijaya',
+                'tahun' => 2025,
+                'judul_kegiatan' => 'Diksar 2025',
+                'tanggal_pelaksanaan' => '2025-02-15',
+                'materi' => 'Pendidikan Dasar: Navigasi darat, survival, dan materi dasar kepecintaan alam.',
+                'tempat' => 'Hutan Lindung Gunung Slamet',
+                'kapel_pj' => 'Ketua Pelaksana Diksar',
                 'sifat' => 'internal',
-            ],
-            [
-                'tahun' => 2026,
-                'judul_kegiatan' => 'Bakti Lingkungan: Penanaman 1000 Bibit Pohon',
-                'tanggal_pelaksanaan' => now()->addWeeks(3),
-                'materi' => 'Konservasi Lahan Kritis',
-                'tempat' => 'Hutan Kota Madiun',
-                'kapel_pj' => 'Budi Santoso',
-                'sifat' => 'eksternal',
+                'gambar_utama' => 'image/fotobersejarah1.jpg',
             ],
             [
                 'tahun' => 2025,
-                'judul_kegiatan' => 'Ekspedisi Merah Putih: Puncak Mahameru',
-                'tanggal_pelaksanaan' => now()->subMonths(8),
-                'materi' => 'High Altitude Climbing',
-                'tempat' => 'Gunung Semeru',
-                'kapel_pj' => 'Rizky Pratama',
+                'judul_kegiatan' => 'Dikjut 2025 di Lawu',
+                'tanggal_pelaksanaan' => '2025-06-20',
+                'materi' => 'Pendidikan Lanjutan: Manajemen ekspedisi dan spesialisasi gunung hutan.',
+                'tempat' => 'Gunung Lawu, Karanganyar',
+                'kapel_pj' => 'Kepala Bidang Operasional',
                 'sifat' => 'internal',
+                'gambar_utama' => 'image/fotobersejarah2.jpg',
             ],
             [
                 'tahun' => 2025,
-                'judul_kegiatan' => 'Latihan Gabungan Caving (Susur Goa)',
-                'tanggal_pelaksanaan' => now()->subMonths(3),
-                'materi' => 'Vertical Rescue & Mapping',
-                'tempat' => 'Goa Luweng Jaran, Pacitan',
-                'kapel_pj' => 'Sinta Amelia',
+                'judul_kegiatan' => 'Dikhir 2025',
+                'tanggal_pelaksanaan' => '2025-11-10',
+                'materi' => 'Pendidikan Akhir: Penyusunan laporan akhir dan pelantikan anggota tetap.',
+                'tempat' => 'Basecamp Cakra Manggala',
+                'kapel_pj' => 'Dewan Pembina',
                 'sifat' => 'internal',
-            ],
-            [
-                'tahun' => 2026,
-                'judul_kegiatan' => 'Seminar Lingkungan Hidup Nasional',
-                'tanggal_pelaksanaan' => now()->addMonths(5),
-                'materi' => 'Sustainable Living & Advocacy',
-                'tempat' => 'Gedung Serbaguna Kampus',
-                'kapel_pj' => 'Ketua Umum',
-                'sifat' => 'eksternal',
+                'gambar_utama' => 'image/fotobersejarah3.jpg',
             ],
         ];
 
         foreach ($kegiatans as $data) {
             Kegiatan::updateOrCreate(
                 ['judul_kegiatan' => $data['judul_kegiatan']],
-                [
-                    'tahun' => $data['tahun'],
-                    'tanggal_pelaksanaan' => $data['tanggal_pelaksanaan'],
-                    'materi' => $data['materi'],
-                    'tempat' => $data['tempat'],
-                    'kapel_pj' => $data['kapel_pj'],
-                    'sifat' => $data['sifat'],
-                    'user_id' => $user->id,
-                ]
+                array_merge($data, ['user_id' => $user->id])
             );
         }
     }

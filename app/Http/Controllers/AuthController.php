@@ -27,18 +27,42 @@ class AuthController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt($credentials, $remember)) {
+            $user = Auth::user();
+
+            // Cek batasan role (Hanya admin yang boleh masuk dashboard)
+            if ($user->role !== 'admin') {
+                Auth::logout();
+                Log::warning('Non-admin tried to login to dashboard', ['email' => $user->email]);
+                throw ValidationException::withMessages([
+                    'email' => 'Akses ditolak. Hanya Admin yang dapat mengakses dashboard.',
+                ]);
+            }
+
+            // Batasi maksimal 5 sesi aktif (menggunakan database session driver)
+            $sessions = \DB::table('sessions')
+                ->where('user_id', $user->id)
+                ->orderBy('last_activity', 'desc')
+                ->get();
+
+            if ($sessions->count() >= 5) {
+                // Hapus sesi tertua jika sudah mencapai batas 5
+                \DB::table('sessions')
+                    ->where('user_id', $user->id)
+                    ->orderBy('last_activity', 'asc')
+                    ->limit($sessions->count() - 4) // Sisakan 4 untuk yang baru masuk jadi ke-5
+                    ->delete();
+            }
+
             $request->session()->regenerate();
 
             // Log successful login
-            Log::info('User logged in successfully', [
-                'email' => $request->email,
+            Log::info('Admin logged in successfully', [
+                'user_id' => $user->id,
                 'ip' => $request->ip(),
-                'user_agent' => $request->userAgent(),
-                'timestamp' => now(),
             ]);
 
             return redirect()->intended(route('dashboard'))
-                ->with('success', 'Selamat datang kembali!');
+                ->with('success', 'Selamat datang Admin!');
         }
 
         // Log failed login attempt
