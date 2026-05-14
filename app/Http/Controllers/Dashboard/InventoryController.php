@@ -30,7 +30,7 @@ class InventoryController extends Controller
         return view('dashboard.inventaris.index', compact('stats', 'alats', 'kegiatans', 'chartData'));
     }
 
-    public function showInventoryKegiatan($id)
+    public function showKegiatan($id)
     {
         $kegiatan = InventoryKegiatan::with(['alats', 'creator'])->findOrFail($id);
         return view('dashboard.inventaris.kegiatan_detail', compact('kegiatan'));
