@@ -17,7 +17,7 @@ jobs:
         extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, bcmath, gd
         
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-req=ext-sodium
       
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
@@ -50,7 +50,7 @@ jobs:
           git pull origin main
           
           # Install dependencies (production mode)
-          composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+          composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --ignore-platform-req=ext-sodium
           
           # Database migration
           php artisan migrate --force
