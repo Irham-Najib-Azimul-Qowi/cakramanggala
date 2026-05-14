@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum', 'throttle:120,1'])->group(function () {
 });
 
 // V1 API for Perkapp (Mobile)
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->name('api.v1.')->group(function () {
     // Auth
     Route::post('/auth/register', [App\Http\Controllers\Api\V1\AuthController::class, 'register']);
     Route::post('/auth/login', [App\Http\Controllers\Api\V1\AuthController::class, 'login']);
