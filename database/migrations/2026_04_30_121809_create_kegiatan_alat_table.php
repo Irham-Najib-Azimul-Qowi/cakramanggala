@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('kegiatan_alat', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('kegiatan_id')->constrained('kegiatan')->onDelete('cascade');
-            $table->foreignUuid('alat_id')->constrained('alat')->onDelete('cascade');
+            $table->uuid('kegiatan_id');
+            $table->uuid('alat_id');
             $table->integer('qty');
-            $table->timestamps(); // created_at is included in timestamps
+            $table->timestamps();
+
+            $table->foreign('kegiatan_id')->references('id')->on('kegiatan')->onDelete('cascade');
+            $table->foreign('alat_id')->references('id')->on('alat')->onDelete('cascade');
         });
     }
 
