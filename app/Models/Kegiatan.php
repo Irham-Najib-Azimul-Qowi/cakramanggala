@@ -10,30 +10,39 @@ class Kegiatan extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'kegiatan';
+    protected $table = 'kegiatans';
 
     protected $fillable = [
-        'name',
-        'description',
-        'date',
-        'status',
-        'created_by',
+        'tahun',
+        'judul_kegiatan',
+        'tanggal_pelaksanaan',
+        'materi',
+        'deskripsi',
+        'tempat',
+        'kapel_pj',
+        'sifat',
+        'user_id',
+        'gambar_utama',
+        'dokumentasi',
     ];
 
-    public function creator()
+    protected $casts = [
+        'tanggal_pelaksanaan' => 'date',
+        'dokumentasi' => 'array',
+    ];
+
+    public function user()
     {
-        return $this->belongsTo(AppUser::class, 'created_by');
+        return $this->belongsTo(User::class);
     }
 
-    public function alats()
+    public function scopeByYear($query, $year)
     {
-        return $this->belongsToMany(Alat::class, 'kegiatan_alat', 'kegiatan_id', 'alat_id')
-                    ->withPivot('qty')
-                    ->withTimestamps();
+        return $query->where('tahun', $year);
     }
 
-    public function images()
+    public function scopeBySifat($query, $sifat)
     {
-        return $this->hasMany(InventoryImage::class, 'entity_id')->where('entity_type', 'kegiatan');
+        return $query->where('sifat', $sifat);
     }
 }

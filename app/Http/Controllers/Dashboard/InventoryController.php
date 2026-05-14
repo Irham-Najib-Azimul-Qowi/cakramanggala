@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alat;
-use App\Models\Kegiatan;
+use App\Models\InventoryKegiatan;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -15,11 +15,11 @@ class InventoryController extends Controller
             'total_alat' => Alat::sum('total_qty'),
             'alat_tersedia' => Alat::sum('available_qty'),
             'alat_dipakai' => Alat::sum('total_qty') - Alat::sum('available_qty'),
-            'kegiatan_aktif' => Kegiatan::whereIn('status', ['ongoing'])->count(),
+            'kegiatan_aktif' => InventoryKegiatan::whereIn('status', ['ongoing'])->count(),
         ];
 
         $alats = Alat::latest()->get();
-        $kegiatans = Kegiatan::withCount('alats')->latest()->get();
+        $kegiatans = InventoryKegiatan::withCount('alats')->latest()->get();
 
         // Data for chart: Tool usage by category or status
         $chartData = [
@@ -30,9 +30,9 @@ class InventoryController extends Controller
         return view('dashboard.inventaris.index', compact('stats', 'alats', 'kegiatans', 'chartData'));
     }
 
-    public function showKegiatan($id)
+    public function showInventoryKegiatan($id)
     {
-        $kegiatan = Kegiatan::with(['alats', 'creator'])->findOrFail($id);
+        $kegiatan = InventoryKegiatan::with(['alats', 'creator'])->findOrFail($id);
         return view('dashboard.inventaris.kegiatan_detail', compact('kegiatan'));
     }
 }

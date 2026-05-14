@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Kegiatan;
+use App\Models\InventoryKegiatan;
 use App\Models\Alat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +13,7 @@ class KegiatanController extends Controller
 {
     public function index()
     {
-        $kegiatans = Kegiatan::with(['creator', 'alats', 'images'])->get();
+        $kegiatans = InventoryKegiatan::with(['creator', 'alats', 'images'])->get();
         return response()->json([
             'success' => true,
             'message' => 'List of activities',
@@ -38,7 +38,7 @@ class KegiatanController extends Controller
             ], 422);
         }
 
-        $kegiatan = Kegiatan::create([
+        $kegiatan = InventoryKegiatan::create([
             'name' => $request->name,
             'description' => $request->description,
             'date' => $request->date,
@@ -55,7 +55,7 @@ class KegiatanController extends Controller
 
     public function show($id)
     {
-        $kegiatan = Kegiatan::with(['creator', 'alats', 'images'])->find($id);
+        $kegiatan = InventoryKegiatan::with(['creator', 'alats', 'images'])->find($id);
         if (!$kegiatan) {
             return response()->json([
                 'success' => false,
@@ -73,7 +73,7 @@ class KegiatanController extends Controller
 
     public function update(Request $request, $id)
     {
-        $kegiatan = Kegiatan::find($id);
+        $kegiatan = InventoryKegiatan::find($id);
         if (!$kegiatan) {
             return response()->json([
                 'success' => false,
@@ -137,7 +137,7 @@ class KegiatanController extends Controller
 
     public function destroy($id)
     {
-        $kegiatan = Kegiatan::find($id);
+        $kegiatan = InventoryKegiatan::find($id);
         if (!$kegiatan) {
             return response()->json([
                 'success' => false,
