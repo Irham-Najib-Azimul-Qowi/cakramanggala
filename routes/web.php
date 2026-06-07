@@ -15,6 +15,17 @@ use App\Http\Controllers\SitemapController;
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
+// Fallback storage route to serve images on shared hosting where symbolic links might be missing
+Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
+    $path = storage_path('app/public/' . $folder . '/' . $filename);
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+    return response($file, 200)->header('Content-Type', $type);
+})->where('folder', '[a-zA-Z0-9_\\-]+')->where('filename', '[a-zA-Z0-9_\\-\\.]+');
+
 // Homepage routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home.alt');

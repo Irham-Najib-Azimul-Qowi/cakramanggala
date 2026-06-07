@@ -38,13 +38,17 @@ class KegiatanController extends Controller
             ], 422);
         }
 
-        $kegiatan = InventoryKegiatan::create([
+        $createData = [
             'name' => $request->name,
             'description' => $request->description,
             'date' => $request->date,
             'status' => $request->status ?? 'draft',
             'created_by' => auth('api')->id(),
-        ]);
+        ];
+        if ($request->id) {
+            $createData['id'] = $request->id;
+        }
+        $kegiatan = InventoryKegiatan::create($createData);
 
         return response()->json([
             'success' => true,

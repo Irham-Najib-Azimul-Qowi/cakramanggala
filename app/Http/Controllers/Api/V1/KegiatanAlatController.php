@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Kegiatan;
+use App\Models\InventoryKegiatan as Kegiatan;
 use App\Models\Alat;
 use App\Models\KegiatanAlat;
 use Illuminate\Http\Request;

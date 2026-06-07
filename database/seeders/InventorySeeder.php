@@ -17,9 +17,9 @@ class InventorySeeder extends Seeder
     {
         // Create Mobile Admin
         $admin = AppUser::create([
-            'name' => 'Admin Perkapp',
-            'email' => 'admin.perkapp@cakramanggala.com',
-            'password' => Hash::make('perkapp123'),
+            'name' => 'admin',
+            'email' => 'admin@cakramanggala.com',
+            'password' => Hash::make('admin123'),
             'role' => 'admin',
         ]);
 

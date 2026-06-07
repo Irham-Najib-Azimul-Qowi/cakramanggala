@@ -13,6 +13,7 @@ class InventoryKegiatan extends Model
     protected $table = 'kegiatan';
 
     protected $fillable = [
+        'id',
         'name',
         'description',
         'date',

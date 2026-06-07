@@ -88,4 +88,14 @@ class AuthController extends Controller
             'data' => null
         ]);
     }
+
+    public function users()
+    {
+        $users = AppUser::select('id', 'name', 'email', 'role')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Users list retrieved',
+            'data' => $users
+        ]);
+    }
 }

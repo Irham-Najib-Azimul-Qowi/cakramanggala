@@ -58,6 +58,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/auth/me', [App\Http\Controllers\Api\V1\AuthController::class, 'me']);
         Route::post('/auth/logout', [App\Http\Controllers\Api\V1\AuthController::class, 'logout']);
+        Route::get('/users', [App\Http\Controllers\Api\V1\AuthController::class, 'users']);
 
         // Kegiatan
         Route::apiResource('kegiatan', App\Http\Controllers\Api\V1\KegiatanController::class);
