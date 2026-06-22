@@ -121,6 +121,9 @@ class CatatanPerjalanan extends Model
     public function getGambarUrlAttribute()
     {
         if ($this->gambar) {
+            if (str_starts_with($this->gambar, 'uploads/')) {
+                return asset($this->gambar);
+            }
             return asset('storage/' . $this->gambar);
         }
         return asset('image/default-travel.jpg');

@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use App\Traits\ImageUploadTrait;
 
 class CatatanPerjalananController extends Controller
 {
+    use ImageUploadTrait;
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -112,17 +114,7 @@ class CatatanPerjalananController extends Controller
 
         // Handle gambar upload
         if ($request->hasFile('gambar_dokumen')) {
-            $file = $request->file('gambar_dokumen');
-            $originalName = $file->getClientOriginalName();
-            $safeName = Str::random(8) . '_' . $originalName;
-            
-            $storagePath = storage_path('app/public/catatan_perjalanan');
-            if (!File::exists($storagePath)) {
-                File::makeDirectory($storagePath, 0755, true);
-            }
-            
-            $file->move($storagePath, $safeName);
-            $validated['gambar'] = 'catatan_perjalanan/' . $safeName;
+            $validated['gambar'] = $this->uploadAndConvert($request->file('gambar_dokumen'), 'uploads/catatan_perjalanan');
         }
 
         CatatanPerjalanan::create($validated);
@@ -194,21 +186,16 @@ class CatatanPerjalananController extends Controller
         // Handle gambar upload
         if ($request->hasFile('gambar_dokumen')) {
             // Delete old image if exists
-            if ($catatanPerjalanan->gambar && File::exists(storage_path('app/public/' . $catatanPerjalanan->gambar))) {
-                File::delete(storage_path('app/public/' . $catatanPerjalanan->gambar));
+            if ($catatanPerjalanan->gambar) {
+                $oldPath = str_starts_with($catatanPerjalanan->gambar, 'uploads/') 
+                    ? public_path($catatanPerjalanan->gambar) 
+                    : storage_path('app/public/' . $catatanPerjalanan->gambar);
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
             }
 
-            $file = $request->file('gambar_dokumen');
-            $originalName = $file->getClientOriginalName();
-            $safeName = Str::random(8) . '_' . $originalName;
-            
-            $storagePath = storage_path('app/public/catatan_perjalanan');
-            if (!File::exists($storagePath)) {
-                File::makeDirectory($storagePath, 0755, true);
-            }
-            
-            $file->move($storagePath, $safeName);
-            $validated['gambar'] = 'catatan_perjalanan/' . $safeName;
+            $validated['gambar'] = $this->uploadAndConvert($request->file('gambar_dokumen'), 'uploads/catatan_perjalanan');
         }
 
         $catatanPerjalanan->update($validated);
@@ -223,8 +210,13 @@ class CatatanPerjalananController extends Controller
             File::delete(storage_path('app/public/' . $catatanPerjalanan->file_path));
         }
 
-        if ($catatanPerjalanan->gambar && File::exists(storage_path('app/public/' . $catatanPerjalanan->gambar))) {
-            File::delete(storage_path('app/public/' . $catatanPerjalanan->gambar));
+        if ($catatanPerjalanan->gambar) {
+            $oldPath = str_starts_with($catatanPerjalanan->gambar, 'uploads/') 
+                ? public_path($catatanPerjalanan->gambar) 
+                : storage_path('app/public/' . $catatanPerjalanan->gambar);
+            if (File::exists($oldPath)) {
+                File::delete($oldPath);
+            }
         }
 
         $catatanPerjalanan->delete();

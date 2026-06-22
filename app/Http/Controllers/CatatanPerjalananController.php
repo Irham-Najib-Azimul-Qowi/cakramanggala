@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use App\Traits\ImageUploadTrait;
 
 class CatatanPerjalananController extends Controller
 {
+    use ImageUploadTrait;
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -187,17 +189,7 @@ class CatatanPerjalananController extends Controller
 
         // Handle optional image upload
         if ($request->hasFile('gambar_dokumen')) {
-            $file = $request->file('gambar_dokumen');
-            $originalName = $file->getClientOriginalName();
-            $safeName = Str::random(8) . '_' . $originalName;
-            
-            $storagePath = storage_path('app/public/catatan_perjalanan');
-            if (!File::exists($storagePath)) {
-                File::makeDirectory($storagePath, 0755, true);
-            }
-            
-            $file->move($storagePath, $safeName);
-            $catatan->gambar = 'catatan_perjalanan/' . $safeName;
+            $catatan->gambar = $this->uploadAndConvert($request->file('gambar_dokumen'), 'uploads/catatan_perjalanan');
         }
 
         $catatan->save();
