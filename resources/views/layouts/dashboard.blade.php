@@ -546,6 +546,10 @@
                 class="nav-link {{ request()->routeIs('dashboard.artikel*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text"></i> Artikel
             </a>
+            <a href="{{ route('dashboard.catatan-perjalanan.index') }}"
+                class="nav-link {{ request()->routeIs('dashboard.catatan-perjalanan*') ? 'active' : '' }}">
+                <i class="bi bi-journal-text"></i> Catatan Perjalanan
+            </a>
             <a href="{{ route('dashboard.kegiatan.index') }}"
                 class="nav-link {{ request()->routeIs('dashboard.kegiatan*') ? 'active' : '' }}">
                 <i class="bi bi-calendar3-event"></i> Kegiatan

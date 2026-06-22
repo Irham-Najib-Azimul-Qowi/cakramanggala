@@ -10,5 +10,5 @@ class Pengurus extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['nama', 'jabatan', 'prodi_semester', 'instagram_url', 'foto', 'urutan', 'status'];
+    protected $fillable = ['nama', 'nim', 'email', 'jabatan', 'prodi_semester', 'instagram_url', 'foto', 'urutan', 'status'];
 }

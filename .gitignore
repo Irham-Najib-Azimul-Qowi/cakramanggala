@@ -16,3 +16,11 @@ yarn-error.log
 .idea
 .vscode
 *.log
+/catatan_perjalanan
+/.venv
+/catatan_perjalanan_parser.py
+/catatan_perjalanan_parsed.json
+
+
+
+

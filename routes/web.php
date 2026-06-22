@@ -47,6 +47,14 @@ Route::get('/bergabung/sukses/{id}', [HomeController::class, 'joinSuccess'])->na
 Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}', [ArtikelController::class, 'show'])->name('artikel.show');
 
+// Frontend Catatan Perjalanan routes (PUBLIC - no auth required)
+Route::get('/catatan-perjalanan', [\App\Http\Controllers\CatatanPerjalananController::class, 'index'])->name('catatan-perjalanan.index');
+Route::get('/catatan-perjalanan/tambah', [\App\Http\Controllers\CatatanPerjalananController::class, 'tambahForm'])->name('catatan-perjalanan.tambah');
+Route::post('/catatan-perjalanan/tambah/kirim-otp', [\App\Http\Controllers\CatatanPerjalananController::class, 'kirimOtp'])->name('catatan-perjalanan.kirim-otp');
+Route::post('/catatan-perjalanan/tambah/simpan', [\App\Http\Controllers\CatatanPerjalananController::class, 'simpanCatatan'])->name('catatan-perjalanan.simpan');
+Route::post('/catatan-perjalanan/tambah/reset', [\App\Http\Controllers\CatatanPerjalananController::class, 'resetTambahForm'])->name('catatan-perjalanan.reset');
+Route::get('/catatan-perjalanan/{slug}', [\App\Http\Controllers\CatatanPerjalananController::class, 'show'])->name('catatan-perjalanan.show');
+
 // Authentication routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -59,6 +67,13 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Dashboard Catatan Perjalanan CRUD (ADMIN & MODERATOR)
+    Route::prefix('dashboard')->name('dashboard.')->middleware('role:admin,moderator')->group(function () {
+        Route::resource('catatan-perjalanan', \App\Http\Controllers\Dashboard\CatatanPerjalananController::class);
+        Route::patch('catatan-perjalanan/{catatan_perjalanan}/toggle-status', [\App\Http\Controllers\Dashboard\CatatanPerjalananController::class, 'toggleStatus'])
+            ->name('catatan-perjalanan.toggle-status');
+    });
 
     // Data Pendaftar routes (ADMIN ONLY - Sensitive Data)
     Route::middleware('role:admin')->group(function () {

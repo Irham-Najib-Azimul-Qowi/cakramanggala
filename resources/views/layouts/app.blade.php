@@ -647,6 +647,61 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
+        /* Custom Hover Dropdown for Navbar */
+        .site-navbar-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .site-navbar-dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 32px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 67, 49, 0.85);
+            min-width: 220px;
+            box-shadow: 0 20px 48px rgba(6, 14, 10, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            z-index: 1090;
+            padding: 0.5rem 0;
+        }
+
+        .site-navbar-dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -34px;
+            left: 0;
+            right: 0;
+            height: 34px;
+            background: transparent;
+        }
+
+        .site-navbar-dropdown-content a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .site-navbar-dropdown-content a:hover,
+        .site-navbar-dropdown-content a.is-active {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 1.8rem;
+        }
+
+        .site-navbar-dropdown:hover .site-navbar-dropdown-content {
+            display: block;
+        }
+
         .site-navbar-actions {
             display: flex;
             align-items: center;
@@ -1212,7 +1267,7 @@
 @php
     $bodyClasses = implode(' ', array_filter([
         trim($__env->yieldContent('body_class')),
-        request()->routeIs('home', 'home.alt', 'about', 'contact', 'struktur-kepengurusan', 'artikel.index', 'activities') ? 'layout-overlay-nav' : null,
+        request()->routeIs('home', 'home.alt', 'about', 'contact', 'struktur-kepengurusan', 'artikel.index', 'catatan-perjalanan.index', 'activities') ? 'layout-overlay-nav' : null,
     ]));
 @endphp
 
@@ -1230,10 +1285,18 @@
                         href="{{ route('home') }}">Beranda</a>
                     <a class="site-navbar-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
                         href="{{ route('about') }}">Tentang</a>
-                    <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
-                        href="{{ route('artikel.index') }}">Artikel</a>
-                    <a class="site-navbar-link {{ request()->routeIs('activities') ? 'is-active' : '' }}"
-                        href="{{ route('activities') }}">Kegiatan</a>
+                    
+                    <div class="site-navbar-dropdown">
+                        <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities') ? 'is-active' : '' }}" href="javascript:void(0)">
+                            Jurnal & Kegiatan <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                        </a>
+                        <div class="site-navbar-dropdown-content">
+                            <a class="{{ request()->routeIs('activities') ? 'is-active' : '' }}" href="{{ route('activities') }}">Kegiatan</a>
+                            <a class="{{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show') ? 'is-active' : '' }}" href="{{ route('catatan-perjalanan.index') }}">Catatan Perjalanan</a>
+                            <a class="{{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
+                        </div>
+                    </div>
+
                     <a class="site-navbar-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
                         href="{{ route('contact') }}">Kontak</a>
 
@@ -1288,6 +1351,11 @@
                     <a class="site-menu-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
                         href="{{ route('artikel.index') }}">
                         <span>Artikel</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                    <a class="site-menu-link {{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show') ? 'is-active' : '' }}"
+                        href="{{ route('catatan-perjalanan.index') }}">
+                        <span>Catatan Perjalanan</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
                     <a class="site-menu-link {{ request()->routeIs('activities') ? 'is-active' : '' }}"
@@ -1347,6 +1415,7 @@
                         <ul class="footer-list">
                             <li><a href="{{ route('home') }}">Beranda</a></li>
                             <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
+                            <li><a href="{{ route('catatan-perjalanan.index') }}">Catatan Perjalanan</a></li>
                             <li><a href="{{ route('activities') }}">Kegiatan</a></li>
                             <li><a href="{{ route('join') }}">Gabung</a></li>
                             <li><a href="{{ route('contact') }}">Kontak</a></li>

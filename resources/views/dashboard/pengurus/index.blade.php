@@ -42,7 +42,7 @@
                                 <div>
                                     <div class="fw-bold text-white">{{ $p->nama }}</div>
                                     <div class="x-small text-white-50 fw-bold text-uppercase" style="letter-spacing: 0.05em;">
-                                        {{ $p->jabatan }}</div>
+                                        {{ $p->jabatan }} @if($p->nim) | NIM. {{ $p->nim }} @endif @if($p->email) | {{ $p->email }} @endif</div>
                                 </div>
                             </div>
                         </td>
