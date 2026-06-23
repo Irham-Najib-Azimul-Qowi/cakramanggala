@@ -235,6 +235,17 @@ Route::get('/cleanup-temp-data', function () {
         ]
     ];
 
+    $user = \App\Models\User::first();
+    if (!$user) {
+        $user = \App\Models\User::create([
+            'name' => 'Admin Cakra Manggala',
+            'email' => 'admin@cakramanggala.com',
+            'password' => bcrypt('admin123'),
+            'role' => 'admin',
+        ]);
+    }
+    $userId = $user->id;
+
     foreach ($logs as $log) {
         \App\Models\CatatanPerjalanan::create([
             'judul' => $log['judul'],
@@ -246,6 +257,7 @@ Route::get('/cleanup-temp-data', function () {
             'konten' => $log['konten'],
             'status' => 'published',
             'kegiatan_id' => $kegiatanId,
+            'user_id' => $userId,
         ]);
     }
 
