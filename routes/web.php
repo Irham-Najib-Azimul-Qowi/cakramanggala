@@ -184,7 +184,11 @@ Route::get('/clear-cache', function() {
     \Illuminate\Support\Facades\Artisan::call('config:clear');
     \Illuminate\Support\Facades\Artisan::call('cache:clear');
     \Illuminate\Support\Facades\Artisan::call('view:clear');
-    return "Cache cleared successfully!";
+    
+    $gitLog = shell_exec('git log -n 1 2>&1');
+    $gitStatus = shell_exec('git status 2>&1');
+    
+    return "Cache cleared successfully!\n\nGIT LOG:\n{$gitLog}\n\nGIT STATUS:\n{$gitStatus}";
 });
 
 Route::get('/debug-all', function() {
