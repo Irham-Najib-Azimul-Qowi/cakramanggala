@@ -5,6 +5,13 @@
 @section('content')
     <div class="activity-detail" style="background-color: var(--dark-color); color: #fff; min-height: 100vh; padding-top: 100px;">
         <div class="container py-5">
+            <!-- Back Button -->
+            <div class="mb-4" data-aos="fade-up">
+                <a href="{{ route('activities') }}" class="btn-back">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Kegiatan
+                </a>
+            </div>
+
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb" class="mb-4" data-aos="fade-up">
                 <ol class="breadcrumb" style="background: transparent; padding: 0;">
@@ -112,6 +119,33 @@
     </div>
 
     <style>
+        main {
+            background-color: var(--dark-color);
+        }
+        .activity-detail .container {
+            max-width: 1400px !important;
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--accent-color);
+            transform: translateX(-4px);
+        }
         .gallery-img:hover {
             transform: scale(1.1);
         }

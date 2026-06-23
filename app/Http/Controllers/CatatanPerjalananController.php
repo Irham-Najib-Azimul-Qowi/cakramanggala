@@ -20,10 +20,11 @@ class CatatanPerjalananController extends Controller
         $search = $request->get('search');
         $lokasi = $request->get('lokasi');
         $angkatan = $request->get('angkatan');
+        $kegiatan_id = $request->get('kegiatan_id');
         $perPage = 9; // 3x3 grid
 
         $query = CatatanPerjalanan::published()
-            ->with('user')
+            ->with(['user', 'kegiatan'])
             ->latest();
 
         if ($search) {
@@ -43,6 +44,10 @@ class CatatanPerjalananController extends Controller
             $query->where('angkatan', 'like', "%{$angkatan}%");
         }
 
+        if ($kegiatan_id) {
+            $query->where('kegiatan_id', $kegiatan_id);
+        }
+
         $catatans = $query->paginate($perPage);
 
         // Get unique locations and batches for filter dropdowns
@@ -58,7 +63,9 @@ class CatatanPerjalananController extends Controller
             ->distinct()
             ->pluck('angkatan');
 
-        return view('catatan.index', compact('catatans', 'search', 'lokasi', 'angkatan', 'lokasis', 'angkatans'));
+        $kegiatans = Kegiatan::orderBy('judul_kegiatan', 'asc')->get();
+
+        return view('catatan.index', compact('catatans', 'search', 'lokasi', 'angkatan', 'kegiatan_id', 'lokasis', 'angkatans', 'kegiatans'));
     }
 
     public function show($slug)

@@ -43,7 +43,7 @@
             <div class="row justify-content-center mb-5" data-aos="fade-up">
                 <div class="col-lg-12">
                     <form method="GET" action="{{ route('catatan-perjalanan.index') }}" class="row g-3">
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <div class="input-group" style="border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
                                 <span class="input-group-text bg-transparent border-0 ps-3">
                                     <i class="bi bi-search" style="color: var(--accent-color);"></i>
@@ -53,7 +53,7 @@
                                     value="{{ $search }}" placeholder="Cari judul, penulis, lokasi...">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select name="lokasi" class="form-select text-white py-2.5 shadow-none" 
                                     style="border: 1px solid rgba(255,255,255,0.1); background: #1a1a1a; cursor: pointer;">
                                 <option value="" style="background: #1a1a1a;">Semua Lokasi</option>
@@ -68,6 +68,15 @@
                                 <option value="" style="background: #1a1a1a;">Semua Angkatan/Kategori</option>
                                 @foreach($angkatans as $ang)
                                     <option value="{{ $ang }}" style="background: #1a1a1a;" {{ $angkatan == $ang ? 'selected' : '' }}>{{ $ang }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="kegiatan_id" class="form-select text-white py-2.5 shadow-none" 
+                                    style="border: 1px solid rgba(255,255,255,0.1); background: #1a1a1a; cursor: pointer;">
+                                <option value="" style="background: #1a1a1a;">Semua Kegiatan</option>
+                                @foreach($kegiatans as $keg)
+                                    <option value="{{ $keg->id }}" style="background: #1a1a1a;" {{ $kegiatan_id == $keg->id ? 'selected' : '' }}>{{ $keg->judul_kegiatan }}</option>
                                 @endforeach
                             </select>
                         </div>
