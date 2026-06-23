@@ -170,17 +170,21 @@ Route::get('/clear-cache', function() {
 
 Route::get('/debug-all', function() {
     $catatans = \App\Models\CatatanPerjalanan::all();
-    $results = [];
+    $output = "";
     foreach ($catatans as $cat) {
         $hasSlashN = str_contains($cat->konten, '\n') || str_contains($cat->konten, '\\n');
-        $results[] = [
-            'id' => $cat->id,
-            'judul' => $cat->judul,
-            'has_slash_n' => $hasSlashN,
-            'length' => strlen($cat->konten),
-        ];
+        $isValidUtf8 = mb_check_encoding($cat->konten, 'UTF-8');
+        
+        $output .= "ID: {$cat->id}\n";
+        $output .= "Judul: {$cat->judul}\n";
+        $output .= "Has literal \\n: " . ($hasSlashN ? "YES" : "NO") . "\n";
+        $output .= "Valid UTF-8: " . ($isValidUtf8 ? "YES" : "NO") . "\n";
+        
+        $safeKonten = mb_convert_encoding(substr($cat->konten, 0, 200), 'UTF-8', 'UTF-8');
+        $output .= "Snippet: {$safeKonten}\n";
+        $output .= "--------------------------------------------------\n\n";
     }
-    return response()->json($results);
+    return response($output)->header('Content-Type', 'text/plain');
 });
 
 
