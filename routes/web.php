@@ -133,6 +133,18 @@ Route::get('/fix-travel-logs', function() {
     $count = 0;
     
     $cleanText = function($text) {
+        // Decode Unicode escape sequences like \u201c, \ufb02, etc.
+        $text = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+            return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+        }, $text);
+
+        // Replace Unicode ligatures with normal character pairs
+        $text = str_replace(
+            ['ﬂ', 'ﬁ', 'ﬀ', 'ﬃ', 'ﬄ'],
+            ['fl', 'fi', 'ff', 'ffi', 'ffl'],
+            $text
+        );
+
         $text = str_replace("\r\n", "\n", $text);
         $text = str_replace(['\n', '\\n'], "\n", $text);
         
