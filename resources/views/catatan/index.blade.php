@@ -220,11 +220,11 @@
             margin-bottom: 1.2rem;
             letter-spacing: -0.01em;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-            height: 3.6em; /* Ensure uniform height for title area */
+            height: 4.2em; /* Ensure uniform height for title area */
         }
 
         .log-card__text {
