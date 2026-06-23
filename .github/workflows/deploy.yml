@@ -22,6 +22,11 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
       
+    - name: Create .env file
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+        
     - name: Run Validations
       run: |
         php artisan config:cache
