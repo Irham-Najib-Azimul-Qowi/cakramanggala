@@ -25,7 +25,9 @@ jobs:
     - name: Create .env file
       run: |
         cp .env.example .env
+        touch database/database.sqlite
         php artisan key:generate
+        php artisan migrate --force
         
     - name: Run Validations
       run: |
