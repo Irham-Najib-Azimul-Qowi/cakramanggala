@@ -15,6 +15,17 @@ use App\Http\Controllers\SitemapController;
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
+Route::get('/cleanup-temp-data', function () {
+    $kegiatan = \App\Models\Kegiatan::where('judul_kegiatan', 'Dikhir 2025')->first();
+    $deletedLogs = 0;
+    if ($kegiatan) {
+        $deletedLogs = \App\Models\CatatanPerjalanan::where('kegiatan_id', $kegiatan->id)->delete();
+    }
+    $nims = ['250000001', '250000002', '244112034', '250000003', '250000004', '250000005', '243304065', '250000006', '250000007', '250000008', '244314048'];
+    $deletedPengurus = \App\Models\Pengurus::whereIn('nim', $nims)->delete();
+    return "Deleted logs: $deletedLogs, Deleted pengurus: $deletedPengurus";
+});
+
 // Fallback storage route to serve images on shared hosting where symbolic links might be missing
 Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     $path = storage_path('app/public/' . $folder . '/' . $filename);
