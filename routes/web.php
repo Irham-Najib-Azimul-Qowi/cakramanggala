@@ -157,11 +157,7 @@ Route::get('/fix-travel-logs', function() {
 Route::get('/debug-log', function() {
     $c = \App\Models\CatatanPerjalanan::first();
     if (!$c) return "No travel logs found.";
-    return response()->json([
-        'judul' => $c->judul,
-        'konten_raw' => $c->konten,
-        'konten_hex' => bin2hex($c->konten)
-    ]);
+    return "JUDUL: " . $c->judul . "\n\nKONTEN RAW:\n" . $c->konten;
 });
 
 
