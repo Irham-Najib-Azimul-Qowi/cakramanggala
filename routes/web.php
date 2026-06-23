@@ -127,3 +127,30 @@ Route::middleware('auth')->group(function () {
     // Future routes for dashboard modules
     // Route::get('/dashboard/galeri', [DashboardController::class, 'galeri'])->name('dashboard.galeri');
 });
+
+// Temporary DB cleanup route
+Route::get('/fix-travel-logs', function() {
+    $catatans = \App\Models\CatatanPerjalanan::all();
+    $count = 0;
+    foreach ($catatans as $catatan) {
+        $oldKonten = $catatan->konten;
+        $oldDeskripsi = $catatan->deskripsi;
+
+        // Replace literal \n (backslash + n) with actual newline
+        $newKonten = str_replace(['\n', '\\n'], "\n", $oldKonten);
+        $newDeskripsi = str_replace(['\n', '\\n'], "\n", $oldDeskripsi);
+
+        // Replace multiple excessive newlines (e.g. 3 or more newlines) to tidy up the gap
+        $newKonten = preg_replace("/\r\n/", "\n", $newKonten);
+        $newKonten = preg_replace("/\n{3,}/", "\n\n", $newKonten);
+
+        if ($oldKonten !== $newKonten || $oldDeskripsi !== $newDeskripsi) {
+            $catatan->konten = $newKonten;
+            $catatan->deskripsi = $newDeskripsi;
+            $catatan->save();
+            $count++;
+        }
+    }
+    return "Successfully updated {$count} travel logs.";
+});
+

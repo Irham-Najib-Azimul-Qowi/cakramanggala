@@ -143,7 +143,6 @@
             color: rgba(255,255,255,0.85);
             font-size: 1.15rem;
             line-height: 1.9;
-            white-space: pre-wrap; /* Preserve paragraph breaks of parsed documents */
         }
 
         .article-content p {
