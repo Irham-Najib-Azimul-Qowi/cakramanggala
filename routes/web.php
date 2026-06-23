@@ -168,4 +168,19 @@ Route::get('/clear-cache', function() {
     return "Cache cleared successfully!";
 });
 
+Route::get('/debug-all', function() {
+    $catatans = \App\Models\CatatanPerjalanan::all();
+    $results = [];
+    foreach ($catatans as $cat) {
+        $hasSlashN = str_contains($cat->konten, '\n') || str_contains($cat->konten, '\\n');
+        $results[] = [
+            'id' => $cat->id,
+            'judul' => $cat->judul,
+            'has_slash_n' => $hasSlashN,
+            'length' => strlen($cat->konten),
+        ];
+    }
+    return response()->json($results);
+});
+
 
