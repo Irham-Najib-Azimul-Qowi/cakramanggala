@@ -128,21 +128,40 @@ Route::middleware('auth')->group(function () {
     // Route::get('/dashboard/galeri', [DashboardController::class, 'galeri'])->name('dashboard.galeri');
 });
 
-// Temporary DB cleanup route
 Route::get('/fix-travel-logs', function() {
     $catatans = \App\Models\CatatanPerjalanan::all();
     $count = 0;
+    
+    $cleanText = function($text) {
+        $text = str_replace("\r\n", "\n", $text);
+        $text = str_replace(['\n', '\\n'], "\n", $text);
+        
+        // Replace paragraph breaks (double newlines or double newlines with spacing) with placeholder
+        $text = preg_replace("/\n\s*\n/", "___PARAGRAPH___", $text);
+        
+        // Replace single newlines (line-wraps) with a space
+        $text = str_replace("\n", " ", $text);
+        
+        // Restore double newlines
+        $text = str_replace("___PARAGRAPH___", "\n\n", $text);
+        
+        // Clean multiple spaces
+        $text = preg_replace("/[ ]{2,}/", " ", $text);
+        
+        // Trim each line
+        $lines = explode("\n", $text);
+        $lines = array_map('trim', $lines);
+        $text = implode("\n", $lines);
+        
+        return trim($text);
+    };
+
     foreach ($catatans as $catatan) {
         $oldKonten = $catatan->konten;
         $oldDeskripsi = $catatan->deskripsi;
 
-        // Replace literal \n (backslash + n) with actual newline
-        $newKonten = str_replace(['\n', '\\n'], "\n", $oldKonten);
-        $newDeskripsi = str_replace(['\n', '\\n'], "\n", $oldDeskripsi);
-
-        // Replace multiple excessive newlines (e.g. 3 or more newlines) to tidy up the gap
-        $newKonten = preg_replace("/\r\n/", "\n", $newKonten);
-        $newKonten = preg_replace("/\n{3,}/", "\n\n", $newKonten);
+        $newKonten = $cleanText($oldKonten);
+        $newDeskripsi = $cleanText($oldDeskripsi);
 
         if ($oldKonten !== $newKonten || $oldDeskripsi !== $newDeskripsi) {
             $catatan->konten = $newKonten;
@@ -151,7 +170,7 @@ Route::get('/fix-travel-logs', function() {
             $count++;
         }
     }
-    return "Successfully updated {$count} travel logs.";
+    return "Successfully cleaned and formatted {$count} travel logs.";
 });
 
 Route::get('/debug-log', function() {
