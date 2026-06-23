@@ -187,4 +187,15 @@ Route::get('/debug-all', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
+Route::get('/debug-full-text', function() {
+    $catatans = \App\Models\CatatanPerjalanan::all();
+    $output = "";
+    foreach ($catatans as $cat) {
+        $output .= "=== ID: {$cat->id} | Judul: {$cat->judul} ===\n";
+        $output .= $cat->konten;
+        $output .= "\n============================================\n\n\n";
+    }
+    return response($output)->header('Content-Type', 'text/plain');
+});
+
 
