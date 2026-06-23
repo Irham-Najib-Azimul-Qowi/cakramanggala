@@ -160,4 +160,12 @@ Route::get('/debug-log', function() {
     return "JUDUL: " . $c->judul . "\n\nKONTEN RAW:\n" . $c->konten;
 });
 
+Route::get('/clear-cache', function() {
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    return "Cache cleared successfully!";
+});
+
 
