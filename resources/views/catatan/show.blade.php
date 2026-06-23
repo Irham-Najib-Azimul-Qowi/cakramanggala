@@ -35,7 +35,7 @@
         }
         .article-layout {
             display: grid;
-            grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.7fr);
+            grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.6fr);
             gap: 3rem;
             align-items: start;
         }

@@ -23,7 +23,7 @@
 
             <div class="row g-5">
                 <!-- Main Content -->
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="detail-header mb-5" data-aos="fade-up">
                         <span class="badge mb-3 text-uppercase" style="background: var(--accent-color); color: var(--primary-color); font-weight: 800; letter-spacing: 0.1em; padding: 0.5rem 1rem; border-radius: 0;">
                             {{ $kegiatan->sifat }}
@@ -86,7 +86,7 @@
                 </div>
 
                 <!-- Sidebar -->
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="sidebar-content sticky-top" style="top: 120px;">
                         <!-- Materi Box -->
                         <div class="info-card p-4 mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
