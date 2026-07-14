@@ -53,6 +53,9 @@ jobs:
           # Maintain maintenance mode
           php artisan down || true
           
+          # Discard any local changes on the server to prevent merge conflicts
+          git reset --hard
+          
           # Pull latest code
           git pull origin main
           
@@ -65,8 +68,8 @@ jobs:
           # Clear and set caches
           php artisan optimize
           
-          # Permissions
-          chmod -R 775 storage bootstrap/cache
+          # Permissions (ignore failures from files owned by web server)
+          chmod -R 775 storage bootstrap/cache || true
           
           # Bring up the app
           php artisan up
