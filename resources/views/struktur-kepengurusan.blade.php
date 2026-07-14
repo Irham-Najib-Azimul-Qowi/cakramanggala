@@ -5,10 +5,6 @@
 @section('content')
     @php
         $heroImage = asset('image/fotobersejarah2.jpg');
-
-        $leader = $penguruses->where('jabatan', 'Ketua Umum')->first();
-        $coreMembers = $penguruses->filter(fn($p) => in_array($p->jabatan, ['Sekretaris', 'Bendahara', 'Kabid. Logistik']));
-        $divisionHeads = $penguruses->filter(fn($p) => !in_array($p->jabatan, ['Ketua Umum', 'Sekretaris', 'Bendahara', 'Kabid. Logistik']));
     @endphp
 
     <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
@@ -41,35 +37,31 @@
         </div>
     </section>
 
-    <!-- KETUA UMUM -->
-    @if($leader)
-        <section class="section-shell" style="background-color: var(--dark-color); padding-top: 0; padding-bottom: 2rem;">
-            <div class="container">
-                <div class="section-intro text-center mb-5" data-aos="fade-up">
-                    <span class="section-kicker mx-auto">Pimpinan</span>
-                    <h2 class="section-heading">Ketua Umum</h2>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-9">
-                        <div class="officer-stack">
-                            <div class="officer-horizontal-card" data-aos="fade-up">
+    <!-- LIST PENGURUS -->
+    <section class="section-shell" style="background-color: var(--dark-color); padding-top: 0; padding-bottom: 8rem;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="officer-stack">
+                        @foreach($penguruses as $member)
+                            <div class="officer-horizontal-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
                                 <div class="oh-card__inner">
                                     <div class="oh-card__photo">
-                                        @if($leader->foto)
-                                            <img src="{{ asset($leader->foto) }}" alt="Pengurus Cakra Manggala: {{ $leader->nama }} - {{ $leader->jabatan }}" loading="lazy">
+                                        @if($member->foto)
+                                            <img src="{{ asset($member->foto) }}" alt="Pengurus Cakra Manggala: {{ $member->nama }} - {{ $member->jabatan }}" loading="lazy">
                                         @else
                                             <div class="oh-card__placeholder">
-                                                {{ strtoupper(substr($leader->nama, 0, 1)) }}
+                                                {{ strtoupper(substr($member->nama, 0, 1)) }}
                                             </div>
                                         @endif
                                     </div>
                                     <div class="oh-card__content">
                                         <div class="oh-card__header">
-                                            <span class="oh-card__position">{{ strtoupper($leader->jabatan) }}</span>
-                                            <h3 class="oh-card__name">{{ $leader->nama }}</h3>
-                                            @if($leader->prodi_semester)
+                                            <span class="oh-card__position">{{ strtoupper($member->jabatan) }}</span>
+                                            <h3 class="oh-card__name">{{ $member->nama }}</h3>
+                                            @if($member->prodi_semester)
                                                 <p class="x-small text-accent mt-1 mb-0 fw-bold">
-                                                    {{ strtoupper($leader->prodi_semester) }}
+                                                    {{ strtoupper($member->prodi_semester) }}
                                                 </p>
                                             @endif
                                         </div>
@@ -78,8 +70,8 @@
                                                 <div style="width: 30px; height: 1px; background: rgba(255,255,255,0.2);"></div>
                                                 <span class="x-small text-white-50 fw-bold">PENGURUS AKTIF</span>
                                             </div>
-                                            @if($leader->instagram_url)
-                                                <a href="{{ $leader->instagram_url }}" target="_blank" class="oh-card__social">
+                                            @if($member->instagram_url)
+                                                <a href="{{ $member->instagram_url }}" target="_blank" class="oh-card__social">
                                                     <i class="bi bi-instagram"></i>
                                                 </a>
                                             @endif
@@ -87,122 +79,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
-        </section>
-    @endif
-
-    <!-- PENGURUS INTI -->
-    @if($coreMembers->count() > 0)
-        <section class="section-shell" style="background-color: var(--dark-color); padding-top: 0; padding-bottom: 2rem;">
-            <div class="container">
-                <div class="section-intro text-center mb-5" data-aos="fade-up">
-                    <span class="section-kicker mx-auto">Operasional</span>
-                    <h2 class="section-heading">Pengurus Inti</h2>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-9">
-                        <div class="officer-stack">
-                            @foreach($coreMembers as $member)
-                                <div class="officer-horizontal-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
-                                    <div class="oh-card__inner">
-                                        <div class="oh-card__photo">
-                                            @if($member->foto)
-                                                <img src="{{ asset($member->foto) }}" alt="Pengurus Cakra Manggala: {{ $member->nama }} - {{ $member->jabatan }}" loading="lazy">
-                                            @else
-                                                <div class="oh-card__placeholder">
-                                                    {{ strtoupper(substr($member->nama, 0, 1)) }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="oh-card__content">
-                                            <div class="oh-card__header">
-                                                <span class="oh-card__position">{{ strtoupper($member->jabatan) }}</span>
-                                                <h3 class="oh-card__name">{{ $member->nama }}</h3>
-                                                @if($member->prodi_semester)
-                                                    <p class="x-small text-accent mt-1 mb-0 fw-bold">
-                                                        {{ strtoupper($member->prodi_semester) }}
-                                                    </p>
-                                                @endif
-                                            </div>
-                                            <div class="oh-card__footer">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div style="width: 30px; height: 1px; background: rgba(255,255,255,0.2);"></div>
-                                                    <span class="x-small text-white-50 fw-bold">PENGURUS AKTIF</span>
-                                                </div>
-                                                @if($member->instagram_url)
-                                                    <a href="{{ $member->instagram_url }}" target="_blank" class="oh-card__social">
-                                                        <i class="bi bi-instagram"></i>
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endif
-
-    <!-- KEPALA BIDANG -->
-    @if($divisionHeads->count() > 0)
-        <section class="section-shell" style="background-color: var(--dark-color); padding-top: 0; padding-bottom: 8rem;">
-            <div class="container">
-                <div class="section-intro text-center mb-5" data-aos="fade-up">
-                    <span class="section-kicker mx-auto">Divisi</span>
-                    <h2 class="section-heading">Kepala Bidang</h2>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-9">
-                        <div class="officer-stack">
-                            @foreach($divisionHeads as $member)
-                                <div class="officer-horizontal-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
-                                    <div class="oh-card__inner">
-                                        <div class="oh-card__photo">
-                                            @if($member->foto)
-                                                <img src="{{ asset($member->foto) }}" alt="Pengurus Cakra Manggala: {{ $member->nama }} - {{ $member->jabatan }}" loading="lazy">
-                                            @else
-                                                <div class="oh-card__placeholder">
-                                                    {{ strtoupper(substr($member->nama, 0, 1)) }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="oh-card__content">
-                                            <div class="oh-card__header">
-                                                <span class="oh-card__position">{{ strtoupper($member->jabatan) }}</span>
-                                                <h3 class="oh-card__name">{{ $member->nama }}</h3>
-                                                @if($member->prodi_semester)
-                                                    <p class="x-small text-accent mt-1 mb-0 fw-bold">
-                                                        {{ strtoupper($member->prodi_semester) }}
-                                                    </p>
-                                                @endif
-                                            </div>
-                                            <div class="oh-card__footer">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div style="width: 30px; height: 1px; background: rgba(255,255,255,0.2);"></div>
-                                                    <span class="x-small text-white-50 fw-bold">PENGURUS AKTIF</span>
-                                                </div>
-                                                @if($member->instagram_url)
-                                                    <a href="{{ $member->instagram_url }}" target="_blank" class="oh-card__social">
-                                                        <i class="bi bi-instagram"></i>
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endif
+        </div>
+    </section>
 
     <style>
         .page-wrapper {
@@ -237,16 +119,6 @@
         .org-period-banner .section-heading {
             color: #fff;
             margin-bottom: 0.5rem;
-        }
-
-        .section-intro .section-kicker {
-            background: transparent;
-            border-color: rgba(255, 255, 255, 0.1);
-            color: var(--accent-color);
-        }
-
-        .section-intro .section-heading {
-            color: #fff;
         }
 
         .officer-stack {
