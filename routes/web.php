@@ -43,12 +43,14 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.alt');
 
 // Static pages routes
 Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
+Route::get('/sejarah', [HomeController::class, 'history'])->name('about.history');
 Route::get('/kegiatan', [HomeController::class, 'activities'])->name('activities');
 Route::get('/kegiatan/{id}', [HomeController::class, 'activityDetail'])->name('activities.show');
 Route::get('/bergabung', [HomeController::class, 'join'])->name('join');
 Route::get('/kontak', [HomeController::class, 'contact'])->name('contact');
 Route::post('/kontak/kirim', [HomeController::class, 'sendContact'])->name('contact.send');
 Route::get('/struktur-kepengurusan', [StrukturController::class, 'index'])->name('struktur-kepengurusan');
+Route::get('/anggota', [StrukturController::class, 'anggota'])->name('about.member');
 
 // Pendaftaran routes
 Route::post('/bergabung', [HomeController::class, 'storePendaftaran'])->name('join.store')->middleware('recaptcha');

@@ -46,8 +46,12 @@ class HomeController extends Controller
 
     public function about()
     {
-        $penguruses = \App\Models\Pengurus::where('status', 'active')->orderBy('urutan')->get();
-        return view('about', compact('penguruses'));
+        return view('about');
+    }
+
+    public function history()
+    {
+        return view('sejarah');
     }
 
     public function activities(Request $request)

@@ -1285,13 +1285,14 @@
                         href="{{ route('home') }}">Beranda</a>
 
                     <div class="site-navbar-dropdown">
-                        <a class="site-navbar-link {{ request()->routeIs('about', 'about.history', 'struktur-kepengurusan') ? 'is-active' : '' }}" href="javascript:void(0)">
+                        <a class="site-navbar-link {{ request()->routeIs('about', 'about.history', 'struktur-kepengurusan', 'about.member') ? 'is-active' : '' }}" href="javascript:void(0)">
                             Profil <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
                         </a>
                         <div class="site-navbar-dropdown-content">
                             <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">Tentang Kami</a>
                             <a class="{{ request()->routeIs('about.history') ? 'is-active' : '' }}" href="{{ route('about.history') }}">Sejarah</a>
-                            <a class="{{ request()->routeIs('struktur-kepengurusan') ? 'is-active' : '' }}" href="{{ route('struktur-kepengurusan') }}">Pengurus dan Anggota</a>
+                            <a class="{{ request()->routeIs('struktur-kepengurusan') ? 'is-active' : '' }}" href="{{ route('struktur-kepengurusan') }}">Pengurus</a>
+                            <a class="{{ request()->routeIs('about.member') ? 'is-active' : '' }}" href="{{ route('about.member') }}">Anggota</a>
                         </div>
                     </div>
 
@@ -1342,7 +1343,22 @@
                     </a>
                     <a class="site-menu-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
                         href="{{ route('about') }}">
-                        <span>Tentang</span>
+                        <span>Tentang Kami</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                    <a class="site-menu-link {{ request()->routeIs('about.history') ? 'is-active' : '' }}"
+                        href="{{ route('about.history') }}">
+                        <span>Sejarah</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                    <a class="site-menu-link {{ request()->routeIs('struktur-kepengurusan') ? 'is-active' : '' }}"
+                        href="{{ route('struktur-kepengurusan') }}">
+                        <span>Pengurus</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                    <a class="site-menu-link {{ request()->routeIs('about.member') ? 'is-active' : '' }}"
+                        href="{{ route('about.member') }}">
+                        <span>Anggota</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
                     <a class="site-menu-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
