@@ -1267,7 +1267,7 @@
 @php
     $bodyClasses = implode(' ', array_filter([
         trim($__env->yieldContent('body_class')),
-        request()->routeIs('home', 'home.alt', 'about', 'contact', 'struktur-kepengurusan', 'artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities', 'activities.show') ? 'layout-overlay-nav' : null,
+        request()->routeIs('home', 'home.alt', 'about', 'about.history', 'about.member', 'contact', 'struktur-kepengurusan', 'artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities', 'activities.show') ? 'layout-overlay-nav' : null,
     ]));
 @endphp
 
