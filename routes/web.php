@@ -117,7 +117,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('pengurus', \App\Http\Controllers\Dashboard\PengurusController::class)->middleware('role:admin');
 
         // Anggota CRUD (ADMIN ONLY)
-        Route::resource('anggota', \App\Http\Controllers\Dashboard\AnggotaController::class)->middleware('role:admin');
+        Route::resource('anggota', \App\Http\Controllers\Dashboard\AnggotaController::class)
+            ->parameters(['anggota' => 'anggota'])
+            ->middleware('role:admin');
 
         // Pesan Management
         Route::get('pesan', [DashboardController::class, 'messages'])->name('pesan');
