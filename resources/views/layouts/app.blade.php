@@ -1283,23 +1283,20 @@
                 <nav class="site-navbar-links" aria-label="Navigasi desktop">
                     <a class="site-navbar-link {{ request()->routeIs('home', 'home.alt') ? 'is-active' : '' }}"
                         href="{{ route('home') }}">Beranda</a>
-                    <a class="site-navbar-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
-                        href="{{ route('about') }}">Tentang</a>
-                    
+
                     <div class="site-navbar-dropdown">
-                        <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities') ? 'is-active' : '' }}" href="javascript:void(0)">
-                            Jurnal & Kegiatan <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                        <a class="site-navbar-link {{ request()->routeIs('about', 'about.history', 'struktur-kepengurusan') ? 'is-active' : '' }}" href="javascript:void(0)">
+                            Profil <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
                         </a>
                         <div class="site-navbar-dropdown-content">
-                            <a class="{{ request()->routeIs('activities') ? 'is-active' : '' }}" href="{{ route('activities') }}">Kegiatan</a>
-                            <a class="{{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show') ? 'is-active' : '' }}" href="{{ route('catatan-perjalanan.index') }}">Catatan Perjalanan</a>
-                            <a class="{{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
+                            <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">Tentang Kami</a>
+                            <a class="{{ request()->routeIs('about.history') ? 'is-active' : '' }}" href="{{ route('about.history') }}">Sejarah</a>
+                            <a class="{{ request()->routeIs('struktur-kepengurusan') ? 'is-active' : '' }}" href="{{ route('struktur-kepengurusan') }}">Pengurus dan Anggota</a>
                         </div>
                     </div>
 
                     <a class="site-navbar-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
                         href="{{ route('contact') }}">Kontak</a>
-
                 </nav>
 
                 <div class="site-navbar-actions">
