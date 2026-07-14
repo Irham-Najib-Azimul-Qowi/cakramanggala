@@ -4,24 +4,23 @@
 
 @section('content')
     @php
-        $heroImage = asset('image/fotobersejarah3.jpg');
+        $heroImage = asset('image/fotobersejarah2.jpg');
     @endphp
 
-    <div class="page-wrapper" style="background-color: var(--dark-color); color: #fff;">
-        <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
-            <div class="container">
-                <div class="page-hero__inner">
-                    <span class="page-hero__eyebrow" data-aos="fade-up">
-                        <i class="bi bi-clock-history"></i>
-                        Lintas Waktu
-                    </span>
-                    <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">Sejarah<br><span>Cakra Manggala</span></h1>
-                    <p class="page-hero__lead" data-aos="fade-up" data-aos-delay="200">
-                        Menapaki rekam jejak, perjuangan, dan komitmen pelestarian lingkungan sejak awal berdirinya organisasi.
-                    </p>
-                </div>
+    <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
+        <div class="container">
+            <div class="page-hero__inner">
+                <span class="page-hero__eyebrow" data-aos="fade-up">
+                    <i class="bi bi-clock-history"></i>
+                    Lintas Waktu
+                </span>
+                <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">Sejarah<br><span>Cakra Manggala</span></h1>
+                <p class="page-hero__lead" data-aos="fade-up" data-aos-delay="200">
+                    Menapaki rekam jejak, perjuangan, dan komitmen pelestarian lingkungan sejak awal berdirinya organisasi.
+                </p>
             </div>
-        </section>
+        </div>
+    </section>
 
         <!-- Awal Mula Section -->
         <section class="section-shell" style="background-color: var(--dark-color); padding-bottom: 4rem;">
@@ -107,7 +106,6 @@
                 </div>
             </div>
         </section>
-    </div>
 
     <style>
         .timeline-container {

@@ -558,6 +558,10 @@
                 class="nav-link {{ request()->routeIs('dashboard.pengurus*') ? 'active' : '' }}">
                 <i class="bi bi-people-fill"></i> Pengurus
             </a>
+            <a href="{{ route('dashboard.anggota.index') }}"
+                class="nav-link {{ request()->routeIs('dashboard.anggota*') ? 'active' : '' }}">
+                <i class="bi bi-person-badge-fill"></i> Anggota
+            </a>
             <a href="{{ route('dashboard.pesan') }}"
                 class="nav-link {{ request()->routeIs('dashboard.pesan*') ? 'active' : '' }}">
                 <i class="bi bi-chat-left-dots"></i> Pesan

@@ -24,6 +24,100 @@
         </div>
     </section>
 
+    <!-- Identity Section -->
+    <section class="section-shell" style="background-color: var(--dark-color); color: #fff; padding-bottom: 2rem;">
+        <div class="container text-center">
+            <div class="mb-4" data-aos="fade-up">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo UKM Cakra Manggala" style="width: 150px; height: auto; filter: drop-shadow(0 0 20px rgba(242,182,97,0.2));">
+            </div>
+            <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-8">
+                    <span class="section-label" style="color: var(--accent-color); font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em;">Profil Singkat</span>
+                    <h2 class="section-heading mt-2" style="color: #fff; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; letter-spacing: -0.01em;">UKM Pecinta Alam Politeknik Negeri Madiun</h2>
+                    <div style="width: 60px; height: 4px; background: var(--accent-color); margin: 1.5rem auto;"></div>
+                    <p class="section-lead" style="color: rgba(255,255,255,0.75); line-height: 1.8; font-size: 1.1rem;">
+                        UKM Cakra Manggala merupakan satu-satunya organisasi mahasiswa pecinta alam resmi di Politeknik Negeri Madiun. Organisasi ini didirikan sebagai wadah bagi mahasiswa untuk menyalurkan minat, bakat, serta kepedulian terhadap kelestarian alam bebas, konservasi lingkungan hidup, serta kemanusiaan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dosen Pembina Section -->
+    <section class="section-shell" style="background-color: var(--primary-color); color: #fff; padding-top: 4rem; padding-bottom: 4rem;">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-label" style="color: var(--accent-color); font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em;">Pilar Pembimbing</span>
+                <h2 class="section-heading" style="color: #fff; font-size: 2.25rem; font-weight: 900;">Dosen Pembina</h2>
+                <div style="width: 60px; height: 4px; background: var(--accent-color); margin: 1rem auto 0;"></div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pembina-card">
+                        <div class="pembina-card__photo">
+                            <img src="{{ asset('image/profile_kosong.jpg') }}" alt="Dosen Pembina Cakra Manggala" class="img-fluid">
+                        </div>
+                        <div class="pembina-card__info text-center">
+                            <h3 class="pembina-card__name">M. Syahru Mubarok, S.T., M.T.</h3>
+                            <div class="pembina-card__title">Dosen Pembina Utama</div>
+                            <div class="pembina-card__prodi">Dosen Pengajar Prodi Teknik Elektro</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .pembina-card {
+            background: var(--dark-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2.5rem 1.5rem;
+            transition: all 0.4s;
+        }
+        .pembina-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        .pembina-card__photo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.05);
+        }
+        .pembina-card:hover .pembina-card__photo {
+            border-color: var(--accent-color);
+        }
+        .pembina-card__photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .pembina-card__name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+        .pembina-card__title {
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        .pembina-card__prodi {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.4;
+        }
+    </style>
+
     <!-- History Section -->
     <section class="section-shell" style="background-color: var(--dark-color); color: #fff;">
         <div class="container">

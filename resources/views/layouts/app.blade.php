@@ -1296,6 +1296,17 @@
                         </div>
                     </div>
 
+                    <div class="site-navbar-dropdown">
+                        <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities') ? 'is-active' : '' }}" href="javascript:void(0)">
+                            Jurnal & Kegiatan <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                        </a>
+                        <div class="site-navbar-dropdown-content">
+                            <a class="{{ request()->routeIs('activities') ? 'is-active' : '' }}" href="{{ route('activities') }}">Kegiatan</a>
+                            <a class="{{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show') ? 'is-active' : '' }}" href="{{ route('catatan-perjalanan.index') }}">Catatan Perjalanan</a>
+                            <a class="{{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
+                        </div>
+                    </div>
+
                     <a class="site-navbar-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
                         href="{{ route('contact') }}">Kontak</a>
                 </nav>

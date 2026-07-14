@@ -116,6 +116,9 @@ Route::middleware('auth')->group(function () {
         // Pengurus CRUD (ADMIN ONLY)
         Route::resource('pengurus', \App\Http\Controllers\Dashboard\PengurusController::class)->middleware('role:admin');
 
+        // Anggota CRUD (ADMIN ONLY)
+        Route::resource('anggota', \App\Http\Controllers\Dashboard\AnggotaController::class)->middleware('role:admin');
+
         // Pesan Management
         Route::get('pesan', [DashboardController::class, 'messages'])->name('pesan');
         Route::get('pesan/{pesan}', [DashboardController::class, 'showMessage'])->name('pesan.show');

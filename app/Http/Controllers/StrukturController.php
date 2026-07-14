@@ -19,20 +19,18 @@ class StrukturController extends Controller
     public function anggota(Request $request)
     {
         $search = $request->get('search');
-        $query = \App\Models\Pendaftaran::where(function ($q) {
-            $q->where('is_approved', 1)
-              ->orWhere('status', 'Diterima');
-        });
+        $query = \App\Models\Anggota::query();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_lengkap', 'like', "%{$search}%")
-                  ->orWhere('nim', 'like', "%{$search}%")
-                  ->orWhere('program_studi', 'like', "%{$search}%");
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nia', 'like', "%{$search}%")
+                  ->orWhere('angkatan', 'like', "%{$search}%")
+                  ->orWhere('status', 'like', "%{$search}%");
             });
         }
 
-        $members = $query->orderBy('nama_lengkap', 'asc')->paginate(16)->withQueryString();
+        $members = $query->orderBy('angkatan', 'desc')->orderBy('nama', 'asc')->paginate(16)->withQueryString();
 
         return view('anggota', compact('members', 'search'));
     }

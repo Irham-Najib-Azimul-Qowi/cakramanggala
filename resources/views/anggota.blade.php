@@ -1,118 +1,132 @@
 @extends('layouts.app')
 
-@section('title', 'Anggota - UKM Cakra Manggala')
+@section('title', 'Daftar Anggota - UKM Cakra Manggala')
 
 @section('content')
     @php
         $heroImage = asset('image/fotobersejarah2.jpg');
     @endphp
 
-    <div class="page-wrapper" style="background-color: var(--dark-color); color: #fff;">
-        <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
-            <div class="container">
-                <div class="page-hero__inner">
-                    <span class="page-hero__eyebrow" data-aos="fade-up">
-                        <i class="bi bi-people-fill"></i>
-                        Persaudaraan
-                    </span>
-                    <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">Daftar<br><span>Anggota Aktif</span></h1>
-                    <p class="page-hero__lead" data-aos="fade-up" data-aos-delay="200">
-                        Barisan anggota aktif yang bersama-sama mengukir cerita petualangan dan kepedulian lingkungan.
-                    </p>
-                </div>
+    <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">
+        <div class="container">
+            <div class="page-hero__inner">
+                <span class="page-hero__eyebrow" data-aos="fade-up">
+                    <i class="bi bi-people-fill"></i>
+                    Persaudaraan
+                </span>
+                <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">Daftar<br><span>Anggota</span></h1>
+                <p class="page-hero__lead" data-aos="fade-up" data-aos-delay="200">
+                    Seluruh keluarga besar UKM Cakra Manggala dari Anggota Baru, Anggota Aktif, Demisioner, hingga Alumni.
+                </p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section-shell" style="background-color: var(--dark-color); padding-top: 4rem; padding-bottom: 8rem;">
-            <div class="container">
-                <!-- Search and Stats Bar -->
-                <div class="row align-items-center mb-5 g-4" data-aos="fade-up">
-                    <div class="col-md-8 col-lg-9">
-                        <form action="{{ route('about.member') }}" method="GET" class="search-form-wrap">
-                            <div class="input-group">
-                                <span class="input-group-text" style="background: var(--primary-color); border: 1px solid rgba(255,255,255,0.05); border-right: none; color: rgba(255,255,255,0.4);">
-                                    <i class="bi bi-search"></i>
-                                </span>
-                                <input type="text" name="search" class="form-control search-input" 
-                                    placeholder="Cari anggota berdasarkan nama, NIM, atau program studi..." 
-                                    value="{{ $search }}" 
-                                    style="background: var(--primary-color); border: 1px solid rgba(255,255,255,0.05); border-left: none; color: #fff; box-shadow: none;">
-                                @if($search)
-                                    <a href="{{ route('about.member') }}" class="btn btn-outline-secondary d-flex align-items-center" style="border: 1px solid rgba(255,255,255,0.05); border-left: none; background: var(--primary-color); color: rgba(255,255,255,0.4);">
-                                        <i class="bi bi-x-lg"></i>
-                                    </a>
-                                @endif
-                                <button class="btn btn-accent" type="submit" style="background: var(--accent-color); color: var(--primary-color); border: 1px solid var(--accent-color); font-weight: 800;">
-                                    CARI
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-4 col-lg-3 text-md-end">
-                        <div class="stats-badge-wrap">
-                            <span class="stats-badge" style="background: rgba(242, 182, 97, 0.05); border: 1px solid rgba(242, 182, 97, 0.1); color: var(--accent-color); padding: 0.75rem 1.5rem; display: inline-block; font-weight: 800; letter-spacing: 0.05em;">
-                                TOTAL: {{ $members->total() }} ANGGOTA
+    <section class="section-shell" style="background-color: var(--dark-color); padding-top: 4rem; padding-bottom: 8rem;">
+        <div class="container">
+            <!-- Search and Stats Bar -->
+            <div class="row align-items-center mb-5 g-4" data-aos="fade-up">
+                <div class="col-md-8 col-lg-9">
+                    <form action="{{ route('about.member') }}" method="GET" class="search-form-wrap">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: var(--primary-color); border: 1px solid rgba(255,255,255,0.05); border-right: none; color: rgba(255,255,255,0.4);">
+                                <i class="bi bi-search"></i>
                             </span>
+                            <input type="text" name="search" class="form-control search-input" 
+                                placeholder="Cari anggota berdasarkan nama, NIA, atau angkatan..." 
+                                value="{{ $search }}" 
+                                style="background: var(--primary-color); border: 1px solid rgba(255,255,255,0.05); border-left: none; color: #fff; box-shadow: none;">
+                            @if($search)
+                                <a href="{{ route('about.member') }}" class="btn btn-outline-secondary d-flex align-items-center" style="border: 1px solid rgba(255,255,255,0.05); border-left: none; background: var(--primary-color); color: rgba(255,255,255,0.4);">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            @endif
+                            <button class="btn btn-accent" type="submit" style="background: var(--accent-color); color: var(--primary-color); border: 1px solid var(--accent-color); font-weight: 800;">
+                                CARI
+                            </button>
                         </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-lg-3 text-md-end">
+                    <div class="stats-badge-wrap">
+                        <span class="stats-badge" style="background: rgba(242, 182, 97, 0.05); border: 1px solid rgba(242, 182, 97, 0.1); color: var(--accent-color); padding: 0.75rem 1.5rem; display: inline-block; font-weight: 800; letter-spacing: 0.05em;">
+                            TOTAL: {{ $members->total() }} ANGGOTA
+                        </span>
                     </div>
                 </div>
-
-                @if($members->count() > 0)
-                    <!-- Member Cards Grid -->
-                    <div class="row g-4">
-                        @foreach($members as $index => $member)
-                            <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ ($index % 4) * 100 }}">
-                                <article class="member-card">
-                                    <div class="member-card__avatar-wrap">
-                                        @if($member->foto_diri)
-                                            <img src="{{ asset($member->foto_diri) }}" alt="{{ $member->nama_lengkap }}" class="member-card__avatar">
-                                        @else
-                                            <div class="member-card__placeholder">
-                                                {{ strtoupper(substr($member->nama_lengkap, 0, 1)) }}
-                                            </div>
-                                        @endif
-                                        <span class="member-card__badge-status"></span>
-                                    </div>
-                                    <div class="member-card__content">
-                                        <h3 class="member-card__name">{{ $member->nama_lengkap }}</h3>
-                                        <div class="member-card__nim">{{ $member->nim }}</div>
-                                        <div class="member-card__major">
-                                            {{ $member->program_studi }}<br>
-                                            <span class="text-white-50">Jurusan {{ $member->jurusan }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="member-card__footer">
-                                        <span class="badge-active"><i class="bi bi-patch-check-fill me-1"></i> ANGGOTA AKTIF</span>
-                                    </div>
-                                </article>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="d-flex justify-content-center mt-5 custom-pagination">
-                        {{ $members->links() }}
-                    </div>
-                @else
-                    <!-- No Results -->
-                    <div class="text-center py-5" data-aos="fade-up">
-                        <div style="background: rgba(255,255,255,0.03); width: 100px; height: 100px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem;">
-                            <i class="bi bi-search display-4" style="color: rgba(255,255,255,0.15);"></i>
-                        </div>
-                        <h3 class="h4 fw-bold text-white mb-2">Anggota Tidak Ditemukan</h3>
-                        <p class="text-white-50" style="max-width: 400px; margin: 0 auto;">
-                            Tidak ada anggota yang cocok dengan kata kunci pencarian "{{ $search }}". Coba cari dengan kata kunci lain.
-                        </p>
-                        <div class="mt-4">
-                            <a href="{{ route('about.member') }}" class="btn btn-outline-light" style="border-radius: 0; font-weight: 800; letter-spacing: 0.05em; padding: 0.75rem 1.5rem;">
-                                LIHAT SEMUA ANGGOTA
-                            </a>
-                        </div>
-                    </div>
-                @endif
             </div>
-        </section>
-    </div>
+
+            @if($members->count() > 0)
+                <!-- Member Cards Grid -->
+                <div class="row g-4">
+                    @foreach($members as $index => $member)
+                        <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ ($index % 4) * 100 }}">
+                            <article class="member-card">
+                                <div class="member-card__avatar-wrap">
+                                    @if($member->foto)
+                                        <img src="{{ asset($member->foto) }}" alt="{{ $member->nama }}" class="member-card__avatar">
+                                    @else
+                                        <div class="member-card__placeholder">
+                                            {{ strtoupper(substr($member->nama, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                    
+                                    @if($member->status == 'anggota baru')
+                                        <span class="member-card__badge-status" style="background: #38b000;"></span>
+                                    @elseif($member->status == 'anggota')
+                                        <span class="member-card__badge-status" style="background: #2ec4b6;"></span>
+                                    @elseif($member->status == 'demisioner')
+                                        <span class="member-card__badge-status" style="background: #ff9f1c;"></span>
+                                    @else
+                                        <span class="member-card__badge-status" style="background: #a8a8a8;"></span>
+                                    @endif
+                                </div>
+                                <div class="member-card__content">
+                                    <h3 class="member-card__name">{{ $member->nama }}</h3>
+                                    <div class="member-card__nim">NIA. {{ $member->nia ?? '-' }}</div>
+                                    <div class="member-card__major">
+                                        <span class="text-accent fw-bold">Angkatan {{ $member->angkatan }}</span>
+                                    </div>
+                                </div>
+                                <div class="member-card__footer">
+                                    @if($member->status == 'anggota baru')
+                                        <span class="badge-active" style="color: #38b000;"><i class="bi bi-person-plus-fill me-1"></i> ANGGOTA BARU</span>
+                                    @elseif($member->status == 'anggota')
+                                        <span class="badge-active" style="color: #2ec4b6;"><i class="bi bi-patch-check-fill me-1"></i> ANGGOTA AKTIF</span>
+                                    @elseif($member->status == 'demisioner')
+                                        <span class="badge-active" style="color: #ff9f1c;"><i class="bi bi-shield-fill-check me-1"></i> DEMISIONER</span>
+                                    @else
+                                        <span class="badge-active" style="color: #a8a8a8;"><i class="bi bi-mortarboard-fill me-1"></i> ALUMNI</span>
+                                    @endif
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-5 custom-pagination">
+                    {{ $members->links() }}
+                </div>
+            @else
+                <!-- No Results -->
+                <div class="text-center py-5" data-aos="fade-up">
+                    <div style="background: rgba(255,255,255,0.03); width: 100px; height: 100px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem;">
+                        <i class="bi bi-search display-4" style="color: rgba(255,255,255,0.15);"></i>
+                    </div>
+                    <h3 class="h4 fw-bold text-white mb-2">Anggota Tidak Ditemukan</h3>
+                    <p class="text-white-50" style="max-width: 400px; margin: 0 auto;">
+                        Tidak ada anggota yang cocok dengan kata kunci pencarian "{{ $search }}". Coba cari dengan kata kunci lain.
+                    </p>
+                    <div class="mt-4">
+                        <a href="{{ route('about.member') }}" class="btn btn-outline-light" style="border-radius: 0; font-weight: 800; letter-spacing: 0.05em; padding: 0.75rem 1.5rem;">
+                            LIHAT SEMUA ANGGOTA
+                        </a>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </section>
 
     <style>
         /* Form Search styling */
@@ -192,7 +206,6 @@
             right: 2px;
             width: 14px;
             height: 14px;
-            background: #2ec4b6;
             border: 2px solid var(--primary-color);
             border-radius: 50%;
         }
@@ -238,7 +251,6 @@
             font-size: 0.65rem;
             font-weight: 900;
             letter-spacing: 0.1em;
-            color: #2ec4b6;
             text-transform: uppercase;
         }
     </style>
