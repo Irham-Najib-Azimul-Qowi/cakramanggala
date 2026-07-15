@@ -94,32 +94,30 @@
                 <div class="row g-4">
                     @foreach($catatans as $catatan)
                         <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
-                            <div class="log-card">
-                                <div class="log-card__header">
-                                    <div class="log-card__icon-badge">
-                                        <i class="bi bi-journal-text"></i>
-                                    </div>
+                            <div class="premium-card">
+                                <div class="premium-card__img-wrapper">
+                                    <img src="{{ $catatan->gambar_url }}" class="premium-card__img" alt="{{ $catatan->judul }}">
                                     @if($catatan->lokasi)
-                                        <span class="log-card__badge">{{ $catatan->lokasi }}</span>
+                                        <span class="premium-card__badge">{{ $catatan->lokasi }}</span>
                                     @endif
                                 </div>
-                                <div class="log-card__body">
-                                    <div class="log-card__meta">
+                                <div class="premium-card__body">
+                                    <div class="premium-card__meta">
                                         <span><i class="bi bi-person-fill me-2"></i>{{ $catatan->penulis }}</span>
                                         @if($catatan->angkatan)
                                             <span class="ms-3"><i class="bi bi-tag-fill me-2"></i>{{ $catatan->angkatan }}</span>
                                         @endif
                                     </div>
-                                    <h3 class="log-card__title">{{ $catatan->judul }}</h3>
-                                    <p class="log-card__text">
+                                    <h3 class="premium-card__title">{{ $catatan->judul }}</h3>
+                                    <p class="premium-card__text">
                                         {{ $catatan->deskripsi ?: Str::limit(strip_tags($catatan->konten), 110) }}
                                     </p>
-                                    <div class="log-card__footer">
-                                        <a href="{{ route('catatan-perjalanan.show', $catatan->slug) }}" class="log-card__link">
+                                    <div class="premium-card__footer">
+                                        <a href="{{ route('catatan-perjalanan.show', $catatan->slug) }}" class="btn-premium-link">
                                             BACA JURNAL <i class="bi bi-arrow-right ms-2"></i>
                                         </a>
-                                        <div class="log-card__views">
-                                            <i class="bi bi-eye-fill me-1"></i> {{ number_format($catatan->views) }}
+                                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.6);">
+                                            <i class="bi bi-eye-fill me-1" style="color: var(--accent-color);"></i> {{ number_format($catatan->views) }}
                                         </div>
                                     </div>
                                 </div>

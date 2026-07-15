@@ -242,43 +242,6 @@ Route::get('/debug-full-text', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
-Route::get('/clear-cache', function() {
-    $files = [
-        base_path('bootstrap/cache/config.php'),
-        base_path('bootstrap/cache/routes-v7.php'),
-        base_path('bootstrap/cache/services.php'),
-        base_path('bootstrap/cache/packages.php'),
-    ];
-
-    $output = "";
-    foreach ($files as $file) {
-        if (file_exists($file)) {
-            if (@unlink($file)) {
-                $output .= "Deleted: " . basename($file) . "\n";
-            } else {
-                $output .= "Failed to delete: " . basename($file) . "\n";
-            }
-        } else {
-            $output .= "Not found: " . basename($file) . "\n";
-        }
-    }
-    return response($output)->header('Content-Type', 'text/plain');
-});
-
-Route::get('/debug-images', function() {
-    $catatans = \App\Models\CatatanPerjalanan::all();
-    $output = "";
-    foreach ($catatans as $cat) {
-        if ($cat->gambar) {
-            $exists = file_exists(public_path($cat->gambar)) ? 'YES' : 'NO';
-            $output .= "ID: {$cat->id} | Judul: {$cat->judul} | Gambar: {$cat->gambar} | Exists: {$exists}\n";
-        }
-    }
-    if (empty($output)) {
-        $output = "No travel logs have images.";
-    }
-    return response($output)->header('Content-Type', 'text/plain');
-});
 
 
 
