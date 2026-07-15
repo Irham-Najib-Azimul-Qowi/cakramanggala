@@ -36,8 +36,36 @@ class ImageService
                     $imagick->readImage($file->getRealPath());
                     
                     // Auto-orient based on EXIF metadata (critical for phone portrait uploads)
-                    if (method_exists($imagick, 'autoOrient')) {
-                        $imagick->autoOrient();
+                    try {
+                        $orientation = $imagick->getImageOrientation();
+                        switch ($orientation) {
+                            case \Imagick::ORIENTATION_BOTTOMRIGHT: // 3
+                                $imagick->rotateImage(new \ImagickPixel('none'), 180);
+                                break;
+                            case \Imagick::ORIENTATION_RIGHTTOP: // 6
+                                $imagick->rotateImage(new \ImagickPixel('none'), 90);
+                                break;
+                            case \Imagick::ORIENTATION_LEFTBOTTOM: // 8
+                                $imagick->rotateImage(new \ImagickPixel('none'), -90);
+                                break;
+                            case \Imagick::ORIENTATION_TOPRIGHT: // 2
+                                $imagick->flopImage();
+                                break;
+                            case \Imagick::ORIENTATION_BOTTOMLEFT: // 4
+                                $imagick->flipImage();
+                                break;
+                            case \Imagick::ORIENTATION_LEFTTOP: // 5
+                                $imagick->rotateImage(new \ImagickPixel('none'), 90);
+                                $imagick->flopImage();
+                                break;
+                            case \Imagick::ORIENTATION_RIGHTBOTTOM: // 7
+                                $imagick->rotateImage(new \ImagickPixel('none'), -90);
+                                $imagick->flopImage();
+                                break;
+                        }
+                        $imagick->setImageOrientation(\Imagick::ORIENTATION_TOPLEFT);
+                    } catch (\Exception $ex) {
+                        Log::warning('Failed to auto-orient image via Imagick: ' . $ex->getMessage());
                     }
                     
                     $imagick->setImageFormat('webp');
