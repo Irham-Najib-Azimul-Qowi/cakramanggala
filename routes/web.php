@@ -242,5 +242,23 @@ Route::get('/debug-full-text', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
+Route::get('/debug-images', function() {
+    $catatans = \App\Models\CatatanPerjalanan::all();
+    $output = "";
+    foreach ($catatans as $cat) {
+        $exists = 'N/A';
+        if ($cat->gambar) {
+            $exists = file_exists(public_path($cat->gambar)) ? 'YES' : 'NO';
+        }
+        $output .= "ID: {$cat->id}\n";
+        $output .= "Judul: {$cat->judul}\n";
+        $output .= "Gambar: " . ($cat->gambar ?: 'NULL') . "\n";
+        $output .= "Gambar URL: {$cat->gambar_url}\n";
+        $output .= "File Exists on Disk: {$exists}\n";
+        $output .= "---------------------------------------\n\n";
+    }
+    return response($output)->header('Content-Type', 'text/plain');
+});
+
 
 
