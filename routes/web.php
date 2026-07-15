@@ -242,6 +242,18 @@ Route::get('/debug-full-text', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
+Route::get('/clear-cache', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        return "Caches cleared successfully!";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
+
 Route::get('/debug-images', function() {
     $catatans = \App\Models\CatatanPerjalanan::all();
     $output = "";
