@@ -224,63 +224,6 @@ Route::get('/clear-cache', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
-Route::get('/debug-all', function() {
-    $catatans = \App\Models\CatatanPerjalanan::all();
-    $output = "";
-    foreach ($catatans as $cat) {
-        $hasSlashN = str_contains($cat->konten, '\n') || str_contains($cat->konten, '\\n');
-        $isValidUtf8 = mb_check_encoding($cat->konten, 'UTF-8');
-        
-        $output .= "ID: {$cat->id}\n";
-        $output .= "Judul: {$cat->judul}\n";
-        $output .= "Has literal \\n: " . ($hasSlashN ? "YES" : "NO") . "\n";
-        $output .= "Valid UTF-8: " . ($isValidUtf8 ? "YES" : "NO") . "\n";
-        
-        $safeKonten = mb_convert_encoding(substr($cat->konten, 0, 200), 'UTF-8', 'UTF-8');
-        $output .= "Snippet: {$safeKonten}\n";
-        $output .= "--------------------------------------------------\n\n";
-    }
-    return response($output)->header('Content-Type', 'text/plain');
-});
-
-Route::get('/debug-full-text', function() {
-    $catatans = \App\Models\CatatanPerjalanan::all();
-    $output = "";
-    foreach ($catatans as $cat) {
-        $output .= "=== ID: {$cat->id} | Judul: {$cat->judul} ===\n";
-        $output .= $cat->konten;
-        $output .= "\n============================================\n\n\n";
-    }
-    return response($output)->header('Content-Type', 'text/plain');
-});
-
-Route::get('/debug-laravel-log', function() {
-    $logPath = storage_path('logs/laravel.log');
-    if (!file_exists($logPath)) {
-        return "Log file not found.";
-    }
-    $file = file($logPath);
-    $lastLines = array_slice($file, max(0, count($file) - 150));
-    return response(implode("", $lastLines))->header('Content-Type', 'text/plain');
-});
-
-Route::get('/debug-migrations', function() {
-    try {
-        $migration = Illuminate\Support\Facades\DB::table('migrations')
-            ->where('migration', 'like', '%change_kegiatans_sifat_column%')
-            ->first();
-        
-        $columns = Illuminate\Support\Facades\DB::select("SHOW COLUMNS FROM kegiatans LIKE 'sifat'");
-        
-        $output = "Migration Status:\n" . json_encode($migration, JSON_PRETTY_PRINT) . "\n\n";
-        $output .= "Column Definition:\n" . json_encode($columns, JSON_PRETTY_PRINT) . "\n";
-        
-        return response($output)->header('Content-Type', 'text/plain');
-    } catch (\Exception $e) {
-        return $e->getMessage();
-    }
-});
-
 
 
 
