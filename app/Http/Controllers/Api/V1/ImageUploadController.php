@@ -13,7 +13,7 @@ class ImageUploadController extends Controller
     public function upload(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,heic,heif|max:2048',
             'entity_type' => 'required|in:alat,kegiatan',
             'entity_id' => 'required|string'
         ]);

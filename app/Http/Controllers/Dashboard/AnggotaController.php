@@ -41,7 +41,7 @@ class AnggotaController extends Controller
             'nia' => 'nullable|string|max:255',
             'angkatan' => 'required|string|max:255',
             'status' => 'required|in:anggota baru,anggota,demisioner,alumni',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048'
         ]);
 
         if ($request->hasFile('foto')) {
@@ -73,7 +73,7 @@ class AnggotaController extends Controller
             'nia' => 'nullable|string|max:255',
             'angkatan' => 'required|string|max:255',
             'status' => 'required|in:anggota baru,anggota,demisioner,alumni',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048'
         ]);
 
         if ($request->hasFile('foto')) {

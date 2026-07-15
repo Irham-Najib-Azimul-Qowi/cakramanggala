@@ -25,7 +25,7 @@ class StorePendaftaranRequest extends FormRequest
             'alamat' => 'required|string',
             'organisasi_yang_pernah_diikuti' => 'nullable|string',
             'alasan_bergabung' => 'required|string|min:20',
-            'foto_diri' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'foto_diri' => 'required|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048',
         ];
     }
 

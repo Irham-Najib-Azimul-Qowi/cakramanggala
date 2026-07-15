@@ -17,7 +17,7 @@ class UpdateArtikelRequest extends FormRequest
             'judul' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
             'konten' => 'required|string',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048',
             'status' => 'required|in:draft,published',
         ];
     }

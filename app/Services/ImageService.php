@@ -25,63 +25,67 @@ class ImageService
                 File::delete(public_path($oldFile));
             }
 
-            // If GD is not available, just move the file directly
-            if (!extension_loaded('gd')) {
-                $extension = $file->getClientOriginalExtension();
-                $safeName = time() . '_' . Str::random(10) . '.' . strtolower($extension);
-                $file->move($uploadPath, $safeName);
-                return $folder . '/' . $safeName;
-            }
-
-            // GD is available — try WebP conversion
+            $extension = strtolower($file->getClientOriginalExtension());
             $name = time() . '_' . Str::random(10) . '.webp';
             $fullPath = $uploadPath . '/' . $name;
 
-            $imageInfo = @getimagesize($file);
-            if (!$imageInfo) {
-                // Not a valid image, just move it
-                $extension = $file->getClientOriginalExtension();
-                $safeName = time() . '_' . Str::random(10) . '.' . strtolower($extension);
-                $file->move($uploadPath, $safeName);
-                return $folder . '/' . $safeName;
+            // Priority 1: Imagick conversion (robust, supports HEIC, JPEG, PNG, WebP)
+            if (class_exists('Imagick')) {
+                try {
+                    $imagick = new \Imagick();
+                    $imagick->readImage($file->getRealPath());
+                    $imagick->setImageFormat('webp');
+                    $imagick->setImageCompressionQuality(80);
+                    $imagick->writeImage($fullPath);
+                    $imagick->clear();
+                    $imagick->destroy();
+                    return $folder . '/' . $name;
+                } catch (\Exception $e) {
+                    Log::warning('Imagick conversion failed: ' . $e->getMessage() . '. Falling back to GD.');
+                }
             }
 
-            $mime = $imageInfo['mime'];
-            $image = null;
+            // Priority 2: GD conversion (standard fallback)
+            if (extension_loaded('gd')) {
+                $imageInfo = @getimagesize($file);
+                if ($imageInfo) {
+                    $mime = $imageInfo['mime'];
+                    $image = null;
 
-            switch ($mime) {
-                case 'image/jpeg':
-                    $image = @imagecreatefromjpeg($file);
-                    break;
-                case 'image/png':
-                    $image = @imagecreatefrompng($file);
-                    if ($image) {
-                        imagepalettetotruecolor($image);
-                        imagealphablending($image, true);
-                        imagesavealpha($image, true);
+                    switch ($mime) {
+                        case 'image/jpeg':
+                            $image = @imagecreatefromjpeg($file);
+                            break;
+                        case 'image/png':
+                            $image = @imagecreatefrompng($file);
+                            if ($image) {
+                                imagepalettetotruecolor($image);
+                                imagealphablending($image, true);
+                                imagesavealpha($image, true);
+                            }
+                            break;
+                        case 'image/gif':
+                            $image = @imagecreatefromgif($file);
+                            break;
+                        case 'image/webp':
+                            $image = @imagecreatefromwebp($file);
+                            break;
                     }
-                    break;
-                case 'image/gif':
-                    $image = @imagecreatefromgif($file);
-                    break;
-                case 'image/webp':
-                    $image = @imagecreatefromwebp($file);
-                    break;
+
+                    if ($image && function_exists('imagewebp')) {
+                        imagewebp($image, $fullPath, 80);
+                        imagedestroy($image);
+                        return $folder . '/' . $name;
+                    }
+
+                    if ($image) {
+                        imagedestroy($image);
+                    }
+                }
             }
 
-            if ($image && function_exists('imagewebp')) {
-                imagewebp($image, $fullPath, 80);
-                imagedestroy($image);
-                return $folder . '/' . $name;
-            }
-
-            if ($image) {
-                imagedestroy($image);
-            }
-
-            // Fallback: save original file
-            $extension = $file->getClientOriginalExtension();
-            $safeName = time() . '_' . Str::random(10) . '.' . strtolower($extension);
+            // Priority 3: Save original file as final fallback
+            $safeName = time() . '_' . Str::random(10) . '.' . $extension;
             $file->move($uploadPath, $safeName);
             return $folder . '/' . $safeName;
 
@@ -90,8 +94,8 @@ class ImageService
 
             // Ultimate fallback
             try {
-                $extension = $file->getClientOriginalExtension();
-                $safeName = time() . '_' . Str::random(10) . '.' . strtolower($extension);
+                $extension = strtolower($file->getClientOriginalExtension());
+                $safeName = time() . '_' . Str::random(10) . '.' . $extension;
                 $file->move(public_path($folder), $safeName);
                 return $folder . '/' . $safeName;
             } catch (\Exception $e2) {

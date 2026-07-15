@@ -81,7 +81,7 @@ class CatatanPerjalananController extends Controller
             'status' => 'required|in:draft,published',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'file_dokumen' => 'nullable|file|mimes:pdf,docx,eml|max:10240', // Max 10MB
-            'gambar_dokumen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', // Max 2MB
+            'gambar_dokumen' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048', // Max 2MB
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -147,7 +147,7 @@ class CatatanPerjalananController extends Controller
             'status' => 'required|in:draft,published',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'file_dokumen' => 'nullable|file|mimes:pdf,docx,eml|max:10240', // Max 10MB
-            'gambar_dokumen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', // Max 2MB
+            'gambar_dokumen' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048', // Max 2MB
         ]);
 
         if ($request->judul !== $catatanPerjalanan->judul) {

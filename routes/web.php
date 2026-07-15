@@ -224,22 +224,6 @@ Route::get('/clear-cache', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
-Route::get('/debug-heic', function() {
-    $imagickSupport = false;
-    $heicSupport = false;
-    if (class_exists('Imagick')) {
-        $imagickSupport = true;
-        try {
-            $formats = \Imagick::queryFormats();
-            $heicSupport = in_array('HEIC', $formats) || in_array('HEIF', $formats);
-        } catch (\Exception $e) {}
-    }
-    return response()->json([
-        'imagick_loaded' => $imagickSupport,
-        'heic_supported_by_imagick' => $heicSupport,
-        'gd_info' => function_exists('gd_info') ? gd_info() : null,
-    ]);
-});
 
 
 

@@ -150,7 +150,7 @@ class CatatanPerjalananController extends Controller
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'judul' => 'required|string|max:150',
             'konten' => 'required|string',
-            'gambar_dokumen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar_dokumen' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048',
         ]);
 
         // Verify OTP
