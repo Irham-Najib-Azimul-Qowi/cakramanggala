@@ -263,9 +263,13 @@ Route::get('/debug-mail', function() {
         $logContent = implode("", $lastLines);
     }
 
+    $catatans = \App\Models\CatatanPerjalanan::select('id', 'judul', 'status', 'created_at')->latest()->limit(10)->get();
+
     $output = "=== MAIL CONFIGURATION ===\n";
     $output .= json_encode($mailConfig, JSON_PRETTY_PRINT) . "\n\n";
-    $output .= "=== LAST 50 LINES OF LOG (LARAVEL.LOG) ===\n";
+    $output .= "=== TRAVEL LOGS (LAST 10) ===\n";
+    $output .= json_encode($catatans, JSON_PRETTY_PRINT) . "\n\n";
+    $output .= "=== LAST 150 LINES OF LOG (LARAVEL.LOG) ===\n";
     $output .= $logContent;
 
     return response($output)->header('Content-Type', 'text/plain');
