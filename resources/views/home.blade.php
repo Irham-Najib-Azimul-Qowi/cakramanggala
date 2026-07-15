@@ -264,8 +264,8 @@
             display: block;
             height: 480px;
             overflow: hidden;
-            background: linear-gradient(135deg, #1a4331 0%, #07110c 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: linear-gradient(145deg, #255b44 0%, #1a4331 100%);
+            border: 1px solid rgba(242, 182, 97, 0.15);
             text-decoration: none;
             color: #fff;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -433,9 +433,9 @@
                 </div>
             </div>
 
-            <div class="row g-4 justify-content-center">
+            <div class="row g-5 justify-content-center">
                 <!-- Card 1: Gunung Hutan -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-5 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <a href="{{ route('activities.gunung-hutan') }}" class="division-card">
                         <div class="division-card__bg">
                             @if($latest_gunung_hutan && $latest_gunung_hutan->gambar_utama)
@@ -456,7 +456,7 @@
                 </div>
 
                 <!-- Card 2: Panjat Tebing -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-5 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <a href="{{ route('activities.panjat-tebing') }}" class="division-card">
                         <div class="division-card__bg">
                             @if($latest_panjat_tebing && $latest_panjat_tebing->gambar_utama)
