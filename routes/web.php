@@ -259,7 +259,7 @@ Route::get('/debug-mail', function() {
     if (file_exists($logPath)) {
         $file = file($logPath);
         $lineCount = count($file);
-        $lastLines = array_slice($file, max(0, $lineCount - 50));
+        $lastLines = array_slice($file, max(0, $lineCount - 150));
         $logContent = implode("", $lastLines);
     }
 
