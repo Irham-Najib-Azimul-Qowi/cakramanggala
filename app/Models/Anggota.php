@@ -10,5 +10,5 @@ class Anggota extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['nama', 'nia', 'angkatan', 'status', 'foto'];
+    protected $fillable = ['nama', 'nim', 'email', 'nia', 'angkatan', 'status', 'foto'];
 }

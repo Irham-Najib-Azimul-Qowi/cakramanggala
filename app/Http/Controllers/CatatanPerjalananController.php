@@ -108,18 +108,41 @@ class CatatanPerjalananController extends Controller
         $nim = $request->nim;
         $email = $request->email;
 
-        // Check if user is in Pengurus
-        $isPengurus = Pengurus::where('nim', $nim)->exists();
-        
-        // Check if user is in Pendaftaran (approved / Diterima)
-        $isAnggota = Pendaftaran::where('nim', $nim)
-            ->where(function ($q) {
-                $q->where('is_approved', 1)
-                  ->orWhere('status', 'Diterima');
-            })->exists();
+        // Find registered email & check keanggotaan
+        $registeredEmail = null;
+        $isRegistered = false;
 
-        if (!$isPengurus && !$isAnggota) {
-            return back()->withErrors(['nim' => 'NIM tidak terdaftar sebagai pengurus atau anggota aktif UKM Cakramanggala.'])->withInput();
+        $pengurus = Pengurus::where('nim', $nim)->first();
+        if ($pengurus) {
+            $registeredEmail = $pengurus->email;
+            $isRegistered = true;
+        }
+
+        if (!$isRegistered) {
+            $pendaftar = Pendaftaran::where('nim', $nim)
+                ->whereIn('status', ['Belum diproses', 'Diterima'])
+                ->first();
+            if ($pendaftar) {
+                $registeredEmail = $pendaftar->email;
+                $isRegistered = true;
+            }
+        }
+
+        if (!$isRegistered) {
+            $anggota = \App\Models\Anggota::where('nim', $nim)->first();
+            if ($anggota) {
+                $registeredEmail = $anggota->email;
+                $isRegistered = true;
+            }
+        }
+
+        if (!$isRegistered) {
+            return back()->withErrors(['nim' => 'NIM tidak terdaftar sebagai calon anggota, anggota aktif, pengurus, demisioner, atau alumni UKM Cakramanggala.'])->withInput();
+        }
+
+        // Jika email terdaftar di sistem tidak kosong, wajib cocok dengan email yang dimasukkan
+        if ($registeredEmail && strtolower(trim($registeredEmail)) !== strtolower(trim($email))) {
+            return back()->withErrors(['email' => 'Email yang dimasukkan tidak sesuai dengan email yang terdaftar untuk NIM tersebut.'])->withInput();
         }
 
         // Generate OTP
@@ -139,6 +162,9 @@ class CatatanPerjalananController extends Controller
             });
         } catch (\Exception $e) {
             logger()->error('Gagal mengirim email OTP: ' . $e->getMessage());
+            // Clear session data if mail failed to prevent reuse
+            session()->forget(['travel_log_otp', 'travel_log_otp_expires', 'travel_log_nim', 'travel_log_email']);
+            return back()->withErrors(['email' => 'Gagal mengirim email OTP: ' . $e->getMessage() . '. Mohon periksa kembali email Anda atau hubungi admin.'])->withInput();
         }
 
         return back()->with('success_otp', "Kode OTP berhasil dikirim ke email {$email}. Silakan cek kotak masuk atau folder spam Anda.");

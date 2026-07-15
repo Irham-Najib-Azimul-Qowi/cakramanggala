@@ -37,8 +37,8 @@
                                 </div>
                                 <div>
                                     <div class="fw-bold text-white">{{ $a->nama }}</div>
-                                    <div class="x-small text-white-50 fw-bold text-uppercase" style="letter-spacing: 0.05em;">
-                                        NIA: {{ $a->nia ?? '-' }}
+                                    <div class="x-small text-white-50 fw-bold text-uppercase" style="letter-spacing: 0.05em; font-size: 0.65rem;">
+                                        NIA: {{ $a->nia ?? '-' }} | NIM: {{ $a->nim ?? '-' }} | Email: {{ $a->email ?? '-' }}
                                     </div>
                                 </div>
                             </div>

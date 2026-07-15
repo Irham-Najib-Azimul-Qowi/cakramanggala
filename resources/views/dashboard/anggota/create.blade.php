@@ -41,6 +41,24 @@
 
                             <div class="col-md-6">
                                 <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">NIM (Nomor Induk Mahasiswa)</label>
+                                <input type="text" name="nim"
+                                    class="form-control admin-input @error('nim') is-invalid @enderror"
+                                    value="{{ old('nim') }}" placeholder="Contoh: 210411100001">
+                                @error('nim') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">Email Anggota</label>
+                                <input type="email" name="email"
+                                    class="form-control admin-input @error('email') is-invalid @enderror"
+                                    value="{{ old('email') }}" placeholder="Contoh: anggota@domain.com">
+                                @error('email') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3"
                                     style="letter-spacing: 0.15em; font-size: 0.7rem;">NIA (Nomor Induk Anggota)</label>
                                 <input type="text" name="nia"
                                     class="form-control admin-input @error('nia') is-invalid @enderror"

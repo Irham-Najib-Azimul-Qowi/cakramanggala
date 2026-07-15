@@ -36,6 +36,8 @@ class AnggotaController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'nim' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
             'nia' => 'nullable|string|max:255',
             'angkatan' => 'required|string|max:255',
             'status' => 'required|in:anggota baru,anggota,demisioner,alumni',
@@ -66,6 +68,8 @@ class AnggotaController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'nim' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
             'nia' => 'nullable|string|max:255',
             'angkatan' => 'required|string|max:255',
             'status' => 'required|in:anggota baru,anggota,demisioner,alumni',
