@@ -242,6 +242,16 @@ Route::get('/debug-full-text', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
+Route::get('/debug-log', function() {
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return "Log file not found.";
+    }
+    $file = file($logPath);
+    $lastLines = array_slice($file, max(0, count($file) - 150));
+    return response(implode("", $lastLines))->header('Content-Type', 'text/plain');
+});
+
 
 
 
