@@ -22,9 +22,9 @@ class StoreKegiatanRequest extends FormRequest
             'tempat' => 'required|string|max:255',
             'kapel_pj' => 'required|string|max:255',
             'sifat' => 'required|in:umum,gunung_hutan,panjat_tebing',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048',
+            'gambar_utama' => 'nullable|custom_image|max:2048',
             'dokumentasi' => 'nullable|array|max:6',
-            'dokumentasi.*' => 'image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048',
+            'dokumentasi.*' => 'custom_image|max:2048',
         ];
     }
 

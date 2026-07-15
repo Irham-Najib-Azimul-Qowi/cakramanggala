@@ -20,7 +20,7 @@ class UpdatePengurusRequest extends FormRequest
             'jabatan' => 'required|string|max:255',
             'prodi_semester' => 'nullable|string|max:255',
             'instagram_url' => 'nullable|url|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048',
+            'foto' => 'nullable|custom_image|max:2048',
             'urutan' => 'required|integer',
             'status' => 'required|in:active,inactive',
         ];

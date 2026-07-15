@@ -17,7 +17,7 @@ class StoreArtikelRequest extends FormRequest
             'judul' => 'required|string|max:200',
             'konten' => 'required|string',
             'excerpt' => 'nullable|string|max:300',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic,heif|max:2048',
+            'gambar_utama' => 'nullable|custom_image|max:2048',
             'status' => 'required|in:draft,published',
         ];
     }
