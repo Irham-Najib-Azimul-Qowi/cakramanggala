@@ -192,6 +192,12 @@ class CatatanPerjalananController extends Controller
         $catatan->status = 'draft'; // Needs approval from admin/moderator
         $catatan->kegiatan_id = $kegiatan->id;
 
+        // Assign user_id to admin/moderator user as required by database foreign key constraint
+        $admin = \App\Models\User::where('role', 'admin')->first() ?: \App\Models\User::first();
+        if ($admin) {
+            $catatan->user_id = $admin->id;
+        }
+
         // Handle optional image upload
         if ($request->hasFile('gambar_dokumen')) {
             $catatan->gambar = $this->uploadAndConvert($request->file('gambar_dokumen'), 'uploads/catatan_perjalanan');
