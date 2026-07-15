@@ -201,15 +201,30 @@ Route::get('/debug-log', function() {
 });
 
 Route::get('/clear-cache', function() {
-    \Illuminate\Support\Facades\Artisan::call('route:clear');
-    \Illuminate\Support\Facades\Artisan::call('config:clear');
-    \Illuminate\Support\Facades\Artisan::call('cache:clear');
-    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    $files = [
+        base_path('bootstrap/cache/config.php'),
+        base_path('bootstrap/cache/routes-v7.php'),
+        base_path('bootstrap/cache/services.php'),
+        base_path('bootstrap/cache/packages.php'),
+    ];
+
+    $output = "Cache files status:\n";
+    foreach ($files as $file) {
+        if (file_exists($file)) {
+            if (@unlink($file)) {
+                $output .= "Deleted: " . basename($file) . "\n";
+            } else {
+                $output .= "Failed to delete: " . basename($file) . "\n";
+            }
+        } else {
+            $output .= "Not found: " . basename($file) . "\n";
+        }
+    }
     
     $gitLog = shell_exec('git log -n 1 2>&1');
     $gitStatus = shell_exec('git status 2>&1');
     
-    return "Cache cleared successfully!\n\nGIT LOG:\n{$gitLog}\n\nGIT STATUS:\n{$gitStatus}";
+    return response("{$output}\n\nGIT LOG:\n{$gitLog}\n\nGIT STATUS:\n{$gitStatus}")->header('Content-Type', 'text/plain');
 });
 
 Route::get('/debug-all', function() {
