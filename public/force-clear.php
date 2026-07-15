@@ -29,4 +29,17 @@ foreach ($files as $file) {
     }
 }
 
+// Bootstrap Laravel and flush cache
+try {
+    require __DIR__.'/../vendor/autoload.php';
+    $app = require_once __DIR__.'/../bootstrap/app.php';
+    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+    $kernel->bootstrap();
+    
+    \Illuminate\Support\Facades\Cache::flush();
+    $output .= "SUCCESS: Laravel application cache flushed.\n";
+} catch (\Exception $e) {
+    $output .= "WARNING: Could not flush Laravel cache: " . $e->getMessage() . "\n";
+}
+
 echo nl2br($output);
