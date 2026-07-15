@@ -243,15 +243,26 @@ Route::get('/debug-full-text', function() {
 });
 
 Route::get('/clear-cache', function() {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('config:clear');
-        \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        \Illuminate\Support\Facades\Artisan::call('route:clear');
-        \Illuminate\Support\Facades\Artisan::call('view:clear');
-        return "Caches cleared successfully!";
-    } catch (\Exception $e) {
-        return "Error: " . $e->getMessage();
+    $files = [
+        base_path('bootstrap/cache/config.php'),
+        base_path('bootstrap/cache/routes-v7.php'),
+        base_path('bootstrap/cache/services.php'),
+        base_path('bootstrap/cache/packages.php'),
+    ];
+
+    $output = "";
+    foreach ($files as $file) {
+        if (file_exists($file)) {
+            if (@unlink($file)) {
+                $output .= "Deleted: " . basename($file) . "\n";
+            } else {
+                $output .= "Failed to delete: " . basename($file) . "\n";
+            }
+        } else {
+            $output .= "Not found: " . basename($file) . "\n";
+        }
     }
+    return response($output)->header('Content-Type', 'text/plain');
 });
 
 Route::get('/debug-images', function() {
