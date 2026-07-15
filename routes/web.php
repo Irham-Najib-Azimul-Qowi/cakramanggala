@@ -221,10 +221,7 @@ Route::get('/clear-cache', function() {
         }
     }
     
-    $gitLog = shell_exec('git log -n 1 2>&1');
-    $gitStatus = shell_exec('git status 2>&1');
-    
-    return response("{$output}\n\nGIT LOG:\n{$gitLog}\n\nGIT STATUS:\n{$gitStatus}")->header('Content-Type', 'text/plain');
+    return response($output)->header('Content-Type', 'text/plain');
 });
 
 Route::get('/debug-all', function() {
