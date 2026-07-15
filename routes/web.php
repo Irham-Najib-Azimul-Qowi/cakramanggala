@@ -249,6 +249,7 @@ Route::get('/debug-mail', function() {
         'mail_from_name' => config('mail.from.name'),
         'smtp_host' => config('mail.mailers.smtp.host'),
         'smtp_port' => config('mail.mailers.smtp.port'),
+        'smtp_scheme' => config('mail.mailers.smtp.scheme'),
         'smtp_username' => config('mail.mailers.smtp.username') ? 'SET' : 'NOT SET',
         'smtp_password' => config('mail.mailers.smtp.password') ? 'SET' : 'NOT SET',
     ];
@@ -290,6 +291,7 @@ Route::get('/auto-configure-smtp', function() {
     $updateEnv($envContent, 'MAIL_MAILER', 'smtp');
     $updateEnv($envContent, 'MAIL_HOST', 'smtp.hostinger.com');
     $updateEnv($envContent, 'MAIL_PORT', '465');
+    $updateEnv($envContent, 'MAIL_SCHEME', 'smtps');
     $updateEnv($envContent, 'MAIL_USERNAME', 'sekretariat@cakramanggalapnm.com');
     $updateEnv($envContent, 'MAIL_PASSWORD', 'Jakwan.10');
     $updateEnv($envContent, 'MAIL_ENCRYPTION', 'ssl');
