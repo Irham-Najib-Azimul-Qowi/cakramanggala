@@ -95,8 +95,14 @@
                     @foreach($catatans as $catatan)
                         <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
                             <div class="premium-card">
-                                <div class="premium-card__img-wrapper">
-                                    <img src="{{ $catatan->gambar_url }}" class="premium-card__img" alt="{{ $catatan->judul }}">
+                                <div class="premium-card__img-wrapper" style="height: 220px; overflow: hidden; position: relative;">
+                                    @if($catatan->gambar)
+                                        <img src="{{ str_starts_with($catatan->gambar, 'uploads/') ? asset($catatan->gambar) : asset('storage/' . $catatan->gambar) }}" class="premium-card__img" alt="{{ $catatan->judul }}">
+                                    @else
+                                        <div class="premium-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                            <i class="bi bi-compass" style="font-size: 3rem; color: var(--accent-color); opacity: 0.6;"></i>
+                                        </div>
+                                    @endif
                                     @if($catatan->lokasi)
                                         <span class="premium-card__badge">{{ $catatan->lokasi }}</span>
                                     @endif

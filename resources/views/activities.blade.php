@@ -90,10 +90,15 @@
                             <a href="{{ route('activities.show', $kegiatan->id) }}" class="text-decoration-none">
                                 <article class="doc-card" style="height: 440px;">
                                     <div class="doc-card__img-container">
-                                        <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
-                                        alt="Dokumentasi Kegiatan: {{ $kegiatan->judul_kegiatan }} di {{ $kegiatan->tempat }}" class="doc-card__img" loading="lazy">
-                                    <div class="doc-card__overlay"></div>
-                                </div>
+                                        @if($kegiatan->gambar_utama)
+                                            <img src="{{ asset($kegiatan->gambar_utama) }}" alt="Dokumentasi Kegiatan: {{ $kegiatan->judul_kegiatan }} di {{ $kegiatan->tempat }}" class="doc-card__img" loading="lazy">
+                                        @else
+                                            <div class="doc-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center; position: absolute; inset: 0;">
+                                                <i class="bi bi-calendar3" style="font-size: 4rem; color: var(--accent-color); opacity: 0.5;"></i>
+                                            </div>
+                                        @endif
+                                        <div class="doc-card__overlay"></div>
+                                    </div>
                                     <div class="doc-card__content" style="padding: 2rem;">
                                         <span class="doc-card__tag"
                                             style="background: var(--accent-color); color: var(--primary-color); font-size: 0.6rem;">{{ str_replace('_', ' ', $kegiatan->sifat) }}</span>

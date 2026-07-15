@@ -309,8 +309,13 @@
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <article class="doc-card">
                             <div class="doc-card__img-container">
-                                <img src="{{ $kegiatan->gambar_utama ? asset($kegiatan->gambar_utama) : asset('image/fotobersejarah1.jpg') }}"
-                                    alt="Kegiatan UKM Cakra Manggala: {{ $kegiatan->judul_kegiatan }}" class="doc-card__img" loading="lazy">
+                                @if($kegiatan->gambar_utama)
+                                    <img src="{{ asset($kegiatan->gambar_utama) }}" alt="Kegiatan UKM Cakra Manggala: {{ $kegiatan->judul_kegiatan }}" class="doc-card__img" loading="lazy">
+                                @else
+                                    <div class="doc-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center; position: absolute; inset: 0;">
+                                        <i class="bi bi-calendar3" style="font-size: 4rem; color: var(--accent-color); opacity: 0.5;"></i>
+                                    </div>
+                                @endif
                                 <div class="doc-card__overlay"></div>
                             </div>
                             <div class="doc-card__content">
@@ -350,8 +355,13 @@
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <div class="art-card">
                             <div class="art-card__img-wrap">
-                                <img src="{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/fotobersejarah2.jpg') }}"
-                                    alt="Artikel Cakra Manggala: {{ $artikel->judul }}" class="art-card__img" loading="lazy">
+                                @if($artikel->gambar_utama)
+                                    <img src="{{ asset($artikel->gambar_utama) }}" alt="Artikel Cakra Manggala: {{ $artikel->judul }}" class="art-card__img" loading="lazy">
+                                @else
+                                    <div class="art-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-book" style="font-size: 3.5rem; color: var(--accent-color); opacity: 0.5;"></i>
+                                    </div>
+                                @endif
                                 <span class="position-absolute top-0 end-0 bg-accent text-primary px-3 py-1 fw-bold x-small"
                                     style="background: var(--accent-color); color: var(--primary-color); z-index: 5;">
                                     ARTIKEL

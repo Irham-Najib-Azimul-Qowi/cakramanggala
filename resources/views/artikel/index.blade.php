@@ -52,8 +52,13 @@
                         <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
                             <div class="art-card">
                                 <div class="art-card__img-wrap">
-                                    <img src="{{ $artikel->gambar_utama ? asset($artikel->gambar_utama) : asset('image/fotobersejarah2.jpg') }}"
-                                        alt="Artikel: {{ $artikel->judul }}" class="art-card__img" loading="lazy">
+                                    @if($artikel->gambar_utama)
+                                        <img src="{{ asset($artikel->gambar_utama) }}" alt="Artikel: {{ $artikel->judul }}" class="art-card__img" loading="lazy">
+                                    @else
+                                        <div class="art-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-book" style="font-size: 3.5rem; color: var(--accent-color); opacity: 0.5;"></i>
+                                        </div>
+                                    @endif
                                     <span class="art-card__badge">BLOG</span>
                                 </div>
                                 <div class="art-card__body">
