@@ -264,6 +264,15 @@ Route::get('/debug-laravel-log', function() {
     return response(implode("", $lastLines))->header('Content-Type', 'text/plain');
 });
 
+Route::get('/debug-migrations', function() {
+    try {
+        $migrations = Illuminate\Support\Facades\DB::table('migrations')->get();
+        return response(json_encode($migrations, JSON_PRETTY_PRINT))->header('Content-Type', 'application/json');
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
+
 
 
 
