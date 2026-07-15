@@ -242,4 +242,32 @@ Route::get('/debug-full-text', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
+Route::get('/debug-mail', function() {
+    $mailConfig = [
+        'default_mailer' => config('mail.default'),
+        'mail_from_address' => config('mail.from.address'),
+        'mail_from_name' => config('mail.from.name'),
+        'smtp_host' => config('mail.mailers.smtp.host'),
+        'smtp_port' => config('mail.mailers.smtp.port'),
+        'smtp_username' => config('mail.mailers.smtp.username') ? 'SET' : 'NOT SET',
+        'smtp_password' => config('mail.mailers.smtp.password') ? 'SET' : 'NOT SET',
+    ];
+
+    $logPath = storage_path('logs/laravel.log');
+    $logContent = 'Log file not found.';
+    if (file_exists($logPath)) {
+        $file = file($logPath);
+        $lineCount = count($file);
+        $lastLines = array_slice($file, max(0, $lineCount - 50));
+        $logContent = implode("", $lastLines);
+    }
+
+    $output = "=== MAIL CONFIGURATION ===\n";
+    $output .= json_encode($mailConfig, JSON_PRETTY_PRINT) . "\n\n";
+    $output .= "=== LAST 50 LINES OF LOG (LARAVEL.LOG) ===\n";
+    $output .= $logContent;
+
+    return response($output)->header('Content-Type', 'text/plain');
+});
+
 
