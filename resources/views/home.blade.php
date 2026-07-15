@@ -257,6 +257,138 @@
         .home-hero.is-video-ready .home-hero__video {
             opacity: 1 !important;
         }
+
+        /* Division Card */
+        .division-card {
+            position: relative;
+            display: block;
+            height: 480px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a4331 0%, #07110c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .division-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .division-card__bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .division-card__bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            filter: saturate(0.8) brightness(0.5);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .division-card:hover .division-card__bg img {
+            opacity: 1;
+            transform: scale(1.1);
+            filter: saturate(1.1) brightness(0.45);
+        }
+
+        .division-card__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(7, 17, 12, 0.95) 0%,
+                    rgba(7, 17, 12, 0.6) 40%,
+                    rgba(7, 17, 12, 0.3) 100%);
+            z-index: 2;
+            transition: background 0.5s ease;
+        }
+
+        .division-card:hover .division-card__overlay {
+            background: linear-gradient(to top,
+                    rgba(7, 17, 12, 1) 0%,
+                    rgba(7, 17, 12, 0.4) 50%,
+                    transparent 100%);
+        }
+
+        .division-card__icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%);
+            z-index: 3;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid rgba(242, 182, 97, 0.3);
+            background: rgba(242, 182, 97, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .division-card__icon i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            transition: all 0.5s ease;
+        }
+
+        .division-card:hover .division-card__icon {
+            transform: translate(-50%, -70%) scale(0.85);
+            opacity: 0.6;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .division-card__content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            padding: 2.5rem;
+            text-align: center;
+            transition: transform 0.5s ease;
+        }
+
+        .division-card:hover .division-card__content {
+            transform: translateY(-5px);
+        }
+
+        .division-card__title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .division-card__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-color);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.4s ease;
+        }
+
+        .division-card:hover .division-card__link {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 @endpush
 
@@ -303,50 +435,44 @@
 
             <div class="row g-4 justify-content-center">
                 <!-- Card 1: Gunung Hutan -->
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <a href="{{ route('activities.gunung-hutan') }}" style="text-decoration: none; color: inherit;">
-                        <article class="doc-card" style="height: 100%;">
-                            <div class="doc-card__img-container" style="aspect-ratio: 16/9; position: relative; overflow: hidden; background: #000;">
-                                @if($latest_gunung_hutan && $latest_gunung_hutan->gambar_utama)
-                                    <img src="{{ asset($latest_gunung_hutan->gambar_utama) }}" alt="Aktivitas Gunung Hutan" class="doc-card__img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
-                                @else
-                                    <div class="doc-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center; position: absolute; inset: 0;">
-                                        <i class="bi bi-compass" style="font-size: 4rem; color: var(--accent-color); opacity: 0.5;"></i>
-                                    </div>
-                                @endif
-                                <div class="doc-card__overlay"></div>
-                            </div>
-                            <div class="doc-card__content text-center py-4">
-                                <h3 class="doc-card__title" style="font-size: 1.5rem; font-weight: 800; letter-spacing: 0.05em;">GUNUNG HUTAN</h3>
-                                <span class="doc-card__link justify-content-center mt-2">
-                                    Lihat Aktivitas <i class="bi bi-arrow-right"></i>
-                                </span>
-                            </div>
-                        </article>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <a href="{{ route('activities.gunung-hutan') }}" class="division-card">
+                        <div class="division-card__bg">
+                            @if($latest_gunung_hutan && $latest_gunung_hutan->gambar_utama)
+                                <img src="{{ asset($latest_gunung_hutan->gambar_utama) }}" alt="Aktivitas Gunung Hutan" loading="lazy">
+                            @endif
+                        </div>
+                        <div class="division-card__overlay"></div>
+                        <div class="division-card__icon">
+                            <i class="bi bi-compass"></i>
+                        </div>
+                        <div class="division-card__content">
+                            <h3 class="division-card__title">GUNUNG HUTAN</h3>
+                            <span class="division-card__link">
+                                Lihat Aktivitas <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </div>
                     </a>
                 </div>
 
                 <!-- Card 2: Panjat Tebing -->
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <a href="{{ route('activities.panjat-tebing') }}" style="text-decoration: none; color: inherit;">
-                        <article class="doc-card" style="height: 100%;">
-                            <div class="doc-card__img-container" style="aspect-ratio: 16/9; position: relative; overflow: hidden; background: #000;">
-                                @if($latest_panjat_tebing && $latest_panjat_tebing->gambar_utama)
-                                    <img src="{{ asset($latest_panjat_tebing->gambar_utama) }}" alt="Aktivitas Panjat Tebing" class="doc-card__img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
-                                @else
-                                    <div class="doc-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center; position: absolute; inset: 0;">
-                                        <i class="bi bi-activity" style="font-size: 4rem; color: var(--accent-color); opacity: 0.5;"></i>
-                                    </div>
-                                @endif
-                                <div class="doc-card__overlay"></div>
-                            </div>
-                            <div class="doc-card__content text-center py-4">
-                                <h3 class="doc-card__title" style="font-size: 1.5rem; font-weight: 800; letter-spacing: 0.05em;">PANJAT TEBING</h3>
-                                <span class="doc-card__link justify-content-center mt-2">
-                                    Lihat Aktivitas <i class="bi bi-arrow-right"></i>
-                                </span>
-                            </div>
-                        </article>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{{ route('activities.panjat-tebing') }}" class="division-card">
+                        <div class="division-card__bg">
+                            @if($latest_panjat_tebing && $latest_panjat_tebing->gambar_utama)
+                                <img src="{{ asset($latest_panjat_tebing->gambar_utama) }}" alt="Aktivitas Panjat Tebing" loading="lazy">
+                            @endif
+                        </div>
+                        <div class="division-card__overlay"></div>
+                        <div class="division-card__icon">
+                            <i class="bi bi-signpost-split"></i>
+                        </div>
+                        <div class="division-card__content">
+                            <h3 class="division-card__title">PANJAT TEBING</h3>
+                            <span class="division-card__link">
+                                Lihat Aktivitas <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </div>
                     </a>
                 </div>
             </div>
