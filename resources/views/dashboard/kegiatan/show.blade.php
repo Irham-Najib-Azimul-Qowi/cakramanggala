@@ -35,7 +35,9 @@
                                 {{ strtoupper($kegiatan->judul_kegiatan) }}</h1>
                         </div>
                         <span
-                            class="admin-badge admin-badge--success py-2 px-4 shadow-sm border-0">{{ strtoupper($kegiatan->sifat) }}</span>
+                            class="admin-badge @if($kegiatan->sifat == 'umum') admin-badge--success @elseif($kegiatan->sifat == 'gunung_hutan') admin-badge--info @elseif($kegiatan->sifat == 'panjat_tebing') admin-badge--warning @endif py-2 px-4 shadow-sm border-0">
+                            {{ str_replace('_', ' ', strtoupper($kegiatan->sifat)) }}
+                        </span>
                     </div>
                     <i class="bi bi-calendar3"
                         style="position: absolute; right: -20px; bottom: -30px; font-size: 10rem; color: rgba(255,255,255,0.05); z-index: 1;"></i>
@@ -143,7 +145,7 @@
                     <div class="col-6">
                         <div class="fw-black text-white mb-1" style="font-size: 2rem;">{{ $kegiatanSamaSifat }}</div>
                         <div class="x-small fw-bold text-white-50 text-uppercase"
-                            style="letter-spacing: 0.1em; font-size: 0.6rem;">{{ strtoupper($kegiatan->sifat) }}</div>
+                            style="letter-spacing: 0.1em; font-size: 0.6rem;">{{ str_replace('_', ' ', strtoupper($kegiatan->sifat)) }}</div>
                     </div>
                 </div>
             </div>

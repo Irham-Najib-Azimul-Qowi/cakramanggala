@@ -82,6 +82,74 @@ class HomeController extends Controller
         return view('activities', compact('kegiatans', 'search'));
     }
 
+    public function gunungHutan(Request $request)
+    {
+        $search = $request->get('search');
+        $tahun = $request->get('tahun');
+
+        $query = \App\Models\Kegiatan::where('sifat', 'gunung_hutan')
+            ->orderBy('tanggal_pelaksanaan', 'desc');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('judul_kegiatan', 'like', "%{$search}%")
+                    ->orWhere('tempat', 'like', "%{$search}%")
+                    ->orWhere('materi', 'like', "%{$search}%");
+            });
+        }
+
+        if ($tahun) {
+            $query->where('tahun', $tahun);
+        }
+
+        $kegiatans = $query->get();
+
+        // Ambil gambar dari kegiatan terbaru kategori gunung_hutan yang memiliki gambar_utama
+        $latestKegiatan = \App\Models\Kegiatan::where('sifat', 'gunung_hutan')
+            ->whereNotNull('gambar_utama')
+            ->where('gambar_utama', '!=', '')
+            ->orderBy('tanggal_pelaksanaan', 'desc')
+            ->first();
+
+        $heroImage = $latestKegiatan ? asset($latestKegiatan->gambar_utama) : asset('image/fotobersejarah2.jpg');
+
+        return view('kegiatan.gunung_hutan', compact('kegiatans', 'search', 'heroImage'));
+    }
+
+    public function panjatTebing(Request $request)
+    {
+        $search = $request->get('search');
+        $tahun = $request->get('tahun');
+
+        $query = \App\Models\Kegiatan::where('sifat', 'panjat_tebing')
+            ->orderBy('tanggal_pelaksanaan', 'desc');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('judul_kegiatan', 'like', "%{$search}%")
+                    ->orWhere('tempat', 'like', "%{$search}%")
+                    ->orWhere('materi', 'like', "%{$search}%");
+            });
+        }
+
+        if ($tahun) {
+            $query->where('tahun', $tahun);
+        }
+
+        $kegiatans = $query->get();
+
+        // Ambil gambar dari kegiatan terbaru kategori panjat_tebing yang memiliki gambar_utama
+        $latestKegiatan = \App\Models\Kegiatan::where('sifat', 'panjat_tebing')
+            ->whereNotNull('gambar_utama')
+            ->where('gambar_utama', '!=', '')
+            ->orderBy('tanggal_pelaksanaan', 'desc')
+            ->first();
+
+        $heroImage = $latestKegiatan ? asset($latestKegiatan->gambar_utama) : asset('image/img1.jpeg');
+
+        return view('kegiatan.panjat_tebing', compact('kegiatans', 'search', 'heroImage'));
+    }
+
     public function activityDetail($id)
     {
         $kegiatan = \App\Models\Kegiatan::findOrFail($id);

@@ -46,15 +46,14 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-black small text-uppercase text-accent mb-3"
-                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">SIFAT KEGIATAN <span
+                                    style="letter-spacing: 0.15em; font-size: 0.7rem;">KATEGORI KEGIATAN <span
                                         class="text-danger">*</span></label>
                                 <select class="form-select admin-select @error('sifat') is-invalid @enderror" name="sifat"
                                     required>
-                                    <option value="">PILIH SIFAT</option>
-                                    <option value="internal" {{ old('sifat') == 'internal' ? 'selected' : '' }}>INTERNAL
-                                        ORGANISASI</option>
-                                    <option value="eksternal" {{ old('sifat') == 'eksternal' ? 'selected' : '' }}>EKSTERNAL /
-                                        UMUM</option>
+                                    <option value="">PILIH KATEGORI</option>
+                                    <option value="umum" {{ old('sifat') == 'umum' ? 'selected' : '' }}>UMUM</option>
+                                    <option value="gunung_hutan" {{ old('sifat') == 'gunung_hutan' ? 'selected' : '' }}>GUNUNG HUTAN</option>
+                                    <option value="panjat_tebing" {{ old('sifat') == 'panjat_tebing' ? 'selected' : '' }}>PANJAT TEBING</option>
                                 </select>
                                 @error('sifat') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                             </div>
@@ -162,10 +161,9 @@
                             pelaksanaan agar tidak bentrok.</span></li>
                     <li class="mb-3 d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Tulis lokasi secara
                             spesifik agar mudah ditemukan.</span></li>
-                    <li class="mb-3 d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Internal: Khusus
-                            anggota Cakra Manggala.</span></li>
-                    <li class="d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Eksternal: Terbuka untuk
-                            umum atau tamu.</span></li>
+                    <li class="mb-3 d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Umum: Kegiatan umum organisasi Cakra Manggala.</span></li>
+                    <li class="mb-3 d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Gunung Hutan: Aktivitas divisi Gunung Hutan (GH).</span></li>
+                    <li class="d-flex gap-2"><i class="bi bi-check2-circle text-accent"></i> <span>Panjat Tebing: Aktivitas divisi Panjat Tebing (RC).</span></li>
                 </ul>
             </div>
 

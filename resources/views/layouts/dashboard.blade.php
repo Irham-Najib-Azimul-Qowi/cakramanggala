@@ -388,6 +388,12 @@
             border: 1px solid rgba(255, 99, 102, 0.2);
         }
 
+        .admin-badge--info {
+            background: rgba(0, 180, 216, 0.1);
+            color: #00b4d8;
+            border: 1px solid rgba(0, 180, 216, 0.2);
+        }
+
         .stat-card {
             background: var(--dark-card);
             border: 1px solid rgba(255, 255, 255, 0.05);

@@ -22,7 +22,7 @@
                     <th style="width: 80px;">Foto</th>
                     <th>Detail Kegiatan</th>
                     <th class="d-none d-md-table-cell">Lokasi</th>
-                    <th class="d-none d-md-table-cell text-center">Sifat</th>
+                    <th class="d-none d-md-table-cell text-center">Kategori</th>
                     <th class="text-end">Opsi Manajemen</th>
                 </tr>
             </thead>
@@ -59,10 +59,14 @@
                             </div>
                         </td>
                         <td class="text-center d-none d-md-table-cell">
-                            @if($kegiatan->sifat == 'internal')
-                                <span class="admin-badge admin-badge--success">INTERNAL</span>
+                            @if($kegiatan->sifat == 'umum')
+                                <span class="admin-badge admin-badge--success">UMUM</span>
+                            @elseif($kegiatan->sifat == 'gunung_hutan')
+                                <span class="admin-badge admin-badge--info">GUNUNG HUTAN</span>
+                            @elseif($kegiatan->sifat == 'panjat_tebing')
+                                <span class="admin-badge admin-badge--warning">PANJAT TEBING</span>
                             @else
-                                <span class="admin-badge admin-badge--warning">EKSTERNAL</span>
+                                <span class="admin-badge">{{ strtoupper($kegiatan->sifat) }}</span>
                             @endif
                         </td>
                         <td class="text-end">

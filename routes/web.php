@@ -45,6 +45,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.alt');
 Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
 Route::get('/sejarah', [HomeController::class, 'history'])->name('about.history');
 Route::get('/kegiatan', [HomeController::class, 'activities'])->name('activities');
+Route::get('/aktivitas/gunung-hutan', [HomeController::class, 'gunungHutan'])->name('activities.gunung-hutan');
+Route::get('/aktivitas/panjat-tebing', [HomeController::class, 'panjatTebing'])->name('activities.panjat-tebing');
 Route::get('/kegiatan/{id}', [HomeController::class, 'activityDetail'])->name('activities.show');
 Route::get('/bergabung', [HomeController::class, 'join'])->name('join');
 Route::get('/kontak', [HomeController::class, 'contact'])->name('contact');

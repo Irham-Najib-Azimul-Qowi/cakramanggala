@@ -51,16 +51,18 @@ class KegiatanController extends Controller
         // Optimized statistics in one query
         $allStats = Kegiatan::selectRaw('
                 COUNT(*) as total,
-                SUM(CASE WHEN sifat = "internal" THEN 1 ELSE 0 END) as internal,
-                SUM(CASE WHEN sifat = "eksternal" THEN 1 ELSE 0 END) as eksternal,
+                SUM(CASE WHEN sifat = "umum" THEN 1 ELSE 0 END) as umum,
+                SUM(CASE WHEN sifat = "gunung_hutan" THEN 1 ELSE 0 END) as gunung_hutan,
+                SUM(CASE WHEN sifat = "panjat_tebing" THEN 1 ELSE 0 END) as panjat_tebing,
                 SUM(CASE WHEN MONTH(tanggal_pelaksanaan) = ? AND YEAR(tanggal_pelaksanaan) = ? THEN 1 ELSE 0 END) as bulan_ini
             ', [now()->month, now()->year])
             ->first();
 
         $stats = [
             'total' => $allStats->total ?? 0,
-            'internal' => $allStats->internal ?? 0,
-            'eksternal' => $allStats->eksternal ?? 0,
+            'umum' => $allStats->umum ?? 0,
+            'gunung_hutan' => $allStats->gunung_hutan ?? 0,
+            'panjat_tebing' => $allStats->panjat_tebing ?? 0,
             'bulan_ini' => $allStats->bulan_ini ?? 0,
         ];
 

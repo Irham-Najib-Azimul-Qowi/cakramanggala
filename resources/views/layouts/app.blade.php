@@ -1267,7 +1267,7 @@
 @php
     $bodyClasses = implode(' ', array_filter([
         trim($__env->yieldContent('body_class')),
-        request()->routeIs('home', 'home.alt', 'about', 'about.history', 'about.member', 'contact', 'struktur-kepengurusan', 'artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities', 'activities.show') ? 'layout-overlay-nav' : null,
+        request()->routeIs('home', 'home.alt', 'about', 'about.history', 'about.member', 'contact', 'struktur-kepengurusan', 'artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities', 'activities.show', 'activities.gunung-hutan', 'activities.panjat-tebing') ? 'layout-overlay-nav' : null,
     ]));
 @endphp
 
@@ -1297,13 +1297,23 @@
                     </div>
 
                     <div class="site-navbar-dropdown">
-                        <a class="site-navbar-link {{ request()->routeIs('artikel.index', 'artikel.show', 'catatan-perjalanan.index', 'catatan-perjalanan.show', 'activities') ? 'is-active' : '' }}" href="javascript:void(0)">
-                            Jurnal & Kegiatan <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                        <a class="site-navbar-link {{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show', 'artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="javascript:void(0)">
+                            Jurnal <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                        </a>
+                        <div class="site-navbar-dropdown-content">
+                            <a class="{{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show') ? 'is-active' : '' }}" href="{{ route('catatan-perjalanan.index') }}">Catatan Perjalanan</a>
+                            <a class="{{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
+                        </div>
+                    </div>
+
+                    <div class="site-navbar-dropdown">
+                        <a class="site-navbar-link {{ request()->routeIs('activities', 'activities.show', 'activities.gunung-hutan', 'activities.panjat-tebing') ? 'is-active' : '' }}" href="javascript:void(0)">
+                            Aktivitas <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
                         </a>
                         <div class="site-navbar-dropdown-content">
                             <a class="{{ request()->routeIs('activities') ? 'is-active' : '' }}" href="{{ route('activities') }}">Kegiatan</a>
-                            <a class="{{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show') ? 'is-active' : '' }}" href="{{ route('catatan-perjalanan.index') }}">Catatan Perjalanan</a>
-                            <a class="{{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
+                            <a class="{{ request()->routeIs('activities.gunung-hutan') ? 'is-active' : '' }}" href="{{ route('activities.gunung-hutan') }}">Gunung Hutan</a>
+                            <a class="{{ request()->routeIs('activities.panjat-tebing') ? 'is-active' : '' }}" href="{{ route('activities.panjat-tebing') }}">Panjat Tebing</a>
                         </div>
                     </div>
 
@@ -1372,19 +1382,29 @@
                         <span>Anggota</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
-                    <a class="site-menu-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
-                        href="{{ route('artikel.index') }}">
-                        <span>Artikel</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                     <a class="site-menu-link {{ request()->routeIs('catatan-perjalanan.index', 'catatan-perjalanan.show') ? 'is-active' : '' }}"
                         href="{{ route('catatan-perjalanan.index') }}">
                         <span>Catatan Perjalanan</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
+                    <a class="site-menu-link {{ request()->routeIs('artikel.index', 'artikel.show') ? 'is-active' : '' }}"
+                        href="{{ route('artikel.index') }}">
+                        <span>Artikel</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
                     <a class="site-menu-link {{ request()->routeIs('activities') ? 'is-active' : '' }}"
                         href="{{ route('activities') }}">
                         <span>Kegiatan</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                    <a class="site-menu-link {{ request()->routeIs('activities.gunung-hutan') ? 'is-active' : '' }}"
+                        href="{{ route('activities.gunung-hutan') }}">
+                        <span>Gunung Hutan</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                    <a class="site-menu-link {{ request()->routeIs('activities.panjat-tebing') ? 'is-active' : '' }}"
+                        href="{{ route('activities.panjat-tebing') }}">
+                        <span>Panjat Tebing</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
                     <a class="site-menu-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"

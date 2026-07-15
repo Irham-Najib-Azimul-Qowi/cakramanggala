@@ -21,7 +21,7 @@ class UpdateKegiatanRequest extends FormRequest
             'deskripsi' => 'nullable|string',
             'tempat' => 'required|string|max:255',
             'kapel_pj' => 'required|string|max:255',
-            'sifat' => 'required|in:internal,eksternal',
+            'sifat' => 'required|in:umum,gunung_hutan,panjat_tebing',
             'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'dokumentasi' => 'nullable|array|max:6',
             'dokumentasi.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',

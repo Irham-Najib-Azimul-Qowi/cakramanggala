@@ -37,10 +37,11 @@
                                 @error('tahun') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">SIFAT KEGIATAN <span class="text-danger">*</span></label>
+                                <label class="form-label fw-black small text-uppercase text-accent mb-3" style="letter-spacing: 0.15em; font-size: 0.7rem;">KATEGORI KEGIATAN <span class="text-danger">*</span></label>
                                 <select class="form-select admin-select @error('sifat') is-invalid @enderror" name="sifat" required>
-                                    <option value="internal" {{ old('sifat', $kegiatan->sifat) == 'internal' ? 'selected' : '' }}>INTERNAL ORGANISASI</option>
-                                    <option value="eksternal" {{ old('sifat', $kegiatan->sifat) == 'eksternal' ? 'selected' : '' }}>EKSTERNAL / UMUM</option>
+                                    <option value="umum" {{ old('sifat', $kegiatan->sifat) == 'umum' ? 'selected' : '' }}>UMUM</option>
+                                    <option value="gunung_hutan" {{ old('sifat', $kegiatan->sifat) == 'gunung_hutan' ? 'selected' : '' }}>GUNUNG HUTAN</option>
+                                    <option value="panjat_tebing" {{ old('sifat', $kegiatan->sifat) == 'panjat_tebing' ? 'selected' : '' }}>PANJAT TEBING</option>
                                 </select>
                                 @error('sifat') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                             </div>

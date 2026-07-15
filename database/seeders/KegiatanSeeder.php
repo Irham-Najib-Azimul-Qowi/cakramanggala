@@ -21,7 +21,7 @@ class KegiatanSeeder extends Seeder
                 'materi' => 'Pendidikan Dasar: Navigasi darat, survival, dan materi dasar kepecintaan alam.',
                 'tempat' => 'Hutan Lindung Gunung Slamet',
                 'kapel_pj' => 'Ketua Pelaksana Diksar',
-                'sifat' => 'internal',
+                'sifat' => 'umum',
                 'gambar_utama' => 'image/fotobersejarah1.jpg',
             ],
             [
@@ -31,8 +31,18 @@ class KegiatanSeeder extends Seeder
                 'materi' => 'Pendidikan Lanjutan: Manajemen ekspedisi dan spesialisasi gunung hutan.',
                 'tempat' => 'Gunung Lawu, Karanganyar',
                 'kapel_pj' => 'Kepala Bidang Operasional',
-                'sifat' => 'internal',
+                'sifat' => 'gunung_hutan',
                 'gambar_utama' => 'image/fotobersejarah2.jpg',
+            ],
+            [
+                'tahun' => 2025,
+                'judul_kegiatan' => 'Latihan Bersama Sepikul',
+                'tanggal_pelaksanaan' => '2025-08-12',
+                'materi' => 'Latihan Pemanjatan: Teknik dasar rock climbing, runner placement, dan multi-pitch.',
+                'tempat' => 'Tebing Sepikul, Trenggalek',
+                'kapel_pj' => 'Koordinator Panjat Tebing',
+                'sifat' => 'panjat_tebing',
+                'gambar_utama' => 'image/img1.jpeg',
             ],
             [
                 'tahun' => 2025,
@@ -41,7 +51,7 @@ class KegiatanSeeder extends Seeder
                 'materi' => 'Pendidikan Akhir: Penyusunan laporan akhir dan pelantikan anggota tetap.',
                 'tempat' => 'Basecamp Cakra Manggala',
                 'kapel_pj' => 'Dewan Pembina',
-                'sifat' => 'internal',
+                'sifat' => 'umum',
                 'gambar_utama' => 'image/fotobersejarah3.jpg',
             ],
         ];
