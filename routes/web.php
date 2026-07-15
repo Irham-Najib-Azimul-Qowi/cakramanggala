@@ -133,8 +133,8 @@ Route::middleware('auth')->group(function () {
         Route::get('inventaris/kegiatan/{id}', [\App\Http\Controllers\Dashboard\InventoryController::class, 'showKegiatan'])->name('inventaris.kegiatan');
 
         // Web Settings (ADMIN ONLY)
-        Route::get('settings', [\App\Http\Controllers\Dashboard\SettingController.php, 'index'])->name('settings.index');
-        Route::post('settings', [\App\Http\Controllers\Dashboard\SettingController.php, 'update'])->name('settings.update');
+        Route::get('settings', [\App\Http\Controllers\Dashboard\SettingController::class, 'index'])->name('settings.index');
+        Route::post('settings', [\App\Http\Controllers\Dashboard\SettingController::class, 'update'])->name('settings.update');
     });
 
     // Future routes for dashboard modules
