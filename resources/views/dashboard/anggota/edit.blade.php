@@ -101,7 +101,7 @@
                                 @endif
                                 <input type="file" name="foto"
                                     class="form-control admin-input @error('foto') is-invalid @enderror" accept="image/*">
-                                <div class="text-white-50 mt-2" style="font-size: 0.7rem;">Rekomendasi rasio 1:1 (Square), format: JPG, JPEG, PNG, WEBP (Maks 2MB). Biarkan kosong jika tidak ingin mengubah foto.</div>
+                                <div class="text-white-50 mt-2" style="font-size: 0.7rem;">Rekomendasi rasio 1:1 (Square), format: JPG, JPEG, PNG, WEBP, HEIC, HEIF (Maks 2MB). Biarkan kosong jika tidak ingin mengubah foto.</div>
                                 @error('foto') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                             </div>
 

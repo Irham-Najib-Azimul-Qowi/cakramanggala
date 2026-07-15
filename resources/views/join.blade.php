@@ -551,7 +551,7 @@
                                     <label for="foto_diri" class="upload-zone w-100">
                                         <span class="upload-icon"><i class="bi bi-camera"></i></span>
                                         <p class="fw-bold mb-1">KLIK UNTUK UNGGAH FOTO</p>
-                                        <p class="small text-white-50">Format JPG/PNG, Maksimal 2MB</p>
+                                        <p class="small text-white-50">Format JPG/PNG/WEBP/HEIC/HEIF, Maksimal 2MB</p>
                                         <input type="file" name="foto_diri" id="foto_diri" hidden accept="image/*">
                                         <div id="fileSelected" class="mt-2 text-accent fw-bold" style="display:none;">
                                             <i class="bi bi-check-circle-fill"></i> Foto terpilih

@@ -115,7 +115,7 @@
                                     style="letter-spacing: 0.15em; font-size: 0.7rem;">FOTO PROFIL</label>
                                 <input type="file" name="foto"
                                     class="form-control admin-input @error('foto') is-invalid @enderror" accept="image/*">
-                                <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP. MAKSIMAL 2MB.</div>
+                                <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP, HEIC, HEIF. MAKSIMAL 2MB.</div>
                                 @error('foto') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                             </div>
 

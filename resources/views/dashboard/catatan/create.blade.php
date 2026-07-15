@@ -117,7 +117,7 @@
                                     style="letter-spacing: 0.1em; font-size: 0.6rem;">Unggah Gambar Utama (Opsional)</label>
                                 <input type="file" name="gambar_dokumen" class="form-control admin-input @error('gambar_dokumen') is-invalid @enderror"
                                     accept="image/*">
-                                <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP. MAKSIMAL 2MB.</div>
+                                <div class="mt-2 x-small text-white-50 fw-bold">FORMAT: JPG, PNG, WEBP, HEIC, HEIF. MAKSIMAL 2MB.</div>
                                 @error('gambar_dokumen') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                             </div>
 

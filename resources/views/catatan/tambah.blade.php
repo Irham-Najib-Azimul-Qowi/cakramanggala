@@ -348,7 +348,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Gambar Dokumentasi Utama (Opsional)</label>
                                         <input type="file" name="gambar_dokumen" class="form-control @error('gambar_dokumen') is-invalid @enderror" accept="image/*">
-                                        <div class="x-small text-white-50 mt-1">Format: JPG, PNG, WEBP. Maksimal 2MB.</div>
+                                        <div class="x-small text-white-50 mt-1">Format: JPG, PNG, WEBP, HEIC, HEIF. Maksimal 2MB.</div>
                                     </div>
                                 </div>
 
