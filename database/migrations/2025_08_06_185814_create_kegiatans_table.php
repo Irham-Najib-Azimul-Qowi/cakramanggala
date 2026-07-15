@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->text('materi')->nullable();
             $table->string('tempat');
             $table->string('kapel_pj'); // Ketua Pelaksana/Penanggung Jawab
-            $table->enum('sifat', ['internal', 'eksternal']);
+            $table->enum('sifat', ['umum', 'gunung_hutan', 'panjat_tebing']);
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
