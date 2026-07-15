@@ -266,8 +266,16 @@ Route::get('/debug-laravel-log', function() {
 
 Route::get('/debug-migrations', function() {
     try {
-        $migrations = Illuminate\Support\Facades\DB::table('migrations')->get();
-        return response(json_encode($migrations, JSON_PRETTY_PRINT))->header('Content-Type', 'application/json');
+        $migration = Illuminate\Support\Facades\DB::table('migrations')
+            ->where('migration', 'like', '%change_kegiatans_sifat_column%')
+            ->first();
+        
+        $columns = Illuminate\Support\Facades\DB::select("SHOW COLUMNS FROM kegiatans LIKE 'sifat'");
+        
+        $output = "Migration Status:\n" . json_encode($migration, JSON_PRETTY_PRINT) . "\n\n";
+        $output .= "Column Definition:\n" . json_encode($columns, JSON_PRETTY_PRINT) . "\n";
+        
+        return response($output)->header('Content-Type', 'text/plain');
     } catch (\Exception $e) {
         return $e->getMessage();
     }
