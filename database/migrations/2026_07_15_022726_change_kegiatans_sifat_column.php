@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        // First, update existing 'internal' and 'eksternal' records to 'umum'
+        // Change enum column to string first to prevent MySQL enum truncation errors
+        Schema::table('kegiatans', function (Blueprint $table) {
+            $table->string('sifat')->change();
+        });
+
         DB::table('kegiatans')
             ->whereIn('sifat', ['internal', 'eksternal'])
             ->update(['sifat' => 'umum']);
@@ -27,7 +28,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // First, update any new values back to 'internal' to avoid errors during rollback
+        Schema::table('kegiatans', function (Blueprint $table) {
+            $table->string('sifat')->change();
+        });
+
         DB::table('kegiatans')
             ->whereIn('sifat', ['gunung_hutan', 'panjat_tebing', 'umum'])
             ->update(['sifat' => 'internal']);
