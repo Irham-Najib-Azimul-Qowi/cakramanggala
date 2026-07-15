@@ -131,6 +131,10 @@ Route::middleware('auth')->group(function () {
         // Inventaris (Equipment Management)
         Route::get('inventaris', [\App\Http\Controllers\Dashboard\InventoryController::class, 'index'])->name('inventaris.index');
         Route::get('inventaris/kegiatan/{id}', [\App\Http\Controllers\Dashboard\InventoryController::class, 'showKegiatan'])->name('inventaris.kegiatan');
+
+        // Web Settings (ADMIN ONLY)
+        Route::get('settings', [\App\Http\Controllers\Dashboard\SettingController.php, 'index'])->name('settings.index');
+        Route::post('settings', [\App\Http\Controllers\Dashboard\SettingController.php, 'update'])->name('settings.update');
     });
 
     // Future routes for dashboard modules

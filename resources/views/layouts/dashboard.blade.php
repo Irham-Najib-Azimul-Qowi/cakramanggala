@@ -576,6 +576,10 @@
                 class="nav-link {{ request()->routeIs('dashboard.inventaris*') ? 'active' : '' }}">
                 <i class="bi bi-box-seam-fill"></i> Manajemen Perlengkapan
             </a>
+            <a href="{{ route('dashboard.settings.index') }}"
+                class="nav-link {{ request()->routeIs('dashboard.settings*') ? 'active' : '' }}">
+                <i class="bi bi-gear-fill"></i> Pengaturan Web
+            </a>
         </nav>
 
         <div class="sidebar-footer">

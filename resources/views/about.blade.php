@@ -56,12 +56,16 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="pembina-card">
                         <div class="pembina-card__photo">
-                            <img src="{{ asset('image/profile_kosong.jpg') }}" alt="Dosen Pembina Cakra Manggala" class="img-fluid">
+                            @if($pembina && $pembina->foto)
+                                <img src="{{ asset($pembina->foto) }}" alt="Dosen Pembina Cakra Manggala: {{ $pembina->nama }}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <img src="{{ asset('image/profile_kosong.jpg') }}" alt="Dosen Pembina Cakra Manggala" class="img-fluid">
+                            @endif
                         </div>
                         <div class="pembina-card__info text-center">
-                            <h3 class="pembina-card__name">M. Syahru Mubarok, S.T., M.T.</h3>
-                            <div class="pembina-card__title">Dosen Pembina Utama</div>
-                            <div class="pembina-card__prodi">Dosen Pengajar Prodi Teknik Elektro</div>
+                            <h3 class="pembina-card__name">{{ $pembina ? $pembina->nama : 'M. Syahru Mubarok, S.T., M.T.' }}</h3>
+                            <div class="pembina-card__title">{{ $pembina ? $pembina->jabatan : 'Dosen Pembina Utama' }}</div>
+                            <div class="pembina-card__prodi">{{ $pembina ? $pembina->prodi_semester : 'Dosen Pengajar Prodi Teknik Elektro' }}</div>
                         </div>
                     </div>
                 </div>

@@ -37,7 +37,17 @@ class HomeController extends Controller
                     'total_artikel' => Artikel::published()->count(),
                     'total_pendaftar' => \App\Models\Pendaftaran::count(),
                     'total_kegiatan' => \App\Models\Kegiatan::count(),
-                ]
+                ],
+
+                'latest_gunung_hutan' => \App\Models\Kegiatan::where('sifat', 'gunung_hutan')
+                    ->orderBy('tanggal_pelaksanaan', 'desc')
+                    ->first(),
+
+                'latest_panjat_tebing' => \App\Models\Kegiatan::where('sifat', 'panjat_tebing')
+                    ->orderBy('tanggal_pelaksanaan', 'desc')
+                    ->first(),
+
+                'settings' => \App\Models\Setting::pluck('value', 'key')->all()
             ];
         });
 
@@ -46,7 +56,8 @@ class HomeController extends Controller
 
     public function about()
     {
-        return view('about');
+        $pembina = \App\Models\Pengurus::where('status', 'active')->where('urutan', 0)->first();
+        return view('about', compact('pembina'));
     }
 
     public function history()

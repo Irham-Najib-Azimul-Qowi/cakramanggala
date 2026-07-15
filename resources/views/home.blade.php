@@ -265,27 +265,88 @@
     <section class="page-hero home-hero" id="homeHero" data-hero-video>
         <div class="page-hero__media" aria-hidden="true">
             <div class="page-hero__fallback"
-                style="background-image: url('{{ asset('image/fotobersejarah2.jpg') }}'); position: absolute; inset: -4%; background-size: cover; background-position: center; filter: saturate(0.9) contrast(1.1); transform: scale(1.05);">
+                style="background-image: url('{{ !empty($settings['hero_image']) ? asset($settings['hero_image']) : asset('image/fotobersejarah2.jpg') }}'); position: absolute; inset: -4%; background-size: cover; background-position: center; filter: saturate(0.9) contrast(1.1); transform: scale(1.05);">
             </div>
             <video class="home-hero__video" autoplay muted loop playsinline preload="metadata"
-                poster="{{ asset('image/fotobersejarah2.jpg') }}"
+                poster="{{ !empty($settings['hero_image']) ? asset($settings['hero_image']) : asset('image/fotobersejarah2.jpg') }}"
                 style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; opacity: 0; transition: opacity 1s ease-in-out;">
-                <source src="{{ asset('videos/cinematic.mp4') }}" type="video/mp4">
+                <source src="{{ !empty($settings['hero_video']) ? asset($settings['hero_video']) : asset('videos/cinematic.mp4') }}" type="video/mp4">
             </video>
         </div>
 
         <div class="container">
             <div class="page-hero__inner text-center mx-auto">
                 <h1 class="page-hero__title" data-aos="fade-up" data-aos-delay="100">
-                    Mendaki Tinggi,<br>
-                    <span>Menjaga Bumi</span>
+                    {!! $settings['hero_title'] ?? 'Mendaki Tinggi,<br><span>Menjaga Bumi</span>' !!}
                 </h1>
                 <p class="page-hero__lead mx-auto" data-aos="fade-up" data-aos-delay="200">
-                    Wadah pembentukan karakter melalui alam bebas untuk mereka yang berani melangkah lebih jauh.
+                    {{ $settings['hero_description'] ?? 'Wadah pembentukan karakter melalui alam bebas untuk mereka yang berani melangkah lebih jauh.' }}
                 </p>
                 <div class="mt-5" data-aos="fade-up" data-aos-delay="300">
                     <a href="{{ route('join') }}" class="btn-join-premium">
                         Mulai Petualangan <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Division Section -->
+    <section class="section-shell" style="background-color: var(--dark-color); color: #fff; padding-bottom: 0;">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
+                <div>
+                    <span class="section-label" style="color: var(--accent-color);">Divisi & Aktivitas</span>
+                    <h2 class="section-heading mb-0" style="color: #fff;">Fokus Kegiatan Kami</h2>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Card 1: Gunung Hutan -->
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <a href="{{ route('activities.gunung-hutan') }}" style="text-decoration: none; color: inherit;">
+                        <article class="doc-card" style="height: 100%;">
+                            <div class="doc-card__img-container" style="aspect-ratio: 16/9; position: relative; overflow: hidden; background: #000;">
+                                @if($latest_gunung_hutan && $latest_gunung_hutan->gambar_utama)
+                                    <img src="{{ asset($latest_gunung_hutan->gambar_utama) }}" alt="Aktivitas Gunung Hutan" class="doc-card__img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                                @else
+                                    <div class="doc-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center; position: absolute; inset: 0;">
+                                        <i class="bi bi-compass" style="font-size: 4rem; color: var(--accent-color); opacity: 0.5;"></i>
+                                    </div>
+                                @endif
+                                <div class="doc-card__overlay"></div>
+                            </div>
+                            <div class="doc-card__content text-center py-4">
+                                <h3 class="doc-card__title" style="font-size: 1.5rem; font-weight: 800; letter-spacing: 0.05em;">GUNUNG HUTAN</h3>
+                                <span class="doc-card__link justify-content-center mt-2">
+                                    Lihat Aktivitas <i class="bi bi-arrow-right"></i>
+                                </span>
+                            </div>
+                        </article>
+                    </a>
+                </div>
+
+                <!-- Card 2: Panjat Tebing -->
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{{ route('activities.panjat-tebing') }}" style="text-decoration: none; color: inherit;">
+                        <article class="doc-card" style="height: 100%;">
+                            <div class="doc-card__img-container" style="aspect-ratio: 16/9; position: relative; overflow: hidden; background: #000;">
+                                @if($latest_panjat_tebing && $latest_panjat_tebing->gambar_utama)
+                                    <img src="{{ asset($latest_panjat_tebing->gambar_utama) }}" alt="Aktivitas Panjat Tebing" class="doc-card__img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                                @else
+                                    <div class="doc-card__img-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a4331 0%, #07110c 100%); display: flex; align-items: center; justify-content: center; position: absolute; inset: 0;">
+                                        <i class="bi bi-activity" style="font-size: 4rem; color: var(--accent-color); opacity: 0.5;"></i>
+                                    </div>
+                                @endif
+                                <div class="doc-card__overlay"></div>
+                            </div>
+                            <div class="doc-card__content text-center py-4">
+                                <h3 class="doc-card__title" style="font-size: 1.5rem; font-weight: 800; letter-spacing: 0.05em;">PANJAT TEBING</h3>
+                                <span class="doc-card__link justify-content-center mt-2">
+                                    Lihat Aktivitas <i class="bi bi-arrow-right"></i>
+                                </span>
+                            </div>
+                        </article>
                     </a>
                 </div>
             </div>

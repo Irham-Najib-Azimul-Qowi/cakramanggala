@@ -29,7 +29,7 @@
                     <i class="bi bi-clock-history"></i>
                     Kepengurusan Aktif
                 </span>
-                <h2 class="section-heading">PERIODE 2024 — 2025</h2>
+                <h2 class="section-heading">{{ $periode }}</h2>
                 <p class="section-lead mx-auto text-white-50" style="max-width: 600px;">
                     Barisan pengurus yang berdedikasi untuk melanjutkan estafet perjuangan dan pelestarian alam.
                 </p>
