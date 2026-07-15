@@ -34,6 +34,12 @@ class ImageService
                 try {
                     $imagick = new \Imagick();
                     $imagick->readImage($file->getRealPath());
+                    
+                    // Auto-orient based on EXIF metadata (critical for phone portrait uploads)
+                    if (method_exists($imagick, 'autoOrient')) {
+                        $imagick->autoOrient();
+                    }
+                    
                     $imagick->setImageFormat('webp');
                     $imagick->setImageCompressionQuality(80);
                     $imagick->writeImage($fullPath);
@@ -55,6 +61,24 @@ class ImageService
                     switch ($mime) {
                         case 'image/jpeg':
                             $image = @imagecreatefromjpeg($file);
+                            if ($image && function_exists('exif_read_data')) {
+                                try {
+                                    $exif = @exif_read_data($file);
+                                    if (!empty($exif['Orientation'])) {
+                                        switch ($exif['Orientation']) {
+                                            case 3:
+                                                $image = imagerotate($image, 180, 0);
+                                                break;
+                                            case 6:
+                                                $image = imagerotate($image, -90, 0);
+                                                break;
+                                            case 8:
+                                                $image = imagerotate($image, 90, 0);
+                                                break;
+                                        }
+                                    }
+                                } catch (\Exception $e) {}
+                            }
                             break;
                         case 'image/png':
                             $image = @imagecreatefrompng($file);
