@@ -108,41 +108,13 @@ class CatatanPerjalananController extends Controller
         $nim = $request->nim;
         $email = $request->email;
 
-        // Find registered email & check keanggotaan
-        $registeredEmail = null;
-        $isRegistered = false;
-
-        $pengurus = Pengurus::where('nim', $nim)->first();
-        if ($pengurus) {
-            $registeredEmail = $pengurus->email;
-            $isRegistered = true;
-        }
-
-        if (!$isRegistered) {
-            $pendaftar = Pendaftaran::where('nim', $nim)
-                ->whereIn('status', ['Belum diproses', 'Diterima'])
-                ->first();
-            if ($pendaftar) {
-                $registeredEmail = $pendaftar->email;
-                $isRegistered = true;
-            }
-        }
-
-        if (!$isRegistered) {
-            $anggota = \App\Models\Anggota::where('nim', $nim)->first();
-            if ($anggota) {
-                $registeredEmail = $anggota->email;
-                $isRegistered = true;
-            }
-        }
+        // Check keanggotaan berdasarkan NIM
+        $isRegistered = Pengurus::where('nim', $nim)->exists() ||
+            Pendaftaran::where('nim', $nim)->whereIn('status', ['Belum diproses', 'Diterima'])->exists() ||
+            \App\Models\Anggota::where('nim', $nim)->exists();
 
         if (!$isRegistered) {
             return back()->withErrors(['nim' => 'NIM tidak terdaftar sebagai calon anggota, anggota aktif, pengurus, demisioner, atau alumni UKM Cakramanggala.'])->withInput();
-        }
-
-        // Jika email terdaftar di sistem tidak kosong, wajib cocok dengan email yang dimasukkan
-        if ($registeredEmail && strtolower(trim($registeredEmail)) !== strtolower(trim($email))) {
-            return back()->withErrors(['email' => 'Email yang dimasukkan tidak sesuai dengan email yang terdaftar untuk NIM tersebut.'])->withInput();
         }
 
         // Generate OTP
