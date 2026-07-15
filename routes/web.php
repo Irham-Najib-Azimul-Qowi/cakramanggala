@@ -270,4 +270,42 @@ Route::get('/debug-mail', function() {
     return response($output)->header('Content-Type', 'text/plain');
 });
 
+Route::get('/auto-configure-smtp', function() {
+    $envPath = base_path('.env');
+    if (!file_exists($envPath)) {
+        return "File .env tidak ditemukan.";
+    }
+
+    $envContent = file_get_contents($envPath);
+
+    $updateEnv = function(&$content, $key, $value) {
+        $pattern = "/^{$key}=.*/m";
+        if (preg_match($pattern, $content)) {
+            $content = preg_replace($pattern, "{$key}=\"{$value}\"", $content);
+        } else {
+            $content .= "\n{$key}=\"{$value}\"";
+        }
+    };
+
+    $updateEnv($envContent, 'MAIL_MAILER', 'smtp');
+    $updateEnv($envContent, 'MAIL_HOST', 'smtp.hostinger.com');
+    $updateEnv($envContent, 'MAIL_PORT', '465');
+    $updateEnv($envContent, 'MAIL_USERNAME', 'sekretariat@cakramanggalapnm.com');
+    $updateEnv($envContent, 'MAIL_PASSWORD', 'Jakwan.10');
+    $updateEnv($envContent, 'MAIL_ENCRYPTION', 'ssl');
+    $updateEnv($envContent, 'MAIL_FROM_ADDRESS', 'sekretariat@cakramanggalapnm.com');
+    $updateEnv($envContent, 'MAIL_FROM_NAME', 'Cakra Manggala');
+
+    file_put_contents($envPath, $envContent);
+
+    try {
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+    } catch(\Exception $e) {}
+
+    return "SMTP berhasil dikonfigurasi secara otomatis! Silakan coba kirim OTP kembali.";
+});
+
 
