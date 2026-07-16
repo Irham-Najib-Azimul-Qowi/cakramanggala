@@ -430,9 +430,9 @@
                 </div>
             </div>
 
-            <div class="row g-5 justify-content-center">
+            <div class="row justify-content-evenly">
                 <!-- Card 1: Gunung Hutan -->
-                <div class="col-lg-5 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-4 col-md-5" data-aos="fade-up" data-aos-delay="100">
                     <a href="{{ route('activities.gunung-hutan') }}" class="division-card">
                         <div class="division-card__bg">
                             @if($latest_gunung_hutan && $latest_gunung_hutan->gambar_utama)
@@ -453,7 +453,7 @@
                 </div>
 
                 <!-- Card 2: Panjat Tebing -->
-                <div class="col-lg-5 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-4 col-md-5" data-aos="fade-up" data-aos-delay="200">
                     <a href="{{ route('activities.panjat-tebing') }}" class="division-card">
                         <div class="division-card__bg">
                             @if($latest_panjat_tebing && $latest_panjat_tebing->gambar_utama)
