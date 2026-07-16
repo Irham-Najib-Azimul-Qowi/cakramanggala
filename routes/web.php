@@ -116,6 +116,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('kegiatan', KegiatanController::class);
 
         // Pengurus CRUD (ADMIN ONLY)
+        Route::post('pengurus/quick-settings', [\App\Http\Controllers\Dashboard\PengurusController::class, 'updateQuickSettings'])
+            ->name('pengurus.quick-settings')
+            ->middleware('role:admin');
         Route::resource('pengurus', \App\Http\Controllers\Dashboard\PengurusController::class)->middleware('role:admin');
 
         // Anggota CRUD (ADMIN ONLY)

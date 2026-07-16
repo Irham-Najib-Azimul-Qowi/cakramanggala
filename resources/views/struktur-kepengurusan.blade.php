@@ -4,7 +4,8 @@
 
 @section('content')
     @php
-        $heroImage = asset('image/fotobersejarah2.jpg');
+        $bannerSetting = \App\Models\Setting::getValue('banner_pengurus');
+        $heroImage = $bannerSetting ? asset($bannerSetting) : asset('image/fotobersejarah2.jpg');
     @endphp
 
     <section class="page-hero" style="--hero-image: url('{{ $heroImage }}');">

@@ -14,6 +14,44 @@
         </a>
     </div>
 
+    <!-- Quick Settings Card for Period & Banner -->
+    <div class="admin-card mb-5 p-4 p-lg-5">
+        <h2 class="h5 fw-black text-white text-uppercase mb-4" style="letter-spacing: 0.05em;">
+            <i class="bi bi-gear text-accent me-2"></i> PENGATURAN HALAMAN KEPENGURUSAN
+        </h2>
+        <form action="{{ route('dashboard.pengurus.quick-settings') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="row g-4 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label fw-black small text-uppercase text-accent mb-2" style="letter-spacing: 0.1em; font-size: 0.65rem;">PERIODE KEPENGURUSAN AKTIF</label>
+                    <input type="text" name="periode_pengurus" class="form-control admin-input" value="{{ old('periode_pengurus', $periode) }}" placeholder="Contoh: PERIODE 2024 — 2025" required>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-black small text-uppercase text-accent mb-2" style="letter-spacing: 0.1em; font-size: 0.65rem;">BANNER HALAMAN STRUKTUR</label>
+                    <input type="file" name="banner_pengurus" class="form-control admin-input" accept="image/*">
+                    @if($banner)
+                        <div class="mt-2 x-small text-white-50">
+                            <span class="text-accent fw-bold">Banner Saat Ini:</span> <a href="{{ asset($banner) }}" target="_blank" class="text-accent text-decoration-underline">{{ basename($banner) }}</a>
+                        </div>
+                    @else
+                        <div class="mt-2 x-small text-white-50">Menggunakan banner bawaan system.</div>
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-accent w-100 py-3 fw-black text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.1em;">
+                        <i class="bi bi-save-fill me-1"></i> SIMPAN
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success border-0 rounded-0 text-center fw-bold mb-4 py-3" style="background: rgba(25, 135, 84, 0.1); color: #20c997; border-left: 4px solid #20c997 !important;">
+            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+        </div>
+    @endif
+
     <div class="admin-table-wrapper">
         <table class="admin-table">
             <thead>
@@ -28,7 +66,12 @@
                 @forelse($penguruses as $p)
                     <tr>
                         <td class="text-center">
-                            <span class="fw-black text-accent">{{ $p->urutan }}</span>
+                            @if($p->urutan == 0)
+                                <span class="fw-black text-accent">0</span>
+                                <div class="x-small text-white-50 fw-bold" style="font-size: 0.55rem; letter-spacing: 0.05em;">PEMBINA</div>
+                            @else
+                                <span class="fw-black text-accent">{{ $p->urutan }}</span>
+                            @endif
                         </td>
                         <td>
                             <div class="d-flex align-items-center gap-3">

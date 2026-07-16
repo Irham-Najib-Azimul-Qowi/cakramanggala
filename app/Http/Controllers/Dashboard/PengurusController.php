@@ -19,7 +19,41 @@ class PengurusController extends Controller
     public function index()
     {
         $penguruses = Pengurus::orderBy('urutan')->get();
-        return view('dashboard.pengurus.index', compact('penguruses'));
+        $periode = \App\Models\Setting::getValue('periode_pengurus', 'PERIODE 2024 — 2025');
+        $banner = \App\Models\Setting::getValue('banner_pengurus');
+        return view('dashboard.pengurus.index', compact('penguruses', 'periode', 'banner'));
+    }
+
+    /**
+     * Update active period and banner image for officer page.
+     */
+    public function updateQuickSettings(Request $request)
+    {
+        $request->validate([
+            'periode_pengurus' => 'required|string|max:100',
+            'banner_pengurus' => 'nullable|custom_image|max:2048',
+        ]);
+
+        \App\Models\Setting::updateOrCreate(
+            ['key' => 'periode_pengurus'],
+            ['value' => $request->periode_pengurus]
+        );
+
+        if ($request->hasFile('banner_pengurus')) {
+            $oldBanner = \App\Models\Setting::getValue('banner_pengurus');
+            $bannerPath = $this->uploadAndConvert($request->file('banner_pengurus'), 'uploads/settings', $oldBanner);
+            if ($bannerPath) {
+                \App\Models\Setting::updateOrCreate(
+                    ['key' => 'banner_pengurus'],
+                    ['value' => $bannerPath]
+                );
+            }
+        }
+
+        // Clear cache
+        \Illuminate\Support\Facades\Cache::forget('home_data');
+
+        return redirect()->route('dashboard.pengurus.index')->with('success', 'Pengaturan banner dan periode pengurus berhasil diperbarui!');
     }
 
     /**

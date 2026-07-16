@@ -117,6 +117,7 @@
                                 <input type="number" name="urutan"
                                     class="form-control admin-input @error('urutan') is-invalid @enderror"
                                     value="{{ old('urutan', $pengurus->urutan) }}" required>
+                                <div class="text-white-50 x-small mt-1">Set <strong>0</strong> untuk Dosen Pembina (ditampilkan di Halaman Tentang).</div>
                                 @error('urutan') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                             </div>
 

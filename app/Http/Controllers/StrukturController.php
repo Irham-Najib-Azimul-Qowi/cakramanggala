@@ -10,7 +10,7 @@ class StrukturController extends Controller
     public function index()
     {
         $periode = \App\Models\Setting::getValue('periode_pengurus', 'PERIODE 2024 — 2025');
-        $penguruses = Pengurus::where('status', 'active')->orderBy('urutan')->get();
+        $penguruses = Pengurus::where('status', 'active')->where('urutan', '>', 0)->orderBy('urutan')->get();
 
         return view('struktur-kepengurusan', compact('penguruses', 'periode'));
     }
