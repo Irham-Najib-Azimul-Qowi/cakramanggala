@@ -21,23 +21,29 @@
         </h2>
         <form action="{{ route('dashboard.pengurus.quick-settings') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="row g-4 align-items-end">
-                <div class="col-md-5">
+            <div class="row g-4 align-items-start">
+                <div class="col-md-4">
                     <label class="form-label fw-black small text-uppercase text-accent mb-2" style="letter-spacing: 0.1em; font-size: 0.65rem;">PERIODE KEPENGURUSAN AKTIF</label>
-                    <input type="text" name="periode_pengurus" class="form-control admin-input" value="{{ old('periode_pengurus', $periode) }}" placeholder="Contoh: PERIODE 2024 — 2025" required>
+                    <input type="text" name="periode_pengurus" class="form-control admin-input" value="{{ old('periode_pengurus', $periode) }}" placeholder="Contoh: auto atau PERIODE 2024 — 2025" required>
+                    <div class="text-white-50 x-small mt-1" style="font-size: 0.65rem;">Gunakan <code>auto</code> untuk tanggal berjalan.</div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3">
+                    <label class="form-label fw-black small text-uppercase text-accent mb-2" style="letter-spacing: 0.1em; font-size: 0.65rem;">ANGKATAN PENDAFTAR DEFAULT</label>
+                    <input type="text" name="angkatan_pendaftaran_default" class="form-control admin-input" value="{{ old('angkatan_pendaftaran_default', $angkatanDefault) }}" placeholder="Contoh: 14" required>
+                    <div class="text-white-50 x-small mt-1" style="font-size: 0.65rem;">Otomatis disematkan saat approve.</div>
+                </div>
+                <div class="col-md-3">
                     <label class="form-label fw-black small text-uppercase text-accent mb-2" style="letter-spacing: 0.1em; font-size: 0.65rem;">BANNER HALAMAN STRUKTUR</label>
                     <input type="file" name="banner_pengurus" class="form-control admin-input" accept="image/*">
                     @if($banner)
-                        <div class="mt-2 x-small text-white-50">
+                        <div class="mt-2 x-small text-white-50" style="font-size: 0.65rem;">
                             <span class="text-accent fw-bold">Banner Saat Ini:</span> <a href="{{ asset($banner) }}" target="_blank" class="text-accent text-decoration-underline">{{ basename($banner) }}</a>
                         </div>
                     @else
-                        <div class="mt-2 x-small text-white-50">Menggunakan banner bawaan system.</div>
+                        <div class="mt-2 x-small text-white-50" style="font-size: 0.65rem;">Menggunakan banner bawaan system.</div>
                     @endif
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" style="margin-top: 1.85rem;">
                     <button type="submit" class="btn btn-accent w-100 py-3 fw-black text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.1em;">
                         <i class="bi bi-save-fill me-1"></i> SIMPAN
                     </button>

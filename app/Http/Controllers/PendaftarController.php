@@ -102,7 +102,24 @@ class PendaftarController extends Controller
             'is_approved' => true
         ]);
 
-        return redirect()->back()->with('success', "Pendaftaran {$pendaftar->nama_lengkap} telah diterima!");
+        // Automatically create Anggota record
+        $angkatanDefault = \App\Models\Setting::getValue('angkatan_pendaftaran_default', '14');
+
+        // Check if member already exists by NIM
+        $existingMember = \App\Models\Anggota::where('nim', $pendaftar->nim)->first();
+
+        if (!$existingMember) {
+            \App\Models\Anggota::create([
+                'nama' => $pendaftar->nama_lengkap,
+                'nim' => $pendaftar->nim,
+                'email' => $pendaftar->email,
+                'angkatan' => $angkatanDefault,
+                'status' => 'anggota baru',
+                'foto' => $pendaftar->foto_diri
+            ]);
+        }
+
+        return redirect()->back()->with('success', "Pendaftaran {$pendaftar->nama_lengkap} telah diterima dan terdaftar sebagai Anggota Baru!");
     }
 
     /**

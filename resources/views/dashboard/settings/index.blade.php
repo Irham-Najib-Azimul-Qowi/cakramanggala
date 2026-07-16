@@ -84,18 +84,25 @@
                                 </div>
                             </div>
 
-                            <!-- SECTION 2: PERIODE PENGURUS -->
+                            <!-- SECTION 2: PERIODE & PENDAFTARAN -->
                             <div class="col-12 mt-5">
                                 <h3 class="h6 fw-black text-white text-uppercase mb-4 pb-2" style="letter-spacing: 0.15em; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                    <i class="bi bi-clock-history text-accent me-2"></i> Periode Kepengurusan Aktif
+                                    <i class="bi bi-clock-history text-accent me-2"></i> Periode & Penerimaan Anggota
                                 </h3>
 
                                 <div class="row g-4">
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <label class="form-label fw-black small text-uppercase text-accent mb-2" style="letter-spacing: 0.15em; font-size: 0.7rem;">Teks Periode Pengurus</label>
-                                        <input type="text" name="periode_pengurus" class="form-control admin-input @error('periode_pengurus') is-invalid @enderror" value="{{ old('periode_pengurus', $settings['periode_pengurus'] ?? 'PERIODE 2024 — 2025') }}" placeholder="Contoh: PERIODE 2024 — 2025" required>
-                                        <div class="text-white-50 x-small mt-1">Teks ini akan ditampilkan pada halaman Struktur Kepengurusan publik.</div>
+                                        <input type="text" name="periode_pengurus" class="form-control admin-input @error('periode_pengurus') is-invalid @enderror" value="{{ old('periode_pengurus', $settings['periode_pengurus'] ?? 'auto') }}" placeholder="Contoh: auto atau PERIODE 2024 — 2025" required>
+                                        <div class="text-white-50 x-small mt-1">Gunakan <code>auto</code> untuk menghitung otomatis berdasarkan bulan berjalan (September - Agustus).</div>
                                         @error('periode_pengurus') <div class="invalid-feedback fw-bold text-danger">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-black small text-uppercase text-accent mb-2" style="letter-spacing: 0.15em; font-size: 0.7rem;">Angkatan Pendaftaran Default (Opsi C)</label>
+                                        <input type="text" name="angkatan_pendaftaran_default" class="form-control admin-input @error('angkatan_pendaftaran_default') is-invalid @enderror" value="{{ old('angkatan_pendaftaran_default', $settings['angkatan_pendaftaran_default'] ?? '14') }}" placeholder="Contoh: 14" required>
+                                        <div class="text-white-50 x-small mt-1">Angkatan yang otomatis disematkan ketika calon anggota disetujui (approve).</div>
+                                        @error('angkatan_pendaftaran_default') <div class="invalid-feedback fw-bold text-danger">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>

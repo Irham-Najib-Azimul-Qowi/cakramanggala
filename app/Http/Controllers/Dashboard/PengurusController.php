@@ -19,9 +19,10 @@ class PengurusController extends Controller
     public function index()
     {
         $penguruses = Pengurus::orderBy('urutan')->get();
-        $periode = \App\Models\Setting::getValue('periode_pengurus', 'PERIODE 2024 — 2025');
+        $periode = \App\Models\Setting::getValue('periode_pengurus', 'auto');
         $banner = \App\Models\Setting::getValue('banner_pengurus');
-        return view('dashboard.pengurus.index', compact('penguruses', 'periode', 'banner'));
+        $angkatanDefault = \App\Models\Setting::getValue('angkatan_pendaftaran_default', '14');
+        return view('dashboard.pengurus.index', compact('penguruses', 'periode', 'banner', 'angkatanDefault'));
     }
 
     /**
@@ -31,12 +32,18 @@ class PengurusController extends Controller
     {
         $request->validate([
             'periode_pengurus' => 'required|string|max:100',
+            'angkatan_pendaftaran_default' => 'required|string|max:100',
             'banner_pengurus' => 'nullable|custom_image|max:2048',
         ]);
 
         \App\Models\Setting::updateOrCreate(
             ['key' => 'periode_pengurus'],
             ['value' => $request->periode_pengurus]
+        );
+
+        \App\Models\Setting::updateOrCreate(
+            ['key' => 'angkatan_pendaftaran_default'],
+            ['value' => $request->angkatan_pendaftaran_default]
         );
 
         if ($request->hasFile('banner_pengurus')) {
@@ -75,7 +82,8 @@ class PengurusController extends Controller
             $validated['foto'] = $this->uploadAndConvert($request->file('foto'), 'uploads/pengurus');
         }
 
-        Pengurus::create($validated);
+        $pengurus = Pengurus::create($validated);
+        $this->syncToAnggota($pengurus);
 
         return redirect()->route('dashboard.pengurus.index')->with('success', 'Data pengurus berhasil ditambahkan!');
     }
@@ -100,6 +108,7 @@ class PengurusController extends Controller
         }
 
         $penguru->update($validated);
+        $this->syncToAnggota($penguru);
 
         return redirect()->route('dashboard.pengurus.index')->with('success', 'Data pengurus berhasil diperbarui!');
     }
@@ -116,5 +125,38 @@ class PengurusController extends Controller
         $penguru->delete();
 
         return redirect()->route('dashboard.pengurus.index')->with('success', 'Data pengurus berhasil dihapus!');
+    }
+
+    /**
+     * Synchronize pengurus to anggota table.
+     */
+    private function syncToAnggota(Pengurus $pengurus)
+    {
+        if ($pengurus->urutan === 0) {
+            return;
+        }
+
+        if (empty($pengurus->nim)) {
+            return;
+        }
+
+        // Determine angkatan based on user rule:
+        // "maulana ilyasa dan jakwan itu angkatan 12 , pengurus lainnya angkatan 13."
+        $nameLower = strtolower($pengurus->nama);
+        $angkatan = '13';
+        if (str_contains($nameLower, 'maulana ilyasa') || str_contains($nameLower, 'jakwan')) {
+            $angkatan = '12';
+        }
+
+        \App\Models\Anggota::updateOrCreate(
+            ['nim' => $pengurus->nim],
+            [
+                'nama' => $pengurus->nama,
+                'email' => $pengurus->email,
+                'angkatan' => $angkatan,
+                'status' => 'anggota',
+                'foto' => $pengurus->foto,
+            ]
+        );
     }
 }

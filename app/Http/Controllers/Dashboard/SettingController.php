@@ -32,6 +32,7 @@ class SettingController extends Controller
             'hero_title' => 'required|string',
             'hero_description' => 'required|string',
             'periode_pengurus' => 'required|string|max:100',
+            'angkatan_pendaftaran_default' => 'required|string|max:100',
             'hero_image' => 'nullable|custom_image|max:2048',
             'hero_video' => 'nullable|file|mimes:mp4,webm,ogg|max:10240', // Max 10MB
         ]);
@@ -40,6 +41,7 @@ class SettingController extends Controller
         Setting::updateOrCreate(['key' => 'hero_title'], ['value' => $request->hero_title]);
         Setting::updateOrCreate(['key' => 'hero_description'], ['value' => $request->hero_description]);
         Setting::updateOrCreate(['key' => 'periode_pengurus'], ['value' => $request->periode_pengurus]);
+        Setting::updateOrCreate(['key' => 'angkatan_pendaftaran_default'], ['value' => $request->angkatan_pendaftaran_default]);
 
         // Handle Image Upload
         if ($request->hasFile('hero_image')) {
