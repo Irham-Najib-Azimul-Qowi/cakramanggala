@@ -264,16 +264,16 @@
             display: block;
             height: 480px;
             overflow: hidden;
-            background: linear-gradient(145deg, #255b44 0%, #1a4331 100%);
-            border: 1px solid rgba(242, 182, 97, 0.15);
+            background: linear-gradient(145deg, #f2b661 0%, #d9a050 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             text-decoration: none;
-            color: #fff;
+            color: var(--primary-color);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .division-card:hover {
             transform: translateY(-10px);
-            border-color: var(--accent-color);
+            border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
             color: #fff;
         }
@@ -289,31 +289,28 @@
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            filter: saturate(0.8) brightness(0.5);
+            filter: saturate(1) brightness(0.8);
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .division-card:hover .division-card__bg img {
             opacity: 1;
-            transform: scale(1.1);
-            filter: saturate(1.1) brightness(0.45);
+            transform: scale(1.05);
+            filter: saturate(1.2) brightness(0.75);
         }
 
         .division-card__overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top,
-                    rgba(7, 17, 12, 0.95) 0%,
-                    rgba(7, 17, 12, 0.6) 40%,
-                    rgba(7, 17, 12, 0.3) 100%);
+            background: transparent;
             z-index: 2;
             transition: background 0.5s ease;
         }
 
         .division-card:hover .division-card__overlay {
             background: linear-gradient(to top,
-                    rgba(7, 17, 12, 1) 0%,
-                    rgba(7, 17, 12, 0.4) 50%,
+                    rgba(7, 17, 12, 0.7) 0%,
+                    rgba(7, 17, 12, 0.25) 50%,
                     transparent 100%);
         }
 
@@ -326,8 +323,8 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            border: 2px solid rgba(242, 182, 97, 0.3);
-            background: rgba(242, 182, 97, 0.08);
+            border: 2px solid rgba(26, 67, 49, 0.4);
+            background: rgba(26, 67, 49, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -336,7 +333,7 @@
 
         .division-card__icon i {
             font-size: 2rem;
-            color: var(--accent-color);
+            color: var(--primary-color);
             transition: all 0.5s ease;
         }
 
@@ -368,7 +365,7 @@
             font-weight: 800;
             letter-spacing: 0.1em;
             margin-bottom: 0.5rem;
-            color: #fff;
+            color: var(--primary-color);
         }
 
         .division-card__link {
