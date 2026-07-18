@@ -47,9 +47,9 @@
             </div>
 
             @if($artikels->count() > 0)
-                <div class="row g-3 card-grid-2col">
+                <div class="row g-4 mobile-horizontal-scroll">
                     @foreach($artikels as $artikel)
-                        <div class="col-6 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
+                        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
                             <div class="art-card">
                                 <div class="art-card__img-wrap">
                                     @if($artikel->gambar_utama)
@@ -235,43 +235,6 @@
         .custom-pagination .page-link:hover {
             background-color: rgba(255, 255, 255, 0.15);
             color: #fff;
-        }
-
-        @media (max-width: 575px) {
-            .art-card__img-wrap {
-                height: 120px;
-            }
-
-            .art-card__body {
-                padding: 0.85rem;
-            }
-
-            .art-card__title {
-                font-size: 0.78rem;
-                margin-bottom: 0.4rem;
-                line-height: 1.2;
-            }
-
-            .art-card__meta {
-                font-size: 0.58rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .art-card__text {
-                display: none;
-            }
-
-            .art-card__footer {
-                padding-top: 0.65rem;
-            }
-
-            .art-card__link {
-                font-size: 0.7rem;
-            }
-
-            .art-card__views {
-                font-size: 0.62rem;
-            }
         }
     </style>
 @endsection

@@ -58,9 +58,9 @@
 
             @if($members->count() > 0)
                 <!-- Member Cards Grid -->
-                <div class="row g-3 card-grid-anggota">
+                <div class="row g-4 mobile-horizontal-scroll">
                     @foreach($members as $index => $member)
-                        <div class="col-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ ($index % 4) * 100 }}">
+                        <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ ($index % 4) * 100 }}">
                             <article class="member-card">
                                 <div class="member-card__avatar-wrap">
                                     @if($member->foto)
@@ -252,60 +252,6 @@
             font-weight: 900;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-        }
-
-        @media (max-width: 575px) {
-            .member-card {
-                padding: 1.25rem 0.75rem 1rem;
-            }
-
-            .member-card__avatar-wrap {
-                margin-bottom: 0.85rem;
-            }
-
-            .member-card__avatar,
-            .member-card__placeholder {
-                width: 60px;
-                height: 60px;
-            }
-
-            .member-card__placeholder {
-                font-size: 1.5rem;
-            }
-
-            .member-card__badge-status {
-                width: 10px;
-                height: 10px;
-            }
-
-            .member-card__name {
-                font-size: 0.78rem;
-                margin-bottom: 0.25rem;
-            }
-
-            .member-card__nim {
-                font-size: 0.6rem;
-                margin-bottom: 0.5rem;
-                letter-spacing: 0.05em;
-            }
-
-            .member-card__major {
-                font-size: 0.62rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .member-card__footer {
-                padding-top: 0.65rem;
-            }
-
-            .badge-active {
-                font-size: 0.55rem;
-                letter-spacing: 0.06em;
-            }
-
-            .badge-active i {
-                display: none;
-            }
         }
     </style>
 @endsection

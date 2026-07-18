@@ -1305,26 +1305,31 @@
             }
         }
 
-        /* ── Mobile Card Grid Global Fix ── */
-        /* Cards with col-12 col-md-6 will be forced to 2-col on small screens */
-        @media (max-width: 575px) {
-            /* Kegiatan, Artikel, Catatan, Gunung Hutan, Panjat Tebing cards */
-            .card-grid-2col > [class*="col-12"] {
-                flex: 0 0 50%;
-                width: 50%;
-                max-width: 50%;
+        /* ── Mobile Horizontal Scrollable Card Strip ── */
+        @media (max-width: 767px) {
+            .mobile-horizontal-scroll {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 1rem;
+                padding-top: 0.5rem;
+                margin-left: -0.75rem;
+                margin-right: -0.75rem;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
             }
-            /* Anggota cards - stay 2 col */
-            .card-grid-anggota > [class*="col-12"] {
-                flex: 0 0 50%;
-                width: 50%;
-                max-width: 50%;
+            .mobile-horizontal-scroll::-webkit-scrollbar {
+                display: none;
             }
-            /* Division cards on home */
-            .division-grid-mobile > [class*="col-"] {
-                flex: 0 0 50%;
-                width: 50%;
-                max-width: 50%;
+            .mobile-horizontal-scroll > [class*="col-"] {
+                flex: 0 0 82% !important;
+                max-width: 82% !important;
+                width: 82% !important;
+                scroll-snap-align: start;
             }
         }
 

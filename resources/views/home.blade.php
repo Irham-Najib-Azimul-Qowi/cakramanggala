@@ -386,94 +386,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-        /* ── Mobile Card Responsive Fixes ── */
-        @media (max-width: 575px) {
-            .doc-card {
-                height: 260px !important;
-            }
-
-            .doc-card__content {
-                padding: 1rem !important;
-            }
-
-            .doc-card__title {
-                font-size: 0.85rem !important;
-                margin-bottom: 0.5rem;
-                line-height: 1.2;
-            }
-
-            .doc-card__tag {
-                font-size: 0.5rem !important;
-                padding: 0.3rem 0.6rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .doc-card__date {
-                font-size: 0.6rem !important;
-            }
-
-            .doc-card__excerpt,
-            .doc-card__link {
-                display: none;
-            }
-
-            .art-card__img-wrap {
-                height: 130px;
-            }
-
-            .art-card__body {
-                padding: 1rem;
-            }
-
-            .art-card__title {
-                font-size: 0.82rem;
-                margin-bottom: 0.5rem;
-                line-height: 1.25;
-            }
-
-            .art-card__meta {
-                font-size: 0.6rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .art-card__text {
-                display: none;
-            }
-
-            .art-card__footer {
-                padding-top: 0.75rem;
-            }
-
-            .art-card__link {
-                font-size: 0.72rem;
-            }
-
-            .art-card__views {
-                font-size: 0.65rem;
-            }
-
-            .division-card {
-                height: 240px !important;
-            }
-
-            .division-card__title {
-                font-size: 0.9rem;
-            }
-
-            .division-card__icon {
-                width: 56px;
-                height: 56px;
-                transform: translate(-50%, -55%);
-            }
-
-            .division-card__icon i {
-                font-size: 1.4rem;
-            }
-
-            .division-card__content {
-                padding: 1.2rem;
-            }
-        }
     </style>
 @endpush
 
@@ -519,9 +431,9 @@
                 </div>
             </div>
 
-            <div class="row justify-content-evenly division-grid-mobile">
+            <div class="row justify-content-evenly mobile-horizontal-scroll">
                 <!-- Card 1: Gunung Hutan -->
-                <div class="col-6 col-lg-4 col-md-5" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-12 col-md-5 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <a href="{{ route('activities.gunung-hutan') }}" class="division-card">
                         <div class="division-card__bg">
                             @if($latest_gunung_hutan && $latest_gunung_hutan->gambar_utama)
@@ -542,7 +454,7 @@
                 </div>
 
                 <!-- Card 2: Panjat Tebing -->
-                <div class="col-6 col-lg-4 col-md-5" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-12 col-md-5 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <a href="{{ route('activities.panjat-tebing') }}" class="division-card">
                         <div class="division-card__bg">
                             @if($latest_panjat_tebing && $latest_panjat_tebing->gambar_utama)
@@ -577,9 +489,9 @@
                         class="bi bi-arrow-right"></i></a>
             </div>
 
-            <div class="row g-4 card-grid-2col">
+            <div class="row g-4 mobile-horizontal-scroll">
                 @forelse($kegiatans as $kegiatan)
-                    <div class="col-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <article class="doc-card">
                             <div class="doc-card__img-container">
                                 @if($kegiatan->gambar_utama)
@@ -623,9 +535,9 @@
                 <div class="mx-auto mt-3" style="width: 80px; height: 1px; background: rgba(255,255,255,0.2);"></div>
             </div>
 
-            <div class="row g-4 card-grid-2col">
+            <div class="row g-4 mobile-horizontal-scroll">
                 @forelse($artikels as $artikel)
-                    <div class="col-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <div class="art-card">
                             <div class="art-card__img-wrap">
                                 @if($artikel->gambar_utama)
