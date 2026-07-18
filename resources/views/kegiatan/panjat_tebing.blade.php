@@ -56,9 +56,9 @@
             </div>
 
             @if(isset($kegiatans) && $kegiatans->count() > 0)
-                <div class="row g-4">
+                <div class="row g-3 card-grid-2col">
                     @foreach($kegiatans as $kegiatan)
-                        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
+                        <div class="col-6 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
                             <a href="{{ route('activities.show', $kegiatan->id) }}" class="text-decoration-none">
                                 <article class="doc-card" style="height: 440px;">
                                     <div class="doc-card__img-container">
@@ -218,6 +218,38 @@
         .doc-card:hover .doc-card__link {
             opacity: 1;
             transform: translateX(0);
+        }
+
+        @media (max-width: 575px) {
+            .doc-card {
+                height: 260px !important;
+            }
+
+            .doc-card__content {
+                padding: 1rem !important;
+            }
+
+            .doc-card__title {
+                font-size: 0.82rem !important;
+                line-height: 1.2;
+                margin-bottom: 0.4rem;
+            }
+
+            .doc-card__tag {
+                font-size: 0.5rem !important;
+                padding: 0.25rem 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .doc-card__date {
+                font-size: 0.58rem !important;
+                margin-bottom: 0.25rem;
+            }
+
+            .doc-card__excerpt,
+            .doc-card__link {
+                display: none !important;
+            }
         }
     </style>
 @endsection

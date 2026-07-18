@@ -91,9 +91,9 @@
             </div>
 
             @if($catatans->count() > 0)
-                <div class="row g-4">
+                <div class="row g-3 card-grid-2col">
                     @foreach($catatans as $catatan)
-                        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
+                        <div class="col-6 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
                             <div class="premium-card">
                                 <div class="premium-card__img-wrapper" style="height: 220px; overflow: hidden; position: relative;">
                                     @if($catatan->gambar)
@@ -302,6 +302,41 @@
         .form-select {
             border-radius: 0;
             font-size: 0.95rem;
+        }
+
+        @media (max-width: 575px) {
+            .premium-card__img-wrapper {
+                height: 130px !important;
+            }
+
+            .premium-card__body {
+                padding: 0.9rem;
+            }
+
+            .premium-card__title {
+                font-size: 0.82rem;
+                line-height: 1.2;
+                margin-bottom: 0.4rem;
+            }
+
+            .premium-card__meta {
+                font-size: 0.58rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .premium-card__text {
+                display: none;
+            }
+
+            .premium-card__footer {
+                padding-top: 0.65rem;
+                margin-top: 0;
+            }
+
+            .btn-premium-link {
+                font-size: 0.65rem;
+                letter-spacing: 0.06em;
+            }
         }
     </style>
 @endsection

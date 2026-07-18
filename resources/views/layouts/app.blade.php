@@ -921,31 +921,46 @@
         .site-menu-panel__body {
             display: flex;
             flex-direction: column;
-            gap: 1.4rem;
             padding-top: 1.15rem;
             flex: 1;
+            overflow: hidden;
+            min-height: 0;
         }
 
         .site-menu-links {
             display: grid;
-            gap: 0.15rem;
+            gap: 0;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .site-menu-links::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .site-menu-links::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.15);
         }
 
         .site-menu-link {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
-            padding: 0.95rem 0.2rem;
+            gap: 0.75rem;
+            padding: 0.75rem 0.2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             color: rgba(255, 255, 255, 0.82);
             text-decoration: none;
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(1.02rem, 1.7vw, 1.18rem);
+            font-size: 0.9rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
             transition: color 0.22s ease, padding-left 0.22s ease, background 0.22s ease;
+            flex-shrink: 0;
         }
 
         .site-menu-link:last-child {
@@ -962,8 +977,9 @@
 
         .site-menu-panel__meta {
             display: grid;
-            gap: 1rem;
-            margin-top: auto;
+            gap: 0.5rem;
+            flex-shrink: 0;
+            margin-top: 0.75rem;
         }
 
         .site-menu-panel__contact {
@@ -979,26 +995,26 @@
             }
 
             .site-brand img {
-                width: 48px;
-                height: 48px;
+                width: 44px;
+                height: 44px;
             }
 
             .site-brand-label {
-                font-size: 0.88rem;
+                font-size: 0.82rem;
             }
 
             .site-navbar-shell {
-                min-height: 72px;
-                padding: 0.55rem 0;
+                min-height: 64px;
+                padding: 0.5rem 0;
             }
 
             .site-navbar-actions {
-                gap: 0.85rem;
+                gap: 0.65rem;
             }
 
             .site-navbar-join {
-                padding: 0.78rem 0.9rem;
-                font-size: 0.72rem;
+                padding: 0.65rem 0.8rem;
+                font-size: 0.7rem;
             }
 
             .site-menu-trigger {
@@ -1007,19 +1023,58 @@
             }
 
             .site-menu-trigger__label {
-                font-size: 0.76rem;
+                font-size: 0.7rem;
             }
 
             .site-menu-panel {
-                top: 0.5rem;
-                right: 0.5rem;
-                width: calc(100vw - 1rem);
-                height: calc(100vh - 1rem);
-                padding: 0.65rem;
+                top: 0;
+                right: 0;
+                width: 100vw;
+                height: 100vh;
+                padding: 0.5rem;
+                border-radius: 0;
+                border: none;
             }
 
             .site-menu-panel__inner {
-                padding: 0.95rem;
+                padding: 0.85rem;
+            }
+
+            .site-menu-panel__header {
+                padding-bottom: 0.75rem;
+            }
+
+            .site-menu-panel__title {
+                font-size: 0.88rem;
+            }
+
+            .site-menu-link {
+                font-size: 0.82rem;
+                padding: 0.65rem 0.15rem;
+            }
+
+            .site-menu-link i {
+                font-size: 0.8rem;
+            }
+
+            /* Mobile menu join button compact */
+            .site-menu-join {
+                padding: 0.85rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            /* Keep cards 2-column on mobile */
+            .mobile-2col {
+                column-count: 2;
+            }
+        }
+
+        /* Global mobile card grid fix - ensure min 2 cols on small screens */
+        @media (max-width: 575px) {
+            .row-mobile-2col > [class*="col-12"] {
+                width: 50% !important;
+                flex: 0 0 50% !important;
+                max-width: 50% !important;
             }
         }
 
@@ -1247,6 +1302,29 @@
 
             .section-shell {
                 padding: 3.5rem 0;
+            }
+        }
+
+        /* ── Mobile Card Grid Global Fix ── */
+        /* Cards with col-12 col-md-6 will be forced to 2-col on small screens */
+        @media (max-width: 575px) {
+            /* Kegiatan, Artikel, Catatan, Gunung Hutan, Panjat Tebing cards */
+            .card-grid-2col > [class*="col-12"] {
+                flex: 0 0 50%;
+                width: 50%;
+                max-width: 50%;
+            }
+            /* Anggota cards - stay 2 col */
+            .card-grid-anggota > [class*="col-12"] {
+                flex: 0 0 50%;
+                width: 50%;
+                max-width: 50%;
+            }
+            /* Division cards on home */
+            .division-grid-mobile > [class*="col-"] {
+                flex: 0 0 50%;
+                width: 50%;
+                max-width: 50%;
             }
         }
 

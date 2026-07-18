@@ -225,11 +225,70 @@
             }
 
             .main-content {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem 1rem;
             }
 
             .main-header {
                 display: none !important;
+            }
+
+            /* Stat cards: 2 per row on tablet */
+            .stat-card {
+                padding: 1.5rem;
+                gap: 16px;
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
+            }
+
+            .admin-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 1rem 0.75rem;
+            }
+
+            /* Stat cards: full width on small mobile, smaller text */
+            .stat-card {
+                padding: 1.25rem;
+                gap: 12px;
+            }
+
+            .stat-icon {
+                font-size: 1.8rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.6rem;
+            }
+
+            .admin-card {
+                padding: 1.25rem;
+            }
+
+            /* Quick links stack vertically */
+            .quick-link {
+                padding: 1rem;
+                gap: 12px;
+            }
+
+            .quick-link__icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            /* Mobile toggle compact */
+            .mobile-toggle {
+                padding: 0.9rem 1rem;
             }
         }
 
@@ -519,6 +578,49 @@
             justify-content: center;
             font-size: 1.2rem;
             flex-shrink: 0;
+        }
+
+        /* ── Admin Table Mobile ── */
+        .admin-table {
+            min-width: 500px;
+        }
+
+        @media (max-width: 576px) {
+            /* Make tables scrollable on mobile */
+            .admin-table-wrapper {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 0.85rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .admin-table th {
+                font-size: 0.58rem;
+                padding: 0.75rem 1rem;
+            }
+
+            /* Compact pagination on mobile */
+            .pagination .page-link {
+                padding: 0.45rem 0.7rem;
+                font-size: 0.8rem;
+            }
+
+            /* Better form group sizing */
+            .admin-input,
+            .admin-select {
+                padding: 0.65rem 0.9rem !important;
+                font-size: 0.85rem !important;
+            }
+
+            /* Compact btn-accent */
+            .btn-accent {
+                padding: 0.65rem 1rem;
+                font-size: 0.7rem;
+                letter-spacing: 0.1em;
+            }
         }
     </style>
     @stack('styles')
