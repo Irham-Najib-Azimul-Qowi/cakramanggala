@@ -424,10 +424,11 @@
     <!-- Division Section -->
     <section class="section-shell" style="background-color: var(--dark-color); color: #fff; padding-bottom: 0;">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
+            <!-- <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up"> -->
+            <div class="d-flex justify-content-center text-center align-items-end mb-5" data-aos="fade-up">
                 <div>
                     <!-- <span class="section-label" style="color: var(--accent-color);">Divisi & Aktivitas</span> -->
-                    <h2 class="text-center section-heading mb-0" style="color: #fff;">Divisi Kami</h2>
+                    <h2 class="section-heading mb-0" style="color: #fff;">Divisi Kami</h2>
                 </div>
             </div>
 
