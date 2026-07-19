@@ -47,15 +47,32 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-sort-down cm-filter-icon"></i>
-                                    <select name="sort" class="cm-filter-control">
-                                        <optgroup label="Urutkan Berdasarkan">
-                                            <option value="terbaru" {{ (isset($sort) && $sort == 'terbaru') ? 'selected' : '' }}>Terbaru</option>
-                                            <option value="populer" {{ (isset($sort) && $sort == 'populer') ? 'selected' : '' }}>Terpopuler (Views Terbanyak)</option>
-                                            <option value="terlama" {{ (isset($sort) && $sort == 'terlama') ? 'selected' : '' }}>Terlama</option>
-                                        </optgroup>
-                                    </select>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-sort-down cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">
+                                                {{ (isset($sort) && $sort == 'populer') ? 'Terpopuler (Views Terbanyak)' : ((isset($sort) && $sort == 'terlama') ? 'Terlama' : 'Terbaru') }}
+                                            </span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-header">Urutkan Berdasarkan</div>
+                                        <div class="cm-dropdown-item {{ (!isset($sort) || $sort == 'terbaru') ? 'selected' : '' }}" data-value="terbaru">
+                                            <span>Terbaru</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
+                                        <div class="cm-dropdown-item {{ (isset($sort) && $sort == 'populer') ? 'selected' : '' }}" data-value="populer">
+                                            <span>Terpopuler (Views Terbanyak)</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
+                                        <div class="cm-dropdown-item {{ (isset($sort) && $sort == 'terlama') ? 'selected' : '' }}" data-value="terlama">
+                                            <span>Terlama</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="sort" value="{{ $sort ?? 'terbaru' }}">
                                 </div>
                             </div>
                             <div class="col-md-2">

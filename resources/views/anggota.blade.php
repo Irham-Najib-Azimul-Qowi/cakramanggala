@@ -53,29 +53,59 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-person-badge cm-filter-icon"></i>
-                                    <select name="status" class="cm-filter-control">
-                                        <option value="">Semua Status</option>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-person-badge cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">
+                                                {{ (isset($status) && isset($statuses[$status])) ? $statuses[$status] : 'Semua Status' }}
+                                            </span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ (!isset($status) || !$status) ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Status</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
                                         @if(isset($statuses))
                                             @foreach($statuses as $key => $label)
-                                                <option value="{{ $key }}" {{ (isset($status) && $status == $key) ? 'selected' : '' }}>{{ $label }}</option>
+                                                <div class="cm-dropdown-item {{ (isset($status) && $status == $key) ? 'selected' : '' }}" data-value="{{ $key }}">
+                                                    <span>{{ $label }}</span>
+                                                    <i class="bi bi-check2 cm-check-icon"></i>
+                                                </div>
                                             @endforeach
                                         @endif
-                                    </select>
+                                    </div>
+                                    <input type="hidden" name="status" value="{{ $status ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-award cm-filter-icon"></i>
-                                    <select name="angkatan" class="cm-filter-control">
-                                        <option value="">Semua Angkatan</option>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-award cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">
+                                                {{ (isset($angkatan) && $angkatan) ? 'Angkatan ' . $angkatan : 'Semua Angkatan' }}
+                                            </span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ (!isset($angkatan) || !$angkatan) ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Angkatan</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
                                         @if(isset($angkatans))
                                             @foreach($angkatans as $ang)
-                                                <option value="{{ $ang }}" {{ (isset($angkatan) && $angkatan == $ang) ? 'selected' : '' }}>Angkatan {{ $ang }}</option>
+                                                <div class="cm-dropdown-item {{ (isset($angkatan) && $angkatan == $ang) ? 'selected' : '' }}" data-value="{{ $ang }}">
+                                                    <span>Angkatan {{ $ang }}</span>
+                                                    <i class="bi bi-check2 cm-check-icon"></i>
+                                                </div>
                                             @endforeach
                                         @endif
-                                    </select>
+                                    </div>
+                                    <input type="hidden" name="angkatan" value="{{ $angkatan ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-6">

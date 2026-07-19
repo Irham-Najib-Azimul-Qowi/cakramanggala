@@ -62,36 +62,78 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-geo-alt cm-filter-icon"></i>
-                                    <select name="lokasi" class="cm-filter-control">
-                                        <option value="">Semua Lokasi</option>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-geo-alt cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">{{ $lokasi ?: 'Semua Lokasi' }}</span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ !$lokasi ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Lokasi</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
                                         @foreach($lokasis as $lok)
-                                            <option value="{{ $lok }}" {{ $lokasi == $lok ? 'selected' : '' }}>{{ $lok }}</option>
+                                            <div class="cm-dropdown-item {{ $lokasi == $lok ? 'selected' : '' }}" data-value="{{ $lok }}">
+                                                <span>{{ $lok }}</span>
+                                                <i class="bi bi-check2 cm-check-icon"></i>
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+                                    <input type="hidden" name="lokasi" value="{{ $lokasi }}">
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-6">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-tag cm-filter-icon"></i>
-                                    <select name="angkatan" class="cm-filter-control">
-                                        <option value="">Semua Angkatan/Kategori</option>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-tag cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">{{ $angkatan ?: 'Semua Kategori' }}</span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ !$angkatan ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Kategori</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
                                         @foreach($angkatans as $ang)
-                                            <option value="{{ $ang }}" {{ $angkatan == $ang ? 'selected' : '' }}>{{ $ang }}</option>
+                                            <div class="cm-dropdown-item {{ $angkatan == $ang ? 'selected' : '' }}" data-value="{{ $ang }}">
+                                                <span>{{ $ang }}</span>
+                                                <i class="bi bi-check2 cm-check-icon"></i>
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+                                    <input type="hidden" name="angkatan" value="{{ $angkatan }}">
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-6">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-flag cm-filter-icon"></i>
-                                    <select name="kegiatan_id" class="cm-filter-control">
-                                        <option value="">Semua Kegiatan</option>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-flag cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">
+                                                @php $selectedKeg = $kegiatans->firstWhere('id', $kegiatan_id); @endphp
+                                                {{ $selectedKeg ? $selectedKeg->judul_kegiatan : 'Semua Kegiatan' }}
+                                            </span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ !$kegiatan_id ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Kegiatan</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
                                         @foreach($kegiatans as $keg)
-                                            <option value="{{ $keg->id }}" {{ $kegiatan_id == $keg->id ? 'selected' : '' }}>{{ $keg->judul_kegiatan }}</option>
+                                            <div class="cm-dropdown-item {{ $kegiatan_id == $keg->id ? 'selected' : '' }}" data-value="{{ $keg->id }}">
+                                                <span>{{ $keg->judul_kegiatan }}</span>
+                                                <i class="bi bi-check2 cm-check-icon"></i>
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+                                    <input type="hidden" name="kegiatan_id" value="{{ $kegiatan_id }}">
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-12">

@@ -1545,14 +1545,14 @@
         }
 
         /* ==========================================================================
-           Cakra Manggala Design System - Custom Glassmorphism Select Dropdown UI
+           Cakra Manggala Pure Glassmorphism Custom Dropdown Component
            ========================================================================== */
-        .cm-select-wrapper {
+        .cm-dropdown {
             position: relative;
             width: 100%;
         }
 
-        .cm-select-trigger {
+        .cm-dropdown-toggle {
             width: 100%;
             height: 48px;
             background-color: rgba(7, 17, 12, 0.85);
@@ -1561,31 +1561,46 @@
             font-size: 0.92rem;
             font-family: 'Inter', sans-serif;
             border-radius: 8px;
-            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            padding: 0.75rem 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
             transition: all 0.25s ease;
             user-select: none;
+            text-align: left;
         }
 
-        .cm-select-trigger:hover,
-        .cm-select-wrapper.open .cm-select-trigger {
+        .cm-dropdown-toggle:hover,
+        .cm-dropdown.show .cm-dropdown-toggle {
             background-color: rgba(12, 28, 20, 0.95);
             border-color: var(--accent-color);
             box-shadow: 0 0 0 3px rgba(242, 182, 97, 0.2);
+            color: #ffffff;
         }
 
-        .cm-select-trigger .cm-select-label {
+        .cm-dropdown-toggle .cm-dropdown-left {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .cm-dropdown-toggle .cm-filter-icon {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .cm-dropdown-toggle .cm-dropdown-label {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             color: #ffffff;
-            flex-grow: 1;
         }
 
-        .cm-select-trigger .cm-select-arrow {
+        .cm-dropdown-toggle .cm-dropdown-arrow {
             color: var(--accent-color);
             transition: transform 0.3s ease;
             font-size: 0.85rem;
@@ -1593,23 +1608,23 @@
             flex-shrink: 0;
         }
 
-        .cm-select-wrapper.open .cm-select-arrow {
+        .cm-dropdown.show .cm-dropdown-arrow {
             transform: rotate(180deg);
         }
 
-        .cm-select-menu {
+        .cm-dropdown-menu {
             position: absolute;
             top: calc(100% + 6px);
             left: 0;
             right: 0;
-            z-index: 1050;
-            background: linear-gradient(160deg, rgba(10, 26, 18, 0.96) 0%, rgba(7, 17, 12, 0.98) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(242, 182, 97, 0.3);
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 15px rgba(242, 182, 97, 0.15);
-            max-height: 280px;
+            z-index: 99999 !important;
+            background: linear-gradient(160deg, rgba(10, 26, 18, 0.98) 0%, rgba(7, 17, 12, 0.99) 100%) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(242, 182, 97, 0.35) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(242, 182, 97, 0.2) !important;
+            max-height: 290px;
             overflow-y: auto;
             display: none;
             padding: 0.5rem;
@@ -1618,30 +1633,30 @@
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
-        .cm-select-wrapper.open .cm-select-menu {
+        .cm-dropdown.show .cm-dropdown-menu {
             display: block;
             opacity: 1;
             transform: translateY(0);
         }
 
-        .cm-select-optgroup-label {
+        .cm-dropdown-header {
             font-family: 'Montserrat', sans-serif;
             font-size: 0.72rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--accent-color);
-            padding: 0.6rem 0.8rem 0.3rem;
+            padding: 0.6rem 0.85rem 0.35rem;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-            margin-bottom: 0.25rem;
-            margin-top: 0.4rem;
+            margin-bottom: 0.35rem;
+            margin-top: 0.25rem;
         }
 
-        .cm-select-optgroup-label:first-child {
+        .cm-dropdown-header:first-child {
             margin-top: 0;
         }
 
-        .cm-select-item {
+        .cm-dropdown-item {
             padding: 0.65rem 0.85rem;
             border-radius: 8px;
             color: rgba(255, 255, 255, 0.85);
@@ -1652,42 +1667,44 @@
             justify-content: space-between;
             transition: all 0.18s ease;
             margin-bottom: 2px;
+            user-select: none;
         }
 
-        .cm-select-item:hover {
-            background: rgba(242, 182, 97, 0.15);
+        .cm-dropdown-item:hover {
+            background: rgba(242, 182, 97, 0.18);
             color: var(--accent-color);
-            padding-left: 1.1rem;
+            padding-left: 1.15rem;
         }
 
-        .cm-select-item.selected {
-            background: rgba(242, 182, 97, 0.22);
+        .cm-dropdown-item.selected {
+            background: rgba(242, 182, 97, 0.25);
             color: var(--accent-color);
             font-weight: 700;
         }
 
-        .cm-select-item .cm-check-icon {
+        .cm-dropdown-item .cm-check-icon {
             opacity: 0;
             color: var(--accent-color);
             transition: opacity 0.2s ease;
+            font-size: 1rem;
         }
 
-        .cm-select-item.selected .cm-check-icon {
+        .cm-dropdown-item.selected .cm-check-icon {
             opacity: 1;
         }
 
-        .cm-select-menu::-webkit-scrollbar {
+        .cm-dropdown-menu::-webkit-scrollbar {
             width: 6px;
         }
-        .cm-select-menu::-webkit-scrollbar-track {
+        .cm-dropdown-menu::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 4px;
         }
-        .cm-select-menu::-webkit-scrollbar-thumb {
-            background: rgba(242, 182, 97, 0.3);
+        .cm-dropdown-menu::-webkit-scrollbar-thumb {
+            background: rgba(242, 182, 97, 0.35);
             border-radius: 4px;
         }
-        .cm-select-menu::-webkit-scrollbar-thumb:hover {
+        .cm-dropdown-menu::-webkit-scrollbar-thumb:hover {
             background: var(--accent-color);
         }
     </style>
@@ -2173,7 +2190,50 @@
         }
         window.addEventListener('load', initCmCustomSelects);
 
-        document.addEventListener('click', function() {
+        document.addEventListener('click', function(e) {
+            const toggle = e.target.closest('.cm-dropdown-toggle');
+            const item = e.target.closest('.cm-dropdown-item');
+
+            if (toggle) {
+                e.preventDefault();
+                e.stopPropagation();
+                const dropdown = toggle.closest('.cm-dropdown');
+                document.querySelectorAll('.cm-dropdown.show').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('show');
+                });
+                dropdown.classList.toggle('show');
+                return;
+            }
+
+            if (item) {
+                e.preventDefault();
+                e.stopPropagation();
+                const dropdown = item.closest('.cm-dropdown');
+                const hiddenInput = dropdown.querySelector('input[type="hidden"]');
+                const labelElem = dropdown.querySelector('.cm-dropdown-label');
+                const val = item.getAttribute('data-value');
+                const textSpan = item.querySelector('span');
+                const text = textSpan ? textSpan.textContent.trim() : item.textContent.trim();
+
+                if (hiddenInput) {
+                    hiddenInput.value = val;
+                    hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                if (labelElem) labelElem.textContent = text;
+
+                dropdown.querySelectorAll('.cm-dropdown-item').forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+
+                dropdown.classList.remove('show');
+
+                const form = dropdown.closest('form');
+                if (form && (dropdown.dataset.autoSubmit === 'true' || dropdown.classList.contains('auto-submit'))) {
+                    form.submit();
+                }
+                return;
+            }
+
+            document.querySelectorAll('.cm-dropdown.show').forEach(d => d.classList.remove('show'));
             document.querySelectorAll('.cm-select-wrapper.open').forEach(w => w.classList.remove('open'));
         });
     </script>

@@ -47,27 +47,59 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-6">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-calendar3 cm-filter-icon"></i>
-                                    <select name="tahun" class="cm-filter-control">
-                                        <option value="">Semua Tahun</option>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-calendar3 cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">{{ request('tahun') ? 'Tahun ' . request('tahun') : 'Semua Tahun' }}</span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ !request('tahun') ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Tahun</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
                                         @foreach(range(date('Y'), 2020) as $year)
-                                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
-                                                Tahun {{ $year }}
-                                            </option>
+                                            <div class="cm-dropdown-item {{ request('tahun') == $year ? 'selected' : '' }}" data-value="{{ $year }}">
+                                                <span>Tahun {{ $year }}</span>
+                                                <i class="bi bi-check2 cm-check-icon"></i>
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+                                    <input type="hidden" name="tahun" value="{{ request('tahun') }}">
                                 </div>
                             </div>
                             <div class="col-md-2 col-6">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-layers cm-filter-icon"></i>
-                                    <select name="sifat" class="cm-filter-control">
-                                        <option value="">Semua Kategori</option>
-                                        <option value="umum" {{ request('sifat') == 'umum' ? 'selected' : '' }}>Umum</option>
-                                        <option value="gunung_hutan" {{ request('sifat') == 'gunung_hutan' ? 'selected' : '' }}>Gunung Hutan</option>
-                                        <option value="panjat_tebing" {{ request('sifat') == 'panjat_tebing' ? 'selected' : '' }}>Panjat Tebing</option>
-                                    </select>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-layers cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">
+                                                {{ request('sifat') == 'gunung_hutan' ? 'Gunung Hutan' : (request('sifat') == 'panjat_tebing' ? 'Panjat Tebing' : (request('sifat') == 'umum' ? 'Umum' : 'Semua Kategori')) }}
+                                            </span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ !request('sifat') ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Kategori</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
+                                        <div class="cm-dropdown-item {{ request('sifat') == 'umum' ? 'selected' : '' }}" data-value="umum">
+                                            <span>Umum</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
+                                        <div class="cm-dropdown-item {{ request('sifat') == 'gunung_hutan' ? 'selected' : '' }}" data-value="gunung_hutan">
+                                            <span>Gunung Hutan</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
+                                        <div class="cm-dropdown-item {{ request('sifat') == 'panjat_tebing' ? 'selected' : '' }}" data-value="panjat_tebing">
+                                            <span>Panjat Tebing</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="sifat" value="{{ request('sifat') }}">
                                 </div>
                             </div>
                             <div class="col-md-2">

@@ -43,16 +43,27 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="cm-filter-group">
-                                    <i class="bi bi-calendar3 cm-filter-icon"></i>
-                                    <select name="tahun" class="cm-filter-control">
-                                        <option value="">Semua Tahun</option>
+                                <div class="cm-dropdown">
+                                    <button type="button" class="cm-dropdown-toggle">
+                                        <div class="cm-dropdown-left">
+                                            <i class="bi bi-calendar3 cm-filter-icon"></i>
+                                            <span class="cm-dropdown-label">{{ request('tahun') ? 'Tahun ' . request('tahun') : 'Semua Tahun' }}</span>
+                                        </div>
+                                        <i class="bi bi-chevron-down cm-dropdown-arrow"></i>
+                                    </button>
+                                    <div class="cm-dropdown-menu">
+                                        <div class="cm-dropdown-item {{ !request('tahun') ? 'selected' : '' }}" data-value="">
+                                            <span>Semua Tahun</span>
+                                            <i class="bi bi-check2 cm-check-icon"></i>
+                                        </div>
                                         @foreach(range(date('Y'), 2020) as $year)
-                                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
-                                                Tahun {{ $year }}
-                                            </option>
+                                            <div class="cm-dropdown-item {{ request('tahun') == $year ? 'selected' : '' }}" data-value="{{ $year }}">
+                                                <span>Tahun {{ $year }}</span>
+                                                <i class="bi bi-check2 cm-check-icon"></i>
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+                                    <input type="hidden" name="tahun" value="{{ request('tahun') }}">
                                 </div>
                             </div>
                             <div class="col-md-2">
