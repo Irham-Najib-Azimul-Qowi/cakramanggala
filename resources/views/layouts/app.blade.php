@@ -2071,98 +2071,107 @@
         // ==========================================================================
         // Cakra Manggala Custom Glassmorphism Select Dropdown Enhancer
         // ==========================================================================
-        document.querySelectorAll('select.cm-filter-control').forEach(function(select) {
-            if (select.dataset.cmCustomInit) return;
-            select.dataset.cmCustomInit = 'true';
+        function initCmCustomSelects() {
+            document.querySelectorAll('select.cm-filter-control, .cm-filter-card select').forEach(function(select) {
+                if (select.dataset.cmCustomInit) return;
+                select.dataset.cmCustomInit = 'true';
 
-            select.style.display = 'none';
+                select.style.display = 'none';
 
-            const wrapper = document.createElement('div');
-            wrapper.className = 'cm-select-wrapper';
+                const wrapper = document.createElement('div');
+                wrapper.className = 'cm-select-wrapper';
 
-            const parentGroup = select.closest('.cm-filter-group');
-            let iconHtml = '';
-            if (parentGroup) {
-                const iconElem = parentGroup.querySelector('.cm-filter-icon');
-                if (iconElem) {
-                    iconHtml = iconElem.outerHTML;
-                    iconElem.remove();
+                const parentGroup = select.closest('.cm-filter-group');
+                let iconHtml = '';
+                if (parentGroup) {
+                    const iconElem = parentGroup.querySelector('.cm-filter-icon');
+                    if (iconElem) {
+                        iconHtml = iconElem.outerHTML;
+                        iconElem.remove();
+                    }
                 }
-            }
 
-            const selectedOption = select.options[select.selectedIndex] || select.options[0];
-            const initialText = selectedOption ? selectedOption.text : 'Pilih...';
+                const selectedOption = select.options[select.selectedIndex] || select.options[0];
+                const initialText = selectedOption ? selectedOption.text : 'Pilih...';
 
-            const trigger = document.createElement('div');
-            trigger.className = 'cm-select-trigger';
-            trigger.innerHTML = `
-                ${iconHtml}
-                <span class="cm-select-label">${initialText}</span>
-                <i class="bi bi-chevron-down cm-select-arrow"></i>
-            `;
-
-            const menu = document.createElement('div');
-            menu.className = 'cm-select-menu';
-
-            function addOptionItem(opt, idx) {
-                const item = document.createElement('div');
-                item.className = 'cm-select-item' + (opt.selected ? ' selected' : '');
-                item.dataset.value = opt.value;
-                item.dataset.index = idx;
-                item.innerHTML = `
-                    <span>${opt.text}</span>
-                    <i class="bi bi-check2 cm-check-icon"></i>
+                const trigger = document.createElement('div');
+                trigger.className = 'cm-select-trigger';
+                trigger.innerHTML = `
+                    ${iconHtml}
+                    <span class="cm-select-label">${initialText}</span>
+                    <i class="bi bi-chevron-down cm-select-arrow"></i>
                 `;
 
-                item.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    select.selectedIndex = idx;
-                    select.dispatchEvent(new Event('change', { bubbles: true }));
+                const menu = document.createElement('div');
+                menu.className = 'cm-select-menu';
 
-                    menu.querySelectorAll('.cm-select-item').forEach(i => i.classList.remove('selected'));
-                    item.classList.add('selected');
-                    trigger.querySelector('.cm-select-label').textContent = opt.text;
-                    wrapper.classList.remove('open');
+                function addOptionItem(opt, idx) {
+                    const item = document.createElement('div');
+                    item.className = 'cm-select-item' + (opt.selected ? ' selected' : '');
+                    item.dataset.value = opt.value;
+                    item.dataset.index = idx;
+                    item.innerHTML = `
+                        <span>${opt.text}</span>
+                        <i class="bi bi-check2 cm-check-icon"></i>
+                    `;
 
-                    if (select.getAttribute('onchange')) {
-                        if (select.form) {
-                            select.form.submit();
+                    item.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        select.selectedIndex = idx;
+                        select.dispatchEvent(new Event('change', { bubbles: true }));
+
+                        menu.querySelectorAll('.cm-select-item').forEach(i => i.classList.remove('selected'));
+                        item.classList.add('selected');
+                        trigger.querySelector('.cm-select-label').textContent = opt.text;
+                        wrapper.classList.remove('open');
+
+                        if (select.getAttribute('onchange')) {
+                            if (select.form) {
+                                select.form.submit();
+                            }
                         }
+                    });
+
+                    menu.appendChild(item);
+                }
+
+                let optIndex = 0;
+                Array.from(select.children).forEach(function(child) {
+                    if (child.tagName === 'OPTGROUP') {
+                        const groupLabel = document.createElement('div');
+                        groupLabel.className = 'cm-select-optgroup-label';
+                        groupLabel.textContent = child.label;
+                        menu.appendChild(groupLabel);
+
+                        Array.from(child.children).forEach(function(opt) {
+                            addOptionItem(opt, optIndex++);
+                        });
+                    } else if (child.tagName === 'OPTION') {
+                        addOptionItem(child, optIndex++);
                     }
                 });
 
-                menu.appendChild(item);
-            }
+                wrapper.appendChild(trigger);
+                wrapper.appendChild(menu);
+                select.parentNode.insertBefore(wrapper, select);
+                wrapper.appendChild(select);
 
-            let optIndex = 0;
-            Array.from(select.children).forEach(function(child) {
-                if (child.tagName === 'OPTGROUP') {
-                    const groupLabel = document.createElement('div');
-                    groupLabel.className = 'cm-select-optgroup-label';
-                    groupLabel.textContent = child.label;
-                    menu.appendChild(groupLabel);
-
-                    Array.from(child.children).forEach(function(opt) {
-                        addOptionItem(opt, optIndex++);
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    document.querySelectorAll('.cm-select-wrapper.open').forEach(w => {
+                        if (w !== wrapper) w.classList.remove('open');
                     });
-                } else if (child.tagName === 'OPTION') {
-                    addOptionItem(child, optIndex++);
-                }
-            });
-
-            wrapper.appendChild(trigger);
-            wrapper.appendChild(menu);
-            select.parentNode.insertBefore(wrapper, select);
-            wrapper.appendChild(select);
-
-            trigger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                document.querySelectorAll('.cm-select-wrapper.open').forEach(w => {
-                    if (w !== wrapper) w.classList.remove('open');
+                    wrapper.classList.toggle('open');
                 });
-                wrapper.classList.toggle('open');
             });
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCmCustomSelects);
+        } else {
+            initCmCustomSelects();
+        }
+        window.addEventListener('load', initCmCustomSelects);
 
         document.addEventListener('click', function() {
             document.querySelectorAll('.cm-select-wrapper.open').forEach(w => w.classList.remove('open'));

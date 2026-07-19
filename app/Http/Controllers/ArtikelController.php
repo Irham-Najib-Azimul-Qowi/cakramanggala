@@ -12,11 +12,11 @@ class ArtikelController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $sort = $request->get('sort', 'terbaru');
         $perPage = 9; // 3x3 grid
 
         $query = Artikel::published()
-            ->with('user')
-            ->latest();
+            ->with('user');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -26,9 +26,17 @@ class ArtikelController extends Controller
             });
         }
 
-        $artikels = $query->paginate($perPage);
+        if ($sort === 'populer') {
+            $query->orderBy('views', 'desc');
+        } elseif ($sort === 'terlama') {
+            $query->oldest();
+        } else {
+            $query->latest();
+        }
 
-        return view('artikel.index', compact('artikels', 'search'));
+        $artikels = $query->paginate($perPage)->withQueryString();
+
+        return view('artikel.index', compact('artikels', 'search', 'sort'));
     }
 
     public function show($slug)

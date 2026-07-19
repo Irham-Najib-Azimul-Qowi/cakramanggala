@@ -26,39 +26,59 @@
         <div class="container">
             <!-- Search & Filters Bar -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
-                <div class="col-lg-8">
+                <div class="col-lg-10">
                     <div class="cm-filter-card">
                         <div class="cm-filter-header">
                             <h2 class="cm-filter-title">
-                                <i class="bi bi-search"></i> Pencarian Artikel
+                                <i class="bi bi-funnel-fill"></i> Filter & Pencarian Artikel
                             </h2>
-                            @if($search)
+                            @if($search || (isset($sort) && $sort !== 'terbaru'))
                                 <a href="{{ route('artikel.index') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 34px; font-size: 0.75rem;">
-                                    <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
                                 </a>
                             @endif
                         </div>
                         <form method="GET" action="{{ route('artikel.index') }}" class="row g-3">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="cm-filter-group">
                                     <i class="bi bi-search cm-filter-icon"></i>
                                     <input type="text" name="search" class="cm-filter-control"
                                         value="{{ $search }}" placeholder="Cari kata kunci, topik, atau isi artikel...">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-sort-down cm-filter-icon"></i>
+                                    <select name="sort" class="cm-filter-control">
+                                        <optgroup label="Urutkan Berdasarkan">
+                                            <option value="terbaru" {{ (isset($sort) && $sort == 'terbaru') ? 'selected' : '' }}>Terbaru</option>
+                                            <option value="populer" {{ (isset($sort) && $sort == 'populer') ? 'selected' : '' }}>Terpopuler (Views Terbanyak)</option>
+                                            <option value="terlama" {{ (isset($sort) && $sort == 'terlama') ? 'selected' : '' }}>Terlama</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
                                 <button class="cm-btn-filter" type="submit">
-                                    <i class="bi bi-search me-1"></i> Cari
+                                    <i class="bi bi-search me-1"></i> Filter
                                 </button>
                             </div>
                         </form>
-                        @if($search)
+                        @if($search || (isset($sort) && $sort !== 'terbaru'))
                             <div class="cm-active-filters">
-                                <span class="cm-active-filters__label">Pencarian Aktif:</span>
-                                <span class="cm-filter-chip">
-                                    "{{ $search }}"
-                                    <a href="{{ route('artikel.index') }}"><i class="bi bi-x-lg"></i></a>
-                                </span>
+                                <span class="cm-active-filters__label">Filter Aktif:</span>
+                                @if($search)
+                                    <span class="cm-filter-chip">
+                                        Kata Kunci: "{{ $search }}"
+                                        <a href="{{ route('artikel.index', request()->except('search')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if(isset($sort) && $sort !== 'terbaru')
+                                    <span class="cm-filter-chip">
+                                        Urutan: {{ $sort == 'populer' ? 'Terpopuler' : 'Terlama' }}
+                                        <a href="{{ route('artikel.index', request()->except('sort')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
                             </div>
                         @endif
                     </div>
