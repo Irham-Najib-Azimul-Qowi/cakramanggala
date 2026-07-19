@@ -24,25 +24,44 @@
 
     <section class="section-shell" style="background-color: var(--dark-color); color: #fff; min-height: 80vh;">
         <div class="container">
-            <!-- Search Bar -->
+            <!-- Search & Filters Bar -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
-                <div class="col-lg-7">
-                    <form method="GET" action="{{ route('artikel.index') }}">
-                        <div class="input-group input-group-lg"
-                            style="border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
-                            <span class="input-group-text bg-transparent border-0 ps-4">
-                                <i class="bi bi-search" style="color: var(--accent-color);"></i>
-                            </span>
-                            <input type="text" name="search"
-                                class="form-control bg-transparent border-0 text-white py-3 shadow-none"
-                                value="{{ $search }}" placeholder="Cari topik artikel..."
-                                style="font-size: 1.1rem; letter-spacing: 0.02em;">
-                            <button class="btn px-4" type="submit"
-                                style="background: var(--accent-color); color: var(--primary-color); border-radius: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem;">
-                                Cari
-                            </button>
+                <div class="col-lg-8">
+                    <div class="cm-filter-card">
+                        <div class="cm-filter-header">
+                            <h2 class="cm-filter-title">
+                                <i class="bi bi-search"></i> Pencarian Artikel
+                            </h2>
+                            @if($search)
+                                <a href="{{ route('artikel.index') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 34px; font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                </a>
+                            @endif
                         </div>
-                    </form>
+                        <form method="GET" action="{{ route('artikel.index') }}" class="row g-3">
+                            <div class="col-md-9">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-search cm-filter-icon"></i>
+                                    <input type="text" name="search" class="cm-filter-control"
+                                        value="{{ $search }}" placeholder="Cari kata kunci, topik, atau isi artikel...">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="cm-btn-filter" type="submit">
+                                    <i class="bi bi-search me-1"></i> Cari
+                                </button>
+                            </div>
+                        </form>
+                        @if($search)
+                            <div class="cm-active-filters">
+                                <span class="cm-active-filters__label">Pencarian Aktif:</span>
+                                <span class="cm-filter-chip">
+                                    "{{ $search }}"
+                                    <a href="{{ route('artikel.index') }}"><i class="bi bi-x-lg"></i></a>
+                                </span>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 

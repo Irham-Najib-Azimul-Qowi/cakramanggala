@@ -24,34 +24,89 @@
 
     <section class="section-shell" style="background-color: var(--dark-color); padding-top: 4rem; padding-bottom: 8rem;">
         <div class="container">
-            <!-- Search and Stats Bar -->
-            <div class="row align-items-center mb-5 g-4" data-aos="fade-up">
-                <div class="col-md-8 col-lg-9">
-                    <form action="{{ route('about.member') }}" method="GET" class="search-form-wrap">
-                        <div class="input-group">
-                            <span class="input-group-text" style="background: var(--primary-color); border: 1px solid rgba(255,255,255,0.05); border-right: none; color: rgba(255,255,255,0.4);">
-                                <i class="bi bi-search"></i>
-                            </span>
-                            <input type="text" name="search" class="form-control search-input" 
-                                placeholder="Cari anggota berdasarkan nama, NIA, atau angkatan..." 
-                                value="{{ $search }}" 
-                                style="background: var(--primary-color); border: 1px solid rgba(255,255,255,0.05); border-left: none; color: #fff; box-shadow: none;">
-                            @if($search)
-                                <a href="{{ route('about.member') }}" class="btn btn-outline-secondary d-flex align-items-center" style="border: 1px solid rgba(255,255,255,0.05); border-left: none; background: var(--primary-color); color: rgba(255,255,255,0.4);">
-                                    <i class="bi bi-x-lg"></i>
-                                </a>
-                            @endif
-                            <button class="btn btn-accent" type="submit" style="background: var(--accent-color); color: var(--primary-color); border: 1px solid var(--accent-color); font-weight: 800;">
-                                CARI
-                            </button>
+            <!-- Search & Filters -->
+            <div class="row justify-content-center mb-5" data-aos="fade-up">
+                <div class="col-lg-12">
+                    <div class="cm-filter-card">
+                        <div class="cm-filter-header">
+                            <h2 class="cm-filter-title">
+                                <i class="bi bi-people-fill"></i> Filter & Direktori Anggota
+                            </h2>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="stats-badge" style="background: rgba(242, 182, 97, 0.1); border: 1px solid rgba(242, 182, 97, 0.25); color: var(--accent-color); padding: 0.4rem 1rem; font-weight: 800; font-size: 0.78rem; border-radius: 6px;">
+                                    TOTAL: {{ $members->total() }} ANGGOTA
+                                </span>
+                                @if($search || (isset($status) && $status) || (isset($angkatan) && $angkatan))
+                                    <a href="{{ route('about.member') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 32px; font-size: 0.75rem;">
+                                        <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
+                                    </a>
+                                @endif
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="col-md-4 col-lg-3 text-md-end">
-                    <div class="stats-badge-wrap">
-                        <span class="stats-badge" style="background: rgba(242, 182, 97, 0.05); border: 1px solid rgba(242, 182, 97, 0.1); color: var(--accent-color); padding: 0.75rem 1.5rem; display: inline-block; font-weight: 800; letter-spacing: 0.05em;">
-                            TOTAL: {{ $members->total() }} ANGGOTA
-                        </span>
+                        <form action="{{ route('about.member') }}" method="GET" class="row g-3">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-search cm-filter-icon"></i>
+                                    <input type="text" name="search" class="cm-filter-control"
+                                        placeholder="Cari nama, NIA, atau angkatan..."
+                                        value="{{ $search }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-person-badge cm-filter-icon"></i>
+                                    <select name="status" class="cm-filter-control">
+                                        <option value="">Semua Status</option>
+                                        @if(isset($statuses))
+                                            @foreach($statuses as $key => $label)
+                                                <option value="{{ $key }}" {{ (isset($status) && $status == $key) ? 'selected' : '' }}>{{ $label }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-award cm-filter-icon"></i>
+                                    <select name="angkatan" class="cm-filter-control">
+                                        <option value="">Semua Angkatan</option>
+                                        @if(isset($angkatans))
+                                            @foreach($angkatans as $ang)
+                                                <option value="{{ $ang }}" {{ (isset($angkatan) && $angkatan == $ang) ? 'selected' : '' }}>Angkatan {{ $ang }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <button class="cm-btn-filter" type="submit">
+                                    <i class="bi bi-search"></i> Cari
+                                </button>
+                            </div>
+                        </form>
+                        @if($search || (isset($status) && $status) || (isset($angkatan) && $angkatan))
+                            <div class="cm-active-filters">
+                                <span class="cm-active-filters__label">Filter Aktif:</span>
+                                @if($search)
+                                    <span class="cm-filter-chip">
+                                        Pencarian: "{{ $search }}"
+                                        <a href="{{ route('about.member', request()->except('search')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if(isset($status) && $status)
+                                    <span class="cm-filter-chip">
+                                        Status: {{ $statuses[$status] ?? $status }}
+                                        <a href="{{ route('about.member', request()->except('status')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if(isset($angkatan) && $angkatan)
+                                    <span class="cm-filter-chip">
+                                        Angkatan: {{ $angkatan }}
+                                        <a href="{{ route('about.member', request()->except('angkatan')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

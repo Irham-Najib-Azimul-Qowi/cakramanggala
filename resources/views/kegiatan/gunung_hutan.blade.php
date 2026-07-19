@@ -23,35 +23,62 @@
             <!-- Search & Filter -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
                 <div class="col-lg-10">
-                    <form method="GET" action="{{ route('activities.gunung-hutan') }}" class="row g-3 justify-content-center">
-                        <div class="col-md-6">
-                            <div class="input-group" style="border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
-                                <span class="input-group-text bg-transparent border-0 ps-3">
-                                    <i class="bi bi-search" style="color: var(--accent-color);"></i>
-                                </span>
-                                <input type="text" name="search"
-                                    class="form-control bg-transparent border-0 text-white py-3 shadow-none"
-                                    value="{{ request('search') }}" placeholder="Cari kegiatan gunung hutan..."
-                                    style="font-size: 1rem; letter-spacing: 0.02em;">
+                    <div class="cm-filter-card">
+                        <div class="cm-filter-header">
+                            <h2 class="cm-filter-title">
+                                <i class="bi bi-trees-fill"></i> Filter Gunung Hutan
+                            </h2>
+                            @if(request('search') || request('tahun'))
+                                <a href="{{ route('activities.gunung-hutan') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 34px; font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
+                                </a>
+                            @endif
+                        </div>
+                        <form method="GET" action="{{ route('activities.gunung-hutan') }}" class="row g-3">
+                            <div class="col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-search cm-filter-icon"></i>
+                                    <input type="text" name="search" class="cm-filter-control"
+                                        value="{{ request('search') }}" placeholder="Cari kegiatan gunung hutan...">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <select name="tahun" class="form-select bg-transparent text-white border-0 py-3 rounded-0"
-                                style="background-color: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.1) !important;"
-                                onchange="this.form.submit()">
-                                <option value="">Semua Tahun</option>
-                                @foreach(range(date('Y'), 2020) as $year)
-                                    <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
-                                        Tahun {{ $year }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <a href="{{ route('activities.gunung-hutan') }}" class="btn btn-outline-light w-100 py-3 rounded-0 border-0"
-                                style="background: rgba(255,255,255,0.05); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em;">RESET</a>
-                        </div>
-                    </form>
+                            <div class="col-md-4">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-calendar3 cm-filter-icon"></i>
+                                    <select name="tahun" class="cm-filter-control">
+                                        <option value="">Semua Tahun</option>
+                                        @foreach(range(date('Y'), 2020) as $year)
+                                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
+                                                Tahun {{ $year }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="cm-btn-filter" type="submit">
+                                    <i class="bi bi-search"></i> Filter
+                                </button>
+                            </div>
+                        </form>
+                        @if(request('search') || request('tahun'))
+                            <div class="cm-active-filters">
+                                <span class="cm-active-filters__label">Filter Aktif:</span>
+                                @if(request('search'))
+                                    <span class="cm-filter-chip">
+                                        Kata Kunci: "{{ request('search') }}"
+                                        <a href="{{ route('activities.gunung-hutan', request()->except('search')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if(request('tahun'))
+                                    <span class="cm-filter-chip">
+                                        Tahun: {{ request('tahun') }}
+                                        <a href="{{ route('activities.gunung-hutan', request()->except('tahun')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 

@@ -18,6 +18,9 @@ class StrukturController extends Controller
     public function anggota(Request $request)
     {
         $search = $request->get('search');
+        $status = $request->get('status');
+        $angkatan = $request->get('angkatan');
+
         $query = \App\Models\Anggota::query();
 
         if ($search) {
@@ -29,8 +32,30 @@ class StrukturController extends Controller
             });
         }
 
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        if ($angkatan) {
+            $query->where('angkatan', $angkatan);
+        }
+
         $members = $query->orderBy('angkatan', 'desc')->orderBy('nama', 'asc')->paginate(16)->withQueryString();
 
-        return view('anggota', compact('members', 'search'));
+        $angkatans = \App\Models\Anggota::select('angkatan')
+            ->whereNotNull('angkatan')
+            ->where('angkatan', '!=', '')
+            ->distinct()
+            ->orderBy('angkatan', 'desc')
+            ->pluck('angkatan');
+
+        $statuses = [
+            'anggota baru' => 'Anggota Baru',
+            'anggota' => 'Anggota Aktif',
+            'demisioner' => 'Demisioner',
+            'alumni' => 'Alumni'
+        ];
+
+        return view('anggota', compact('members', 'search', 'status', 'angkatan', 'angkatans', 'statuses'));
     }
 }

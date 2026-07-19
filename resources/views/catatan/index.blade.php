@@ -42,51 +42,96 @@
             <!-- Search & Filters -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
                 <div class="col-lg-12">
-                    <form method="GET" action="{{ route('catatan-perjalanan.index') }}" class="row g-3">
-                        <div class="col-md-3">
-                            <div class="input-group" style="border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
-                                <span class="input-group-text bg-transparent border-0 ps-3">
-                                    <i class="bi bi-search" style="color: var(--accent-color);"></i>
-                                </span>
-                                <input type="text" name="search"
-                                    class="form-control bg-transparent border-0 text-white py-2.5 shadow-none"
-                                    value="{{ $search }}" placeholder="Cari judul, penulis, lokasi...">
+                    <div class="cm-filter-card">
+                        <div class="cm-filter-header">
+                            <h2 class="cm-filter-title">
+                                <i class="bi bi-funnel-fill"></i> Filter Catatan Perjalanan
+                            </h2>
+                            @if($search || $lokasi || $angkatan || $kegiatan_id)
+                                <a href="{{ route('catatan-perjalanan.index') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 34px; font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
+                                </a>
+                            @endif
+                        </div>
+                        <form method="GET" action="{{ route('catatan-perjalanan.index') }}" class="row g-3">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-search cm-filter-icon"></i>
+                                    <input type="text" name="search" class="cm-filter-control"
+                                        value="{{ $search }}" placeholder="Cari judul, penulis, lokasi...">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <select name="lokasi" class="form-select text-white py-2.5 shadow-none" 
-                                    style="border: 1px solid rgba(255,255,255,0.1); background: #1a1a1a; cursor: pointer;">
-                                <option value="" style="background: #1a1a1a;">Semua Lokasi</option>
-                                @foreach($lokasis as $lok)
-                                    <option value="{{ $lok }}" style="background: #1a1a1a;" {{ $lokasi == $lok ? 'selected' : '' }}>{{ $lok }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select name="angkatan" class="form-select text-white py-2.5 shadow-none" 
-                                    style="border: 1px solid rgba(255,255,255,0.1); background: #1a1a1a; cursor: pointer;">
-                                <option value="" style="background: #1a1a1a;">Semua Angkatan/Kategori</option>
-                                @foreach($angkatans as $ang)
-                                    <option value="{{ $ang }}" style="background: #1a1a1a;" {{ $angkatan == $ang ? 'selected' : '' }}>{{ $ang }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select name="kegiatan_id" class="form-select text-white py-2.5 shadow-none" 
-                                    style="border: 1px solid rgba(255,255,255,0.1); background: #1a1a1a; cursor: pointer;">
-                                <option value="" style="background: #1a1a1a;">Semua Kegiatan</option>
-                                @foreach($kegiatans as $keg)
-                                    <option value="{{ $keg->id }}" style="background: #1a1a1a;" {{ $kegiatan_id == $keg->id ? 'selected' : '' }}>{{ $keg->judul_kegiatan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-1">
-                            <button class="btn w-100 py-2.5" type="submit"
-                                style="background: var(--accent-color); color: var(--primary-color); border-radius: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05rem; font-size: 0.8rem;">
-                                Filter
-                            </button>
-                        </div>
-                    </form>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-geo-alt cm-filter-icon"></i>
+                                    <select name="lokasi" class="cm-filter-control">
+                                        <option value="">Semua Lokasi</option>
+                                        @foreach($lokasis as $lok)
+                                            <option value="{{ $lok }}" {{ $lokasi == $lok ? 'selected' : '' }}>{{ $lok }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-tag cm-filter-icon"></i>
+                                    <select name="angkatan" class="cm-filter-control">
+                                        <option value="">Semua Angkatan/Kategori</option>
+                                        @foreach($angkatans as $ang)
+                                            <option value="{{ $ang }}" {{ $angkatan == $ang ? 'selected' : '' }}>{{ $ang }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-flag cm-filter-icon"></i>
+                                    <select name="kegiatan_id" class="cm-filter-control">
+                                        <option value="">Semua Kegiatan</option>
+                                        @foreach($kegiatans as $keg)
+                                            <option value="{{ $keg->id }}" {{ $kegiatan_id == $keg->id ? 'selected' : '' }}>{{ $keg->judul_kegiatan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-12">
+                                <button class="cm-btn-filter" type="submit">
+                                    <i class="bi bi-search"></i> Filter
+                                </button>
+                            </div>
+                        </form>
+
+                        @if($search || $lokasi || $angkatan || $kegiatan_id)
+                            <div class="cm-active-filters">
+                                <span class="cm-active-filters__label">Filter Aktif:</span>
+                                @if($search)
+                                    <span class="cm-filter-chip">
+                                        Kata Kunci: "{{ $search }}"
+                                        <a href="{{ route('catatan-perjalanan.index', request()->except('search')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if($lokasi)
+                                    <span class="cm-filter-chip">
+                                        Lokasi: {{ $lokasi }}
+                                        <a href="{{ route('catatan-perjalanan.index', request()->except('lokasi')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if($angkatan)
+                                    <span class="cm-filter-chip">
+                                        Kategori: {{ $angkatan }}
+                                        <a href="{{ route('catatan-perjalanan.index', request()->except('angkatan')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if($kegiatan_id)
+                                    @php $selectedKeg = $kegiatans->firstWhere('id', $kegiatan_id); @endphp
+                                    <span class="cm-filter-chip">
+                                        Kegiatan: {{ $selectedKeg->judul_kegiatan ?? 'Kegiatan' }}
+                                        <a href="{{ route('catatan-perjalanan.index', request()->except('kegiatan_id')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 

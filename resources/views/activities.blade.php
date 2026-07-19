@@ -24,62 +24,82 @@
 
     <section class="section-shell" style="background-color: var(--dark-color); color: #fff; min-height: 80vh;">
         <div class="container">
-            <!-- Search -->
+            <!-- Search & Filters -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
-                <div class="col-lg-7">
-                    <form method="GET" action="{{ route('activities') }}">
-                        <div class="input-group input-group-lg"
-                            style="border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
-                            <span class="input-group-text bg-transparent border-0 ps-4">
-                                <i class="bi bi-search" style="color: var(--accent-color);"></i>
-                            </span>
-                            <input type="text" name="search"
-                                class="form-control bg-transparent border-0 text-white py-3 shadow-none"
-                                value="{{ request('search') }}" placeholder="Cari tempat atau nama kegiatan..."
-                                style="font-size: 1.1rem; letter-spacing: 0.02em;">
-                            <button class="btn px-4" type="submit"
-                                style="background: var(--accent-color); color: var(--primary-color); border-radius: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem;">
-                                Cari
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Filters -->
-            <div class="row justify-content-center mb-5" data-aos="fade-up" data-aos-delay="100">
                 <div class="col-lg-10">
-                    <form method="GET" action="{{ route('activities') }}" class="row g-3">
-                        @if(request('search'))
-                            <input type="hidden" name="search" value="{{ request('search') }}">
+                    <div class="cm-filter-card">
+                        <div class="cm-filter-header">
+                            <h2 class="cm-filter-title">
+                                <i class="bi bi-funnel-fill"></i> Filter Galeri Aktivitas
+                            </h2>
+                            @if(request('search') || request('tahun') || request('sifat'))
+                                <a href="{{ route('activities') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 34px; font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
+                                </a>
+                            @endif
+                        </div>
+                        <form method="GET" action="{{ route('activities') }}" class="row g-3">
+                            <div class="col-md-5">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-search cm-filter-icon"></i>
+                                    <input type="text" name="search" class="cm-filter-control"
+                                        value="{{ request('search') }}" placeholder="Cari tempat atau nama kegiatan...">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-calendar3 cm-filter-icon"></i>
+                                    <select name="tahun" class="cm-filter-control">
+                                        <option value="">Semua Tahun</option>
+                                        @foreach(range(date('Y'), 2020) as $year)
+                                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
+                                                Tahun {{ $year }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-6">
+                                <div class="cm-filter-group">
+                                    <i class="bi bi-layers cm-filter-icon"></i>
+                                    <select name="sifat" class="cm-filter-control">
+                                        <option value="">Semua Kategori</option>
+                                        <option value="umum" {{ request('sifat') == 'umum' ? 'selected' : '' }}>Umum</option>
+                                        <option value="gunung_hutan" {{ request('sifat') == 'gunung_hutan' ? 'selected' : '' }}>Gunung Hutan</option>
+                                        <option value="panjat_tebing" {{ request('sifat') == 'panjat_tebing' ? 'selected' : '' }}>Panjat Tebing</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="cm-btn-filter" type="submit">
+                                    <i class="bi bi-search"></i> Filter
+                                </button>
+                            </div>
+                        </form>
+                        @if(request('search') || request('tahun') || request('sifat'))
+                            <div class="cm-active-filters">
+                                <span class="cm-active-filters__label">Filter Aktif:</span>
+                                @if(request('search'))
+                                    <span class="cm-filter-chip">
+                                        Kata Kunci: "{{ request('search') }}"
+                                        <a href="{{ route('activities', request()->except('search')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if(request('tahun'))
+                                    <span class="cm-filter-chip">
+                                        Tahun: {{ request('tahun') }}
+                                        <a href="{{ route('activities', request()->except('tahun')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                                @if(request('sifat'))
+                                    <span class="cm-filter-chip">
+                                        Kategori: {{ request('sifat') == 'gunung_hutan' ? 'Gunung Hutan' : (request('sifat') == 'panjat_tebing' ? 'Panjat Tebing' : 'Umum') }}
+                                        <a href="{{ route('activities', request()->except('sifat')) }}"><i class="bi bi-x-lg"></i></a>
+                                    </span>
+                                @endif
+                            </div>
                         @endif
-                        <div class="col-md-5">
-                            <select name="tahun" class="form-select bg-transparent text-white border-0 py-3 rounded-0"
-                                style="background-color: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.1) !important;"
-                                onchange="this.form.submit()">
-                                <option value="">Semua Tahun</option>
-                                @foreach(range(date('Y'), 2020) as $year)
-                                    <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
-                                        {{ $year }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-5">
-                            <select name="sifat" class="form-select bg-transparent text-white border-0 py-3 rounded-0"
-                                style="background-color: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.1) !important;"
-                                onchange="this.form.submit()">
-                                <option value="">Semua Kategori</option>
-                                <option value="umum" {{ request('sifat') == 'umum' ? 'selected' : '' }}>Umum</option>
-                                <option value="gunung_hutan" {{ request('sifat') == 'gunung_hutan' ? 'selected' : '' }}>Gunung Hutan</option>
-                                <option value="panjat_tebing" {{ request('sifat') == 'panjat_tebing' ? 'selected' : '' }}>Panjat Tebing</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <a href="{{ route('activities') }}" class="btn btn-outline-light w-100 py-3 rounded-0 border-0"
-                                style="background: rgba(255,255,255,0.05); font-size: 0.8rem; font-weight: 700;">RESET</a>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
 

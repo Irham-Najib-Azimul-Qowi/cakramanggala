@@ -1343,6 +1343,353 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* ==========================================================================
+           Cakra Manggala Design System - Unified Card List Filter Component
+           ========================================================================== */
+        .cm-filter-card {
+            background: linear-gradient(145deg, rgba(26, 67, 49, 0.45) 0%, rgba(7, 17, 12, 0.75) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(242, 182, 97, 0.22);
+            border-radius: 14px;
+            padding: 1.5rem 1.75rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cm-filter-card:hover {
+            border-color: rgba(242, 182, 97, 0.35);
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .cm-filter-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .cm-filter-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cm-filter-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .cm-filter-group .cm-filter-icon {
+            position: absolute;
+            left: 1rem;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+        }
+
+        .cm-filter-control {
+            width: 100%;
+            background-color: rgba(7, 17, 12, 0.85) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: #ffffff !important;
+            font-size: 0.92rem;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px !important;
+            padding: 0.75rem 1rem 0.75rem 2.75rem !important;
+            transition: all 0.25s ease !important;
+            height: 48px;
+        }
+
+        .cm-filter-control::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .cm-filter-control:focus {
+            background-color: rgba(7, 17, 12, 0.95) !important;
+            border-color: var(--accent-color) !important;
+            box-shadow: 0 0 0 3px rgba(242, 182, 97, 0.25) !important;
+            outline: none !important;
+        }
+
+        select.cm-filter-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23f2b661' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 1rem center !important;
+            background-size: 14px 14px !important;
+            padding-right: 2.5rem !important;
+            cursor: pointer;
+        }
+
+        select.cm-filter-control option {
+            background-color: #0f2118 !important;
+            color: #ffffff !important;
+            padding: 12px 16px;
+        }
+
+        .cm-btn-filter {
+            width: 100%;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #e0a34b 100%);
+            color: var(--primary-color) !important;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(242, 182, 97, 0.25);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cm-btn-filter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(242, 182, 97, 0.4);
+            background: linear-gradient(135deg, #f7c579 0%, var(--accent-color) 100%);
+            color: var(--primary-color) !important;
+        }
+
+        .cm-btn-reset {
+            width: 100%;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.85) !important;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .cm-btn-reset:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.28);
+            color: #ffffff !important;
+        }
+
+        .cm-active-filters {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 0.85rem;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .cm-active-filters__label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 0.25rem;
+        }
+
+        .cm-filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(242, 182, 97, 0.12);
+            border: 1px solid rgba(242, 182, 97, 0.3);
+            color: var(--accent-color);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .cm-filter-chip a {
+            color: rgba(255, 255, 255, 0.6);
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .cm-filter-chip a:hover {
+            color: #ffffff;
+        }
+
+        /* ==========================================================================
+           Cakra Manggala Design System - Custom Glassmorphism Select Dropdown UI
+           ========================================================================== */
+        .cm-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .cm-select-trigger {
+            width: 100%;
+            height: 48px;
+            background-color: rgba(7, 17, 12, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-size: 0.92rem;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+
+        .cm-select-trigger:hover,
+        .cm-select-wrapper.open .cm-select-trigger {
+            background-color: rgba(12, 28, 20, 0.95);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(242, 182, 97, 0.2);
+        }
+
+        .cm-select-trigger .cm-select-label {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #ffffff;
+            flex-grow: 1;
+        }
+
+        .cm-select-trigger .cm-select-arrow {
+            color: var(--accent-color);
+            transition: transform 0.3s ease;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .cm-select-wrapper.open .cm-select-arrow {
+            transform: rotate(180deg);
+        }
+
+        .cm-select-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            z-index: 1050;
+            background: linear-gradient(160deg, rgba(10, 26, 18, 0.96) 0%, rgba(7, 17, 12, 0.98) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(242, 182, 97, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 15px rgba(242, 182, 97, 0.15);
+            max-height: 280px;
+            overflow-y: auto;
+            display: none;
+            padding: 0.5rem;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .cm-select-wrapper.open .cm-select-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cm-select-optgroup-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            padding: 0.6rem 0.8rem 0.3rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            margin-bottom: 0.25rem;
+            margin-top: 0.4rem;
+        }
+
+        .cm-select-optgroup-label:first-child {
+            margin-top: 0;
+        }
+
+        .cm-select-item {
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.18s ease;
+            margin-bottom: 2px;
+        }
+
+        .cm-select-item:hover {
+            background: rgba(242, 182, 97, 0.15);
+            color: var(--accent-color);
+            padding-left: 1.1rem;
+        }
+
+        .cm-select-item.selected {
+            background: rgba(242, 182, 97, 0.22);
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .cm-select-item .cm-check-icon {
+            opacity: 0;
+            color: var(--accent-color);
+            transition: opacity 0.2s ease;
+        }
+
+        .cm-select-item.selected .cm-check-icon {
+            opacity: 1;
+        }
+
+        .cm-select-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+        .cm-select-menu::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        .cm-select-menu::-webkit-scrollbar-thumb {
+            background: rgba(242, 182, 97, 0.3);
+            border-radius: 4px;
+        }
+        .cm-select-menu::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
     </style>
 
     @stack('styles')
@@ -1720,6 +2067,106 @@
         } else if (footer) {
             footer.classList.add('is-visible');
         }
+
+        // ==========================================================================
+        // Cakra Manggala Custom Glassmorphism Select Dropdown Enhancer
+        // ==========================================================================
+        document.querySelectorAll('select.cm-filter-control').forEach(function(select) {
+            if (select.dataset.cmCustomInit) return;
+            select.dataset.cmCustomInit = 'true';
+
+            select.style.display = 'none';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'cm-select-wrapper';
+
+            const parentGroup = select.closest('.cm-filter-group');
+            let iconHtml = '';
+            if (parentGroup) {
+                const iconElem = parentGroup.querySelector('.cm-filter-icon');
+                if (iconElem) {
+                    iconHtml = iconElem.outerHTML;
+                    iconElem.remove();
+                }
+            }
+
+            const selectedOption = select.options[select.selectedIndex] || select.options[0];
+            const initialText = selectedOption ? selectedOption.text : 'Pilih...';
+
+            const trigger = document.createElement('div');
+            trigger.className = 'cm-select-trigger';
+            trigger.innerHTML = `
+                ${iconHtml}
+                <span class="cm-select-label">${initialText}</span>
+                <i class="bi bi-chevron-down cm-select-arrow"></i>
+            `;
+
+            const menu = document.createElement('div');
+            menu.className = 'cm-select-menu';
+
+            function addOptionItem(opt, idx) {
+                const item = document.createElement('div');
+                item.className = 'cm-select-item' + (opt.selected ? ' selected' : '');
+                item.dataset.value = opt.value;
+                item.dataset.index = idx;
+                item.innerHTML = `
+                    <span>${opt.text}</span>
+                    <i class="bi bi-check2 cm-check-icon"></i>
+                `;
+
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    select.selectedIndex = idx;
+                    select.dispatchEvent(new Event('change', { bubbles: true }));
+
+                    menu.querySelectorAll('.cm-select-item').forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    trigger.querySelector('.cm-select-label').textContent = opt.text;
+                    wrapper.classList.remove('open');
+
+                    if (select.getAttribute('onchange')) {
+                        if (select.form) {
+                            select.form.submit();
+                        }
+                    }
+                });
+
+                menu.appendChild(item);
+            }
+
+            let optIndex = 0;
+            Array.from(select.children).forEach(function(child) {
+                if (child.tagName === 'OPTGROUP') {
+                    const groupLabel = document.createElement('div');
+                    groupLabel.className = 'cm-select-optgroup-label';
+                    groupLabel.textContent = child.label;
+                    menu.appendChild(groupLabel);
+
+                    Array.from(child.children).forEach(function(opt) {
+                        addOptionItem(opt, optIndex++);
+                    });
+                } else if (child.tagName === 'OPTION') {
+                    addOptionItem(child, optIndex++);
+                }
+            });
+
+            wrapper.appendChild(trigger);
+            wrapper.appendChild(menu);
+            select.parentNode.insertBefore(wrapper, select);
+            wrapper.appendChild(select);
+
+            trigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.querySelectorAll('.cm-select-wrapper.open').forEach(w => {
+                    if (w !== wrapper) w.classList.remove('open');
+                });
+                wrapper.classList.toggle('open');
+            });
+        });
+
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.cm-select-wrapper.open').forEach(w => w.classList.remove('open'));
+        });
     </script>
 
     @stack('scripts')
