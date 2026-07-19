@@ -23,27 +23,18 @@
             <!-- Search & Filter -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
                 <div class="col-lg-10">
-                    <div class="cm-filter-card">
-                        <div class="cm-filter-header">
-                            <h2 class="cm-filter-title">
-                                <i class="bi bi-hazard"></i> Filter Panjat Tebing
-                            </h2>
-                            @if(request('search') || request('tahun'))
-                                <a href="{{ route('activities.panjat-tebing') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 34px; font-size: 0.75rem;">
-                                    <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
-                                </a>
-                            @endif
-                        </div>
+                    <div class="mb-5">
                         <form method="GET" action="{{ route('activities.panjat-tebing') }}" class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <div class="cm-filter-group">
                                     <i class="bi bi-search cm-filter-icon"></i>
                                     <input type="text" name="search" class="cm-filter-control"
-                                        value="{{ request('search') }}" placeholder="Cari kegiatan panjat tebing...">
+                                        value="{{ request('search') }}" placeholder="Cari kegiatan panjat tebing..."
+                                        onchange="this.form.submit()">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="cm-dropdown">
+                            <div class="col-md-5">
+                                <div class="cm-dropdown" data-auto-submit="true">
                                     <button type="button" class="cm-dropdown-toggle">
                                         <div class="cm-dropdown-left">
                                             <i class="bi bi-calendar3 cm-filter-icon"></i>
@@ -65,11 +56,6 @@
                                     </div>
                                     <input type="hidden" name="tahun" value="{{ request('tahun') }}">
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="cm-btn-filter" type="submit">
-                                    <i class="bi bi-search"></i> Filter
-                                </button>
                             </div>
                         </form>
                         @if(request('search') || request('tahun'))

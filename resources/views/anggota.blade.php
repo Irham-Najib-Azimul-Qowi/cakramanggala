@@ -27,33 +27,19 @@
             <!-- Search & Filters -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
                 <div class="col-lg-12">
-                    <div class="cm-filter-card">
-                        <div class="cm-filter-header">
-                            <h2 class="cm-filter-title">
-                                <i class="bi bi-people-fill"></i> Filter & Direktori Anggota
-                            </h2>
-                            <div class="d-flex align-items-center gap-3">
-                                <span class="stats-badge" style="background: rgba(242, 182, 97, 0.1); border: 1px solid rgba(242, 182, 97, 0.25); color: var(--accent-color); padding: 0.4rem 1rem; font-weight: 800; font-size: 0.78rem; border-radius: 6px;">
-                                    TOTAL: {{ $members->total() }} ANGGOTA
-                                </span>
-                                @if($search || (isset($status) && $status) || (isset($angkatan) && $angkatan))
-                                    <a href="{{ route('about.member') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 32px; font-size: 0.75rem;">
-                                        <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
+                    <div class="mb-5">
                         <form action="{{ route('about.member') }}" method="GET" class="row g-3">
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-6 col-md-6">
                                 <div class="cm-filter-group">
                                     <i class="bi bi-search cm-filter-icon"></i>
                                     <input type="text" name="search" class="cm-filter-control"
                                         placeholder="Cari nama, NIA, atau angkatan..."
-                                        value="{{ $search }}">
+                                        value="{{ $search }}"
+                                        onchange="this.form.submit()">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                                <div class="cm-dropdown">
+                                <div class="cm-dropdown" data-auto-submit="true">
                                     <button type="button" class="cm-dropdown-toggle">
                                         <div class="cm-dropdown-left">
                                             <i class="bi bi-person-badge cm-filter-icon"></i>
@@ -81,7 +67,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                                <div class="cm-dropdown">
+                                <div class="cm-dropdown" data-auto-submit="true">
                                     <button type="button" class="cm-dropdown-toggle">
                                         <div class="cm-dropdown-left">
                                             <i class="bi bi-award cm-filter-icon"></i>
@@ -107,11 +93,6 @@
                                     </div>
                                     <input type="hidden" name="angkatan" value="{{ $angkatan ?? '' }}">
                                 </div>
-                            </div>
-                            <div class="col-lg-2 col-md-6">
-                                <button class="cm-btn-filter" type="submit">
-                                    <i class="bi bi-search"></i> Cari
-                                </button>
                             </div>
                         </form>
                         @if($search || (isset($status) && $status) || (isset($angkatan) && $angkatan))

@@ -42,27 +42,18 @@
             <!-- Search & Filters -->
             <div class="row justify-content-center mb-5" data-aos="fade-up">
                 <div class="col-lg-12">
-                    <div class="cm-filter-card">
-                        <div class="cm-filter-header">
-                            <h2 class="cm-filter-title">
-                                <i class="bi bi-funnel-fill"></i> Filter Catatan Perjalanan
-                            </h2>
-                            @if($search || $lokasi || $angkatan || $kegiatan_id)
-                                <a href="{{ route('catatan-perjalanan.index') }}" class="cm-btn-reset px-3 text-decoration-none" style="height: 34px; font-size: 0.75rem;">
-                                    <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
-                                </a>
-                            @endif
-                        </div>
+                    <div class="mb-5">
                         <form method="GET" action="{{ route('catatan-perjalanan.index') }}" class="row g-3">
                             <div class="col-lg-3 col-md-6">
                                 <div class="cm-filter-group">
                                     <i class="bi bi-search cm-filter-icon"></i>
                                     <input type="text" name="search" class="cm-filter-control"
-                                        value="{{ $search }}" placeholder="Cari judul, penulis, lokasi...">
+                                        value="{{ $search }}" placeholder="Cari judul, penulis, lokasi..."
+                                        onchange="this.form.submit()">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                                <div class="cm-dropdown">
+                                <div class="cm-dropdown" data-auto-submit="true">
                                     <button type="button" class="cm-dropdown-toggle">
                                         <div class="cm-dropdown-left">
                                             <i class="bi bi-geo-alt cm-filter-icon"></i>
@@ -85,8 +76,8 @@
                                     <input type="hidden" name="lokasi" value="{{ $lokasi }}">
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-6">
-                                <div class="cm-dropdown">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="cm-dropdown" data-auto-submit="true">
                                     <button type="button" class="cm-dropdown-toggle">
                                         <div class="cm-dropdown-left">
                                             <i class="bi bi-tag cm-filter-icon"></i>
@@ -109,8 +100,8 @@
                                     <input type="hidden" name="angkatan" value="{{ $angkatan }}">
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-6">
-                                <div class="cm-dropdown">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="cm-dropdown" data-auto-submit="true">
                                     <button type="button" class="cm-dropdown-toggle">
                                         <div class="cm-dropdown-left">
                                             <i class="bi bi-flag cm-filter-icon"></i>
@@ -135,11 +126,6 @@
                                     </div>
                                     <input type="hidden" name="kegiatan_id" value="{{ $kegiatan_id }}">
                                 </div>
-                            </div>
-                            <div class="col-lg-2 col-md-12">
-                                <button class="cm-btn-filter" type="submit">
-                                    <i class="bi bi-search"></i> Filter
-                                </button>
                             </div>
                         </form>
 
