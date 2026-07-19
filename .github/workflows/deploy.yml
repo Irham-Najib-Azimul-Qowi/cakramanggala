@@ -53,11 +53,15 @@ jobs:
           # Maintain maintenance mode
           php artisan down || true
           
-          # Discard any local changes on the server to prevent merge conflicts
-          git reset --hard
+          # Fetch and reset cleanly to latest origin/main
+          git fetch origin main
+          git reset --hard origin/main
           
-          # Pull latest code
-          git pull origin main
+          # Clear all Laravel caches
+          php artisan view:clear
+          php artisan cache:clear
+          php artisan config:clear
+          php artisan route:clear
           
           # Install dependencies (production mode)
           composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --ignore-platform-req=ext-sodium
@@ -65,8 +69,9 @@ jobs:
           # Database migration
           php artisan migrate --force
           
-          # Clear and set caches
-          php artisan optimize
+          # Re-cache config and routes
+          php artisan config:cache
+          php artisan route:cache
           
           # Permissions (ignore failures from files owned by web server)
           chmod -R 775 storage bootstrap/cache || true

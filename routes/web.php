@@ -15,6 +15,14 @@ use App\Http\Controllers\SitemapController;
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
+Route::get('/clear-view-cache', function () {
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    return "All Laravel view & application caches cleared successfully! Time: " . now();
+});
+
 Route::get('/cleanup-temp-data', function () {
     $kegiatan = \App\Models\Kegiatan::where('judul_kegiatan', 'Dikhir 2025')->first();
     $deletedLogs = 0;
