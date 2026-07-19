@@ -40,7 +40,7 @@
             @endif
 
             <!-- Search & Filters -->
-            <div class="row justify-content-center mb-5" data-aos="fade-up">
+            <div class="row justify-content-center mb-5" data-aos="fade-up" style="position: relative; z-index: 1050;">
                 <div class="col-lg-12">
                     <div class="mb-5">
                         <form method="GET" action="{{ route('catatan-perjalanan.index') }}" class="row g-3">

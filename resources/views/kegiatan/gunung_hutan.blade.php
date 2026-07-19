@@ -21,7 +21,7 @@
     <section class="section-shell" style="background-color: var(--dark-color); color: #fff; min-height: 80vh;">
         <div class="container">
             <!-- Search & Filter -->
-            <div class="row justify-content-center mb-5" data-aos="fade-up">
+            <div class="row justify-content-center mb-5" data-aos="fade-up" style="position: relative; z-index: 1050;">
                 <div class="col-lg-10">
                     <div class="mb-5">
                         <form method="GET" action="{{ route('activities.gunung-hutan') }}" class="row g-3">

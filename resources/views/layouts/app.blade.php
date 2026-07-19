@@ -1547,9 +1547,20 @@
         /* ==========================================================================
            Cakra Manggala Pure Glassmorphism Custom Dropdown Component
            ========================================================================== */
+        .cm-filter-section,
+        .cm-filter-row {
+            position: relative !important;
+            z-index: 1050 !important;
+        }
+
         .cm-dropdown {
             position: relative;
             width: 100%;
+            z-index: 1050 !important;
+        }
+
+        .cm-dropdown.show {
+            z-index: 1060 !important;
         }
 
         .cm-dropdown-toggle {
@@ -1617,13 +1628,13 @@
             top: calc(100% + 6px);
             left: 0;
             right: 0;
-            z-index: 99999 !important;
-            background: linear-gradient(160deg, rgba(10, 26, 18, 0.98) 0%, rgba(7, 17, 12, 0.99) 100%) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 1px solid rgba(242, 182, 97, 0.35) !important;
+            z-index: 999999 !important;
+            background: linear-gradient(160deg, rgba(10, 26, 18, 0.99) 0%, rgba(7, 17, 12, 1) 100%) !important;
+            backdrop-filter: blur(25px) !important;
+            -webkit-backdrop-filter: blur(25px) !important;
+            border: 1px solid rgba(242, 182, 97, 0.45) !important;
             border-radius: 12px !important;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(242, 182, 97, 0.2) !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(242, 182, 97, 0.3) !important;
             max-height: 290px;
             overflow-y: auto;
             display: none;

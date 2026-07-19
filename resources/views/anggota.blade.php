@@ -25,7 +25,7 @@
     <section class="section-shell" style="background-color: var(--dark-color); padding-top: 4rem; padding-bottom: 8rem;">
         <div class="container">
             <!-- Search & Filters -->
-            <div class="row justify-content-center mb-5" data-aos="fade-up">
+            <div class="row justify-content-center mb-5" data-aos="fade-up" style="position: relative; z-index: 1050;">
                 <div class="col-lg-12">
                     <div class="mb-5">
                         <form action="{{ route('about.member') }}" method="GET" class="row g-3">

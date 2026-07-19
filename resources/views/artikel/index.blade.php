@@ -25,7 +25,7 @@
     <section class="section-shell" style="background-color: var(--dark-color); color: #fff; min-height: 80vh;">
         <div class="container">
             <!-- Search & Filters Bar -->
-            <div class="row justify-content-center mb-5" data-aos="fade-up">
+            <div class="row justify-content-center mb-5" data-aos="fade-up" style="position: relative; z-index: 1050;">
                 <div class="col-lg-10">
                     <div class="mb-5">
                         <form method="GET" action="{{ route('artikel.index') }}" class="row g-3 align-items-center">
