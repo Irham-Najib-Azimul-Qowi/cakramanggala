@@ -4,7 +4,7 @@
 
 @section('content')
     @php
-        $jurusanOptions = ['Teknik', 'Akuntansi', 'Administrasi Bisnis', 'Teknik Informatika', 'Teknik Mesin', 'Teknik Sipil', 'Teknik Listrik', 'Teknik Kimia'];
+        $jurusanOptions = ['Teknik', 'Administrasi Bisnis', 'Akuntansi'];
         $steps = [
             1 => ['label' => 'Identitas', 'icon' => 'bi-person-badge'],
             2 => ['label' => 'Akademik', 'icon' => 'bi-mortarboard'],
@@ -33,7 +33,7 @@
                 overflow-x: hidden;
                 display: flex;
                 align-items: center;
-                padding: clamp(4rem, 8vw, 8rem) 0;
+                padding: clamp(3rem, 6vw, 6rem) 0;
             }
 
             /* Decorative Background Elements */
@@ -59,7 +59,7 @@
             /* Header Section */
             .join-header {
                 text-align: center;
-                margin-bottom: 4rem;
+                margin-bottom: 2.5rem;
             }
 
             .join-header__label {
@@ -68,31 +68,45 @@
                 text-transform: uppercase;
                 letter-spacing: 0.3em;
                 color: var(--accent-color);
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 display: block;
             }
 
             .join-header__title {
-                font-size: clamp(2.2rem, 5vw, 3.5rem);
+                font-size: clamp(1.8rem, 5vw, 3.2rem);
                 font-weight: 800;
                 letter-spacing: -0.04em;
-                line-height: 1.1;
-                margin-bottom: 1.5rem;
+                line-height: 1.15;
+                margin-bottom: 1rem;
             }
 
             .join-header__desc {
-                color: rgba(255, 255, 255, 0.5);
-                font-size: 1.05rem;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: clamp(0.9rem, 2.5vw, 1.05rem);
                 max-width: 600px;
                 margin: 0 auto;
             }
 
             /* Stepper UI */
+            .mobile-step-indicator {
+                display: none;
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 50px;
+                padding: 0.6rem 1.25rem;
+                text-align: center;
+                margin-bottom: 1.5rem;
+                font-size: 0.75rem;
+                font-weight: 800;
+                letter-spacing: 0.1em;
+                color: var(--accent-color);
+            }
+
             .join-stepper {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 gap: 1rem;
-                margin-bottom: 4rem;
+                margin-bottom: 3rem;
                 position: relative;
             }
 
@@ -102,33 +116,34 @@
             }
 
             .join-step__icon-box {
-                width: 54px;
-                height: 54px;
+                width: 50px;
+                height: 50px;
                 background: rgba(255, 255, 255, 0.03);
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin: 0 auto 1rem;
-                font-size: 1.4rem;
-                color: rgba(255, 255, 255, 0.2);
-                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                margin: 0 auto 0.75rem;
+                font-size: 1.3rem;
+                color: rgba(255, 255, 255, 0.3);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 4px;
             }
 
             .join-step__label {
-                font-size: 0.65rem;
+                font-size: 0.68rem;
                 font-weight: 800;
                 text-transform: uppercase;
-                letter-spacing: 0.15em;
-                color: rgba(255, 255, 255, 0.2);
-                transition: all 0.5s;
+                letter-spacing: 0.12em;
+                color: rgba(255, 255, 255, 0.3);
+                transition: all 0.4s;
             }
 
             .join-step.is-active .join-step__icon-box {
                 background: var(--accent-color);
                 color: var(--primary-color);
                 border-color: var(--accent-color);
-                box-shadow: 0 0 30px rgba(242, 182, 97, 0.15);
+                box-shadow: 0 0 25px rgba(242, 182, 97, 0.25);
             }
 
             .join-step.is-active .join-step__label {
@@ -148,9 +163,9 @@
             /* Main Form Card */
             .join-card {
                 background: var(--primary-color);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-                box-shadow: 0 50px 100px rgba(0, 0, 0, 0.4);
-                padding: clamp(2rem, 5vw, 4rem);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+                padding: clamp(1.75rem, 4vw, 3.5rem);
                 position: relative;
                 overflow: hidden;
             }
@@ -160,7 +175,7 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 6px;
+                width: 5px;
                 height: 100%;
                 background: var(--accent-color);
             }
@@ -172,13 +187,13 @@
 
             .join-panel.is-active {
                 display: block;
-                animation: joinFadeSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                animation: joinFadeSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             }
 
             @keyframes joinFadeSlide {
                 from {
                     opacity: 0;
-                    transform: translateY(20px);
+                    transform: translateY(15px);
                 }
 
                 to {
@@ -188,59 +203,60 @@
             }
 
             .panel-header {
-                margin-bottom: 3rem;
+                margin-bottom: 2rem;
             }
 
             .panel-title {
-                font-size: 1.5rem;
+                font-size: clamp(1.25rem, 3vw, 1.5rem);
                 font-weight: 800;
                 letter-spacing: -0.01em;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.4rem;
                 color: #fff;
             }
 
             .panel-desc {
-                color: rgba(255, 255, 255, 0.4);
-                font-size: 0.9rem;
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.88rem;
             }
 
             /* Form Elements */
             .form-group {
-                margin-bottom: 1.8rem;
+                margin-bottom: 1.5rem;
             }
 
             .form-label {
-                font-size: 0.7rem;
+                font-size: 0.72rem;
                 font-weight: 800;
                 text-transform: uppercase;
-                letter-spacing: 0.12em;
-                color: rgba(255, 255, 255, 0.5);
-                margin-bottom: 0.8rem;
+                letter-spacing: 0.1em;
+                color: rgba(255, 255, 255, 0.7);
+                margin-bottom: 0.6rem;
                 display: block;
             }
 
             .form-control,
             .form-select {
-                background: rgba(0, 0, 0, 0.15);
-                border: 1px solid rgba(255, 255, 255, 0.08);
+                background: rgba(0, 0, 0, 0.25);
+                border: 1px solid rgba(255, 255, 255, 0.12);
                 border-radius: 0;
-                padding: 1.1rem 1.4rem;
+                padding: 0.9rem 1.2rem;
                 color: #fff;
                 font-weight: 600;
+                font-size: 1rem; /* 16px to prevent iOS auto-zoom */
                 transition: all 0.3s ease;
-                min-height: 58px;
+                min-height: 52px;
             }
 
             .form-control:focus,
             .form-select:focus {
-                background: rgba(0, 0, 0, 0.25);
+                background: rgba(0, 0, 0, 0.35);
                 border-color: var(--accent-color);
-                box-shadow: none;
+                box-shadow: 0 0 15px rgba(242, 182, 97, 0.15);
                 color: #fff;
             }
 
             .form-control::placeholder {
-                color: rgba(255, 255, 255, 0.15);
+                color: rgba(255, 255, 255, 0.25);
             }
 
             .form-select option {
@@ -248,33 +264,44 @@
                 color: #ffffff !important;
             }
 
+            .form-control.is-invalid,
+            .form-select.is-invalid {
+                border-color: #ff5252 !important;
+                background-image: none !important;
+            }
+
             /* Buttons */
             .join-actions {
                 display: flex;
                 justify-content: space-between;
-                margin-top: 3.5rem;
-                padding-top: 2.5rem;
-                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                align-items: center;
+                margin-top: 2.5rem;
+                padding-top: 2rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                gap: 1rem;
             }
 
             .btn-join-nav {
-                padding: 1.1rem 2.22rem;
+                padding: 0.95rem 2rem;
                 font-weight: 900;
                 text-transform: uppercase;
-                letter-spacing: 0.15em;
-                font-size: 0.75rem;
-                display: flex;
+                letter-spacing: 0.12em;
+                font-size: 0.78rem;
+                display: inline-flex;
                 align-items: center;
-                gap: 0.8rem;
+                justify-content: center;
+                gap: 0.7rem;
                 transition: all 0.3s;
                 border: none;
                 border-radius: 0;
+                min-height: 50px;
+                cursor: pointer;
             }
 
             .btn-join-prev {
-                background: rgba(255, 255, 255, 0.04);
+                background: rgba(255, 255, 255, 0.05);
                 color: #fff;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.15);
             }
 
             .btn-join-prev:hover {
@@ -297,64 +324,68 @@
 
             /* Photo Upload Zone */
             .upload-zone {
-                background: rgba(0, 0, 0, 0.2);
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                padding: 3rem 1.5rem;
+                background: rgba(0, 0, 0, 0.25);
+                border: 2px dashed rgba(255, 255, 255, 0.15);
+                padding: 2.5rem 1.25rem;
                 text-align: center;
                 cursor: pointer;
                 transition: all 0.3s;
+                display: block;
             }
 
             .upload-zone:hover {
                 border-color: var(--accent-color);
-                background: rgba(242, 182, 97, 0.03);
+                background: rgba(242, 182, 97, 0.04);
             }
 
             .upload-icon {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
                 color: var(--accent-color);
-                margin-bottom: 1rem;
+                margin-bottom: 0.75rem;
                 display: block;
             }
 
             /* Review Item */
             .review-item {
-                background: rgba(0, 0, 0, 0.12);
+                background: rgba(0, 0, 0, 0.2);
                 padding: 1.25rem;
-                border: 1px solid rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.06);
                 height: 100%;
             }
 
             .review-label {
-                font-size: 0.6rem;
+                font-size: 0.65rem;
                 text-transform: uppercase;
                 letter-spacing: 0.1em;
-                color: rgba(255, 255, 255, 0.3);
-                margin-bottom: 0.4rem;
+                color: rgba(255, 255, 255, 0.4);
+                margin-bottom: 0.3rem;
             }
 
             .review-value {
                 font-weight: 700;
                 color: #fff;
                 font-size: 1rem;
+                word-break: break-word;
             }
 
             .btn-back-exit {
                 position: fixed;
-                top: 1.5rem;
-                left: 1.5rem;
+                top: 1.25rem;
+                left: 1.25rem;
                 z-index: 100;
-                width: 54px;
-                height: 54px;
-                background: var(--primary-color);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                width: 48px;
+                height: 48px;
+                background: rgba(26, 26, 26, 0.85);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 color: #fff;
-                font-size: 1.25rem;
+                font-size: 1.2rem;
                 text-decoration: none;
                 transition: all 0.3s;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             }
 
             .btn-back-exit:hover {
@@ -363,21 +394,71 @@
                 border-color: var(--accent-color);
             }
 
+            /* Responsive Mobile Styles */
             @media (max-width: 768px) {
+                .join-page-wrapper {
+                    padding: 4.5rem 0 3rem;
+                }
+
+                .join-header {
+                    margin-bottom: 2rem;
+                }
+
+                .mobile-step-indicator {
+                    display: block;
+                }
+
                 .join-stepper {
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 1rem;
+                    gap: 0.5rem;
+                    margin-bottom: 2rem;
+                }
+
+                .join-step__icon-box {
+                    width: 42px;
+                    height: 42px;
+                    font-size: 1.1rem;
+                    margin-bottom: 0.4rem;
+                }
+
+                .join-step__label {
+                    font-size: 0.58rem;
+                    letter-spacing: 0.05em;
                 }
 
                 .join-card {
-                    padding: 2rem 1.5rem;
+                    padding: 1.75rem 1.25rem;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .btn-back-exit {
+                    top: 0.75rem;
+                    left: 0.75rem;
+                    width: 40px;
+                    height: 40px;
+                    font-size: 1rem;
                 }
 
-                .btn-back-exit {
-                    top: 1rem;
-                    left: 1rem;
-                    width: 44px;
-                    height: 44px;
+                .join-stepper {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+
+                .join-step__label {
+                    display: none; /* Hidden on very small screens, mobile badge handles label */
+                }
+
+                .join-actions {
+                    flex-direction: column-reverse;
+                    gap: 0.75rem;
+                }
+
+                .join-actions > div,
+                .btn-join-nav {
+                    width: 100%;
+                }
+
+                .btn-join-nav {
+                    justify-content: center;
                 }
             }
         </style>
@@ -392,15 +473,19 @@
 
         <div class="container">
             <div class="join-container">
-                <header class="join-header" data-aos="fade-down">
+                <header class="join-header">
                     <span class="join-header__label">OPEN RECRUITMENT</span>
                     <h1 class="join-header__title">GABUNG CAKRA MANGGALA</h1>
                     <p class="join-header__desc">Jadilah bagian dari penjaga rimba dan pengembara cakrawala.</p>
                 </header>
 
-                <div class="join-stepper" data-aos="fade-up" data-aos-delay="100">
+                <div class="mobile-step-indicator">
+                    LANGKAH <span id="currentStepNum">1</span> DARI 4: <span id="currentStepTitle">IDENTITAS DIRI</span>
+                </div>
+
+                <div class="join-stepper">
                     @foreach($steps as $index => $step)
-                        <div class="join-step {{ $index === 1 ? 'is-active' : '' }}" data-step-indicator="{{ $index }}">
+                        <div class="join-step {{ $index === 1 ? 'is-active' : '' }}" data-step-indicator="{{ $index }}" data-step-name="{{ strtoupper($step['label']) }}">
                             <div class="join-step__icon-box">
                                 <i class="bi {{ $step['icon'] }}"></i>
                             </div>
@@ -409,12 +494,11 @@
                     @endforeach
                 </div>
 
-                <form id="joinForm" action="{{ route('join.store') }}" method="POST" enctype="multipart/form-data"
-                    class="join-card" data-aos="fade-up" data-aos-delay="200">
+                <form id="joinForm" action="{{ route('join.store') }}" method="POST" enctype="multipart/form-data" class="join-card">
                     @csrf
 
                     @if($errors->any())
-                        <div class="alert alert-danger mb-5 rounded-0 border-0 bg-danger text-white py-3 px-4">
+                        <div class="alert alert-danger mb-4 rounded-0 border-0 bg-danger text-white py-3 px-4">
                             <ul class="mb-0 small fw-bold">
                                 @foreach($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -434,14 +518,14 @@
                                 <div class="form-group">
                                     <label class="form-label">Nama Lengkap</label>
                                     <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control"
-                                        placeholder="Ahmad Fauzi" required>
+                                        placeholder="Contoh: Ahmad Fauzi" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Jenis Kelamin</label>
                                     <select name="jenis_kelamin" id="jenis_kelamin" class="form-select" required>
-                                        <option value="">Pilih...</option>
+                                        <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
@@ -550,11 +634,11 @@
                                     <label class="form-label">Unggah Foto Diri</label>
                                     <label for="foto_diri" class="upload-zone w-100">
                                         <span class="upload-icon"><i class="bi bi-camera"></i></span>
-                                        <p class="fw-bold mb-1">KLIK UNTUK UNGGAH FOTO</p>
-                                        <p class="small text-white-50">Format JPG/PNG/WEBP/HEIC/HEIF, Maksimal 2MB</p>
-                                        <input type="file" name="foto_diri" id="foto_diri" hidden accept="image/*">
-                                        <div id="fileSelected" class="mt-2 text-accent fw-bold" style="display:none;">
-                                            <i class="bi bi-check-circle-fill"></i> Foto terpilih
+                                        <p class="fw-bold mb-1 text-uppercase" style="letter-spacing:0.08em;">KLIK UNTUK UNGGAH FOTO</p>
+                                        <p class="small text-white-50 mb-0">Format JPG/PNG/WEBP/HEIC/HEIF, Maksimal 2MB</p>
+                                        <input type="file" name="foto_diri" id="foto_diri" hidden accept="image/*" required>
+                                        <div id="fileSelected" class="mt-2 text-accent fw-bold small" style="display:none;">
+                                            <i class="bi bi-check-circle-fill me-1"></i> <span id="fileNameText">Foto terpilih</span>
                                         </div>
                                     </label>
                                 </div>
@@ -571,11 +655,11 @@
                                     <div class="review-value" id="summary-nim">-</div>
                                 </div>
                             </div>
-                            <div class="col-12 mt-4">
-                                <div class="form-check d-flex gap-3 p-0">
+                            <div class="col-12 mt-3">
+                                <div class="form-check d-flex gap-3 p-0 align-items-center">
                                     <input class="form-check-input flex-shrink-0" type="checkbox" name="konfirmasi"
-                                        id="konfirmasi" required style="width: 20px; height: 20px; margin: 0;">
-                                    <label class="form-check-label small text-white-50" for="konfirmasi">
+                                        id="konfirmasi" required style="width: 22px; height: 22px; margin: 0; cursor: pointer;">
+                                    <label class="form-check-label small text-white-50" for="konfirmasi" style="cursor: pointer;">
                                         Saya menyatakan bahwa seluruh data yang diisi adalah benar dan bersedia mengikuti
                                         prosedur yang berlaku.
                                     </label>
@@ -592,8 +676,7 @@
                             <button type="button" class="btn-join-nav btn-join-next" id="btnNext">
                                 LANJUTKAN <i class="bi bi-arrow-right"></i>
                             </button>
-                            <button type="submit" class="btn-join-nav btn-join-submit" id="btnSubmit"
-                                style="display: none;">
+                            <button type="submit" class="btn-join-nav btn-join-submit" id="btnSubmit" style="display: none;">
                                 SUBMIT FORM <i class="bi bi-shield-check"></i>
                             </button>
                         </div>
@@ -608,28 +691,39 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let currentStep = 1;
+            const form = document.getElementById('joinForm');
             const panels = document.querySelectorAll('.join-panel');
             const indicators = document.querySelectorAll('.join-step');
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            const btnSubmit = document.getElementById('btnSubmit');
+            const currentStepNum = document.getElementById('currentStepNum');
+            const currentStepTitle = document.getElementById('currentStepTitle');
 
             function updateUI() {
                 panels.forEach(p => p.classList.toggle('is-active', parseInt(p.dataset.stepPanel) === currentStep));
+                
                 indicators.forEach(s => {
                     const idx = parseInt(s.dataset.stepIndicator);
                     s.classList.toggle('is-active', idx === currentStep);
                     s.classList.toggle('is-complete', idx < currentStep);
+                    if (idx === currentStep && s.dataset.stepName) {
+                        if (currentStepNum) currentStepNum.textContent = currentStep;
+                        if (currentStepTitle) currentStepTitle.textContent = s.dataset.stepName;
+                    }
                 });
 
-                document.getElementById('btnPrev').style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
+                btnPrev.style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
 
                 if (currentStep === panels.length) {
-                    document.getElementById('btnNext').style.display = 'none';
-                    document.getElementById('btnSubmit').style.display = 'flex';
+                    btnNext.style.display = 'none';
+                    btnSubmit.style.display = 'inline-flex';
 
                     document.getElementById('summary-nama').textContent = document.getElementById('nama_lengkap').value || '-';
                     document.getElementById('summary-nim').textContent = document.getElementById('nim').value || '-';
                 } else {
-                    document.getElementById('btnNext').style.display = 'flex';
-                    document.getElementById('btnSubmit').style.display = 'none';
+                    btnNext.style.display = 'inline-flex';
+                    btnSubmit.style.display = 'none';
                 }
 
                 if (currentStep > 1) {
@@ -637,110 +731,140 @@
                 }
             }
 
-            document.getElementById('btnNext').addEventListener('click', () => {
-                const currentPanel = document.querySelector(`.join-panel[data-step-panel="${currentStep}"]`);
-                const requiredInputs = currentPanel.querySelectorAll('[required]');
+            function validatePanel(panelNumber) {
+                const panel = document.querySelector(`.join-panel[data-step-panel="${panelNumber}"]`);
+                if (!panel) return true;
+                const requiredInputs = panel.querySelectorAll('[required]');
                 let isValid = true;
+                let firstInvalid = null;
 
                 requiredInputs.forEach(input => {
-                    if (!input.value || (input.type === 'checkbox' && !input.checked)) {
+                    let fieldValid = true;
+                    if (input.type === 'checkbox') {
+                        fieldValid = input.checked;
+                    } else if (input.type === 'file') {
+                        fieldValid = input.files && input.files.length > 0;
+                    } else {
+                        fieldValid = input.value && input.value.trim() !== '';
+                        if (fieldValid && input.hasAttribute('minlength')) {
+                            fieldValid = input.value.trim().length >= parseInt(input.getAttribute('minlength'));
+                        }
+                    }
+
+                    if (!fieldValid) {
                         input.classList.add('is-invalid');
                         isValid = false;
+                        if (!firstInvalid) firstInvalid = input;
                     } else {
                         input.classList.remove('is-invalid');
                     }
                 });
 
-                if (isValid) {
+                if (!isValid && firstInvalid) {
+                    firstInvalid.focus();
+                }
+
+                return isValid;
+            }
+
+            btnNext.addEventListener('click', function () {
+                if (validatePanel(currentStep)) {
                     currentStep++;
                     updateUI();
-                } else {
-                    currentPanel.querySelector('.is-invalid').focus();
                 }
             });
 
-            document.getElementById('btnPrev').addEventListener('click', () => {
+            btnPrev.addEventListener('click', function () {
                 if (currentStep > 1) {
                     currentStep--;
                     updateUI();
                 }
             });
 
-            document.getElementById('foto_diri').addEventListener('change', function () {
-                const feedback = document.getElementById('fileSelected');
-                if (this.files[0]) {
-                    feedback.style.display = 'block';
-                }
-            });
-
-            // Final Submit Validation
-            document.getElementById('btnSubmit').addEventListener('click', function (e) {
-                const currentPanel = document.querySelector(`.join-panel[data-step-panel="${currentStep}"]`);
-                const requiredInputs = currentPanel.querySelectorAll('[required]');
-                let isValid = true;
-
-                requiredInputs.forEach(input => {
-                    if (!input.value || (input.type === 'checkbox' && !input.checked)) {
-                        input.classList.add('is-invalid');
-                        isValid = false;
-                    } else {
-                        input.classList.remove('is-invalid');
+            const fotoInput = document.getElementById('foto_diri');
+            if (fotoInput) {
+                fotoInput.addEventListener('change', function () {
+                    const feedback = document.getElementById('fileSelected');
+                    const fileNameText = document.getElementById('fileNameText');
+                    if (this.files && this.files[0]) {
+                        if (fileNameText) fileNameText.textContent = this.files[0].name;
+                        feedback.style.display = 'block';
+                        this.classList.remove('is-invalid');
                     }
                 });
+            }
 
-                if (!isValid) {
-                    e.preventDefault();
-                    currentPanel.querySelector('.is-invalid').focus();
-                } else {
-                    // Update button UI to show processing
-                    const btn = this;
-                    btn.disabled = true;
-                    btn.innerHTML = 'MEMPROSES... <span class="spinner-border spinner-border-sm ms-2"></span>';
+            // Unified Submit Listener
+            form.addEventListener('submit', function (e) {
+                // Check all panels starting from panel 1 to 4
+                for (let step = 1; step <= panels.length; step++) {
+                    if (!validatePanel(step)) {
+                        e.preventDefault();
+                        if (currentStep !== step) {
+                            currentStep = step;
+                            updateUI();
+                        }
+                        return false;
+                    }
                 }
+
+                // If recaptcha is enabled and script ready flag not set
+                if (form.getAttribute('data-recaptcha-ready') === 'true') {
+                    // Update button UI to loading state
+                    btnSubmit.style.pointerEvents = 'none';
+                    btnSubmit.style.opacity = '0.8';
+                    btnSubmit.innerHTML = 'MEMPROSES... <span class="spinner-border spinner-border-sm ms-2"></span>';
+                    return true;
+                }
+
+                @if(config('services.recaptcha.enabled') && config('services.recaptcha.site_key'))
+                    e.preventDefault();
+
+                    btnSubmit.style.pointerEvents = 'none';
+                    btnSubmit.style.opacity = '0.8';
+                    btnSubmit.innerHTML = 'MEMPROSES... <span class="spinner-border spinner-border-sm ms-2"></span>';
+
+                    const recaptchaTimeout = setTimeout(function () {
+                        console.warn('reCAPTCHA timeout fallback triggered');
+                        form.setAttribute('data-recaptcha-ready', 'true');
+                        form.submit();
+                    }, 3000);
+
+                    if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.ready(function () {
+                            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'join_ukm' }).then(function (token) {
+                                clearTimeout(recaptchaTimeout);
+                                let input = document.getElementById('g-recaptcha-response');
+                                if (!input) {
+                                    input = document.createElement('input');
+                                    input.type = 'hidden';
+                                    input.name = 'g-recaptcha-response';
+                                    input.id = 'g-recaptcha-response';
+                                    form.appendChild(input);
+                                }
+                                input.value = token;
+                                form.setAttribute('data-recaptcha-ready', 'true');
+                                form.submit();
+                            }).catch(function (err) {
+                                console.error('reCAPTCHA error:', err);
+                                clearTimeout(recaptchaTimeout);
+                                form.setAttribute('data-recaptcha-ready', 'true');
+                                form.submit();
+                            });
+                        });
+                    } else {
+                        clearTimeout(recaptchaTimeout);
+                        form.setAttribute('data-recaptcha-ready', 'true');
+                        form.submit();
+                    }
+                @else
+                    btnSubmit.style.pointerEvents = 'none';
+                    btnSubmit.style.opacity = '0.8';
+                    btnSubmit.innerHTML = 'MEMPROSES... <span class="spinner-border spinner-border-sm ms-2"></span>';
+                @endif
             });
 
             updateUI();
         });
     </script>
-
-    @if(config('services.recaptcha.enabled') && config('services.recaptcha.site_key'))
-        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
-        <script>
-            document.getElementById('joinForm').addEventListener('submit', function (e) {
-                const form = this;
-                if (form.getAttribute('data-recaptcha-ready') === 'true') return;
-
-                e.preventDefault();
-
-                // Set timeout for recaptcha, if it takes too long just submit
-                const recaptchaTimeout = setTimeout(() => {
-                    console.warn('reCAPTCHA timeout, submitting normally');
-                    form.setAttribute('data-recaptcha-ready', 'true');
-                    form.submit();
-                }, 5000);
-
-                grecaptcha.ready(function () {
-                    grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'join_ukm' }).then(function (token) {
-                        clearTimeout(recaptchaTimeout);
-                        let input = document.getElementById('g-recaptcha-response');
-                        if (!input) {
-                            input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'g-recaptcha-response';
-                            input.id = 'g-recaptcha-response';
-                            form.appendChild(input);
-                        }
-                        input.value = token;
-                        form.setAttribute('data-recaptcha-ready', 'true');
-                        form.submit();
-                    }).catch(err => {
-                        console.error('reCAPTCHA error:', err);
-                        clearTimeout(recaptchaTimeout);
-                        form.setAttribute('data-recaptcha-ready', 'true');
-                        form.submit();
-                    });
-                });
-            });
-        </script>
-    @endif
 @endpush
