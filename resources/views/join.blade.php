@@ -113,6 +113,7 @@
             .join-step {
                 position: relative;
                 text-align: center;
+                cursor: pointer;
             }
 
             .join-step__icon-box {
@@ -222,6 +223,7 @@
             /* Form Elements */
             .form-group {
                 margin-bottom: 1.5rem;
+                position: relative;
             }
 
             .form-label {
@@ -268,6 +270,19 @@
             .form-select.is-invalid {
                 border-color: #ff5252 !important;
                 background-image: none !important;
+            }
+
+            .invalid-feedback {
+                color: #ff5252;
+                font-size: 0.78rem;
+                font-weight: 600;
+                margin-top: 0.4rem;
+                display: none;
+            }
+
+            .form-control.is-invalid ~ .invalid-feedback,
+            .form-select.is-invalid ~ .invalid-feedback {
+                display: block;
             }
 
             /* Buttons */
@@ -499,7 +514,7 @@
                     @endforeach
                 </div>
 
-                <form id="joinForm" action="{{ route('join.store') }}" method="POST" enctype="multipart/form-data" class="join-card">
+                <form id="joinForm" action="{{ route('join.store') }}" method="POST" enctype="multipart/form-data" class="join-card" novalidate>
                     @csrf
 
                     @if($errors->any())
@@ -524,6 +539,7 @@
                                     <label class="form-label">Nama Lengkap <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control"
                                         placeholder="Contoh: Ahmad Fauzi" required>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Nama lengkap wajib diisi.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -534,6 +550,7 @@
                                         <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Silakan pilih jenis kelamin.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -541,6 +558,7 @@
                                     <label class="form-label">Nomor WhatsApp <span class="text-danger fw-bold">*</span></label>
                                     <input type="tel" name="no_hp" id="no_hp" class="form-control"
                                         placeholder="08xxxxxxxxxx" required>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Nomor WhatsApp wajib diisi.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -548,6 +566,7 @@
                                     <label class="form-label">Tempat Lahir <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control"
                                         placeholder="Kota Kelahiran" required>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Tempat lahir wajib diisi.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -555,6 +574,7 @@
                                     <label class="form-label">Tanggal Lahir <span class="text-danger fw-bold">*</span></label>
                                     <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control"
                                         required>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Tanggal lahir wajib diisi.</div>
                                 </div>
                             </div>
                         </div>
@@ -572,6 +592,7 @@
                                     <label class="form-label">Nomor Induk Mahasiswa (NIM) <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="nim" id="nim" class="form-control" placeholder="201xxxxxxx"
                                         required>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> NIM wajib diisi.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -583,6 +604,7 @@
                                             <option value="{{ $jur }}">{{ $jur }}</option>
                                         @endforeach
                                     </select>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Silakan pilih jurusan Anda.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -590,6 +612,7 @@
                                     <label class="form-label">Program Studi <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="program_studi" id="program_studi" class="form-control"
                                         placeholder="Contoh: D4 Teknik Informatika" required>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Program studi wajib diisi.</div>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -597,6 +620,7 @@
                                     <label class="form-label">Alamat di Madiun (Kos/Rumah) <span class="text-danger fw-bold">*</span></label>
                                     <textarea name="alamat" id="alamat" class="form-control"
                                         placeholder="Jl. Serayu No. xxx..." rows="3" required></textarea>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Alamat di Madiun wajib diisi.</div>
                                 </div>
                             </div>
                         </div>
@@ -625,8 +649,8 @@
                                     <textarea name="alasan_bergabung" id="alasan_bergabung" class="form-control"
                                         placeholder="Tuliskan motivasi dan alasan kamu ingin bergabung dengan Cakra Manggala (minimal 20 karakter)..." rows="4" required
                                         minlength="20"></textarea>
-                                    <div class="invalid-feedback text-danger fw-bold small mt-1" id="alasanFeedback" style="display:none;">
-                                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Alasan bergabung wajib diisi minimal 20 karakter agar kami dapat mengenal motivasimu lebih baik.
+                                    <div class="invalid-feedback" id="alasanFeedback">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Alasan bergabung wajib diisi minimal 20 karakter.
                                     </div>
                                 </div>
                             </div>
@@ -652,6 +676,7 @@
                                             <i class="bi bi-check-circle-fill me-1"></i> <span id="fileNameText">Foto terpilih</span>
                                         </div>
                                     </label>
+                                    <div class="invalid-feedback text-center mt-2" id="fotoFeedback"><i class="bi bi-exclamation-circle me-1"></i> Foto diri wajib diunggah.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -667,13 +692,16 @@
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                <div class="form-check d-flex gap-3 p-0 align-items-center">
-                                    <input class="form-check-input flex-shrink-0" type="checkbox" name="konfirmasi"
-                                        id="konfirmasi" required style="width: 22px; height: 22px; margin: 0; cursor: pointer;">
-                                    <label class="form-check-label small text-white-50" for="konfirmasi" style="cursor: pointer;">
-                                        Saya menyatakan bahwa seluruh data yang diisi adalah benar dan bersedia mengikuti
-                                        prosedur yang berlaku.
-                                    </label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check d-flex gap-3 p-0 align-items-center">
+                                        <input class="form-check-input flex-shrink-0" type="checkbox" name="konfirmasi"
+                                            id="konfirmasi" required style="width: 22px; height: 22px; margin: 0; cursor: pointer;">
+                                        <label class="form-check-label small text-white-50" for="konfirmasi" style="cursor: pointer;">
+                                            Saya menyatakan bahwa seluruh data yang diisi adalah benar dan bersedia mengikuti
+                                            prosedur yang berlaku.
+                                        </label>
+                                    </div>
+                                    <div class="invalid-feedback mt-2"><i class="bi bi-exclamation-circle me-1"></i> Anda harus menyetujui pernyataan konfirmasi di atas.</div>
                                 </div>
                             </div>
                         </div>
@@ -725,6 +753,20 @@
                     }
                 });
             }
+
+            // Live clear is-invalid on input/change
+            form.querySelectorAll('input, select, textarea').forEach(input => {
+                input.addEventListener('input', function () {
+                    if (this.value && this.value.trim() !== '') {
+                        this.classList.remove('is-invalid');
+                    }
+                });
+                input.addEventListener('change', function () {
+                    if (this.value && this.value.trim() !== '') {
+                        this.classList.remove('is-invalid');
+                    }
+                });
+            });
 
             function updateUI() {
                 panels.forEach(p => p.classList.toggle('is-active', parseInt(p.dataset.stepPanel) === currentStep));
@@ -785,6 +827,8 @@
                         if (input.type === 'file') {
                             const uploadZone = document.getElementById('uploadZoneBox');
                             if (uploadZone) uploadZone.classList.add('border-danger');
+                            const fotoFeedback = document.getElementById('fotoFeedback');
+                            if (fotoFeedback) fotoFeedback.style.display = 'block';
                         }
                         isValid = false;
                         if (!firstInvalid) firstInvalid = input;
@@ -796,6 +840,8 @@
                         if (input.type === 'file') {
                             const uploadZone = document.getElementById('uploadZoneBox');
                             if (uploadZone) uploadZone.classList.remove('border-danger');
+                            const fotoFeedback = document.getElementById('fotoFeedback');
+                            if (fotoFeedback) fotoFeedback.style.display = 'none';
                         }
                     }
                 });
@@ -806,6 +852,23 @@
 
                 return isValid;
             }
+
+            // Click step indicators to go back to completed steps
+            indicators.forEach(s => {
+                s.addEventListener('click', function () {
+                    const idx = parseInt(this.dataset.stepIndicator);
+                    if (idx < currentStep) {
+                        currentStep = idx;
+                        updateUI();
+                    } else if (idx > currentStep) {
+                        // Check if current step is valid before moving forward
+                        if (validatePanel(currentStep)) {
+                            currentStep = idx;
+                            updateUI();
+                        }
+                    }
+                });
+            });
 
             btnNext.addEventListener('click', function () {
                 if (validatePanel(currentStep)) {
@@ -827,11 +890,13 @@
                     const feedback = document.getElementById('fileSelected');
                     const fileNameText = document.getElementById('fileNameText');
                     const uploadZoneBox = document.getElementById('uploadZoneBox');
+                    const fotoFeedback = document.getElementById('fotoFeedback');
                     if (this.files && this.files[0]) {
                         if (fileNameText) fileNameText.textContent = this.files[0].name;
                         feedback.style.display = 'block';
                         this.classList.remove('is-invalid');
                         if (uploadZoneBox) uploadZoneBox.classList.remove('border-danger');
+                        if (fotoFeedback) fotoFeedback.style.display = 'none';
                     }
                 });
             }
