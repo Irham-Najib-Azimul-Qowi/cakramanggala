@@ -215,7 +215,7 @@
                 </div>
 
                 <div class="action-group">
-                    <a href="https://chat.whatsapp.com/JAT9OtV5e9V3HAw5P3unca" target="_blank" class="btn-action btn-wa">
+                    <a href="https://chat.whatsapp.com/Klq5BMbf3jeAMG6TBlKmXq?s=sw&p=i&mlu=4" target="_blank" class="btn-action btn-wa">
                         <i class="bi bi-whatsapp"></i> Gabung Grup WA
                     </a>
                     <a href="{{ route('home') }}" class="btn-action btn-accent">
