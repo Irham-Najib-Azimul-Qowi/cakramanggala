@@ -338,6 +338,11 @@
                 background: rgba(242, 182, 97, 0.04);
             }
 
+            .upload-zone.border-danger {
+                border-color: #ff5252 !important;
+                background: rgba(255, 82, 82, 0.05) !important;
+            }
+
             .upload-icon {
                 font-size: 2.2rem;
                 color: var(--accent-color);
@@ -631,10 +636,10 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="form-group mb-4">
-                                    <label class="form-label">Unggah Foto Diri</label>
-                                    <label for="foto_diri" class="upload-zone w-100">
+                                    <label class="form-label">Unggah Foto Diri <span class="text-danger fw-bold">* (WAJIB)</span></label>
+                                    <label for="foto_diri" class="upload-zone w-100" id="uploadZoneBox">
                                         <span class="upload-icon"><i class="bi bi-camera"></i></span>
-                                        <p class="fw-bold mb-1 text-uppercase" style="letter-spacing:0.08em;">KLIK UNTUK UNGGAH FOTO</p>
+                                        <p class="fw-bold mb-1 text-uppercase" style="letter-spacing:0.08em;">KLIK UNTUK UNGGAH FOTO WAJIB</p>
                                         <p class="small text-white-50 mb-0">Format JPG/PNG/WEBP/HEIC/HEIF, Maksimal 2MB</p>
                                         <input type="file" name="foto_diri" id="foto_diri" hidden accept="image/*" required>
                                         <div id="fileSelected" class="mt-2 text-accent fw-bold small" style="display:none;">
@@ -753,10 +758,18 @@
 
                     if (!fieldValid) {
                         input.classList.add('is-invalid');
+                        if (input.type === 'file') {
+                            const uploadZone = document.getElementById('uploadZoneBox');
+                            if (uploadZone) uploadZone.classList.add('border-danger');
+                        }
                         isValid = false;
                         if (!firstInvalid) firstInvalid = input;
                     } else {
                         input.classList.remove('is-invalid');
+                        if (input.type === 'file') {
+                            const uploadZone = document.getElementById('uploadZoneBox');
+                            if (uploadZone) uploadZone.classList.remove('border-danger');
+                        }
                     }
                 });
 
@@ -786,10 +799,12 @@
                 fotoInput.addEventListener('change', function () {
                     const feedback = document.getElementById('fileSelected');
                     const fileNameText = document.getElementById('fileNameText');
+                    const uploadZoneBox = document.getElementById('uploadZoneBox');
                     if (this.files && this.files[0]) {
                         if (fileNameText) fileNameText.textContent = this.files[0].name;
                         feedback.style.display = 'block';
                         this.classList.remove('is-invalid');
+                        if (uploadZoneBox) uploadZoneBox.classList.remove('border-danger');
                     }
                 });
             }
