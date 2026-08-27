@@ -521,14 +521,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label">Nama Lengkap</label>
+                                    <label class="form-label">Nama Lengkap <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control"
                                         placeholder="Contoh: Ahmad Fauzi" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Jenis Kelamin</label>
+                                    <label class="form-label">Jenis Kelamin <span class="text-danger fw-bold">*</span></label>
                                     <select name="jenis_kelamin" id="jenis_kelamin" class="form-select" required>
                                         <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki">Laki-laki</option>
@@ -538,21 +538,21 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Nomor WhatsApp</label>
+                                    <label class="form-label">Nomor WhatsApp <span class="text-danger fw-bold">*</span></label>
                                     <input type="tel" name="no_hp" id="no_hp" class="form-control"
                                         placeholder="08xxxxxxxxxx" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Tempat Lahir</label>
+                                    <label class="form-label">Tempat Lahir <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control"
                                         placeholder="Kota Kelahiran" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Tanggal Lahir</label>
+                                    <label class="form-label">Tanggal Lahir <span class="text-danger fw-bold">*</span></label>
                                     <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control"
                                         required>
                                 </div>
@@ -569,14 +569,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label">Nomor Induk Mahasiswa (NIM)</label>
+                                    <label class="form-label">Nomor Induk Mahasiswa (NIM) <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="nim" id="nim" class="form-control" placeholder="201xxxxxxx"
                                         required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Jurusan</label>
+                                    <label class="form-label">Jurusan <span class="text-danger fw-bold">*</span></label>
                                     <select name="jurusan" id="jurusan" class="form-select" required>
                                         <option value="">Pilih Jurusan</option>
                                         @foreach($jurusanOptions as $jur)
@@ -587,14 +587,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Program Studi</label>
+                                    <label class="form-label">Program Studi <span class="text-danger fw-bold">*</span></label>
                                     <input type="text" name="program_studi" id="program_studi" class="form-control"
                                         placeholder="Contoh: D4 Teknik Informatika" required>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label">Alamat di Madiun (Kos/Rumah)</label>
+                                    <label class="form-label">Alamat di Madiun (Kos/Rumah) <span class="text-danger fw-bold">*</span></label>
                                     <textarea name="alamat" id="alamat" class="form-control"
                                         placeholder="Jl. Serayu No. xxx..." rows="3" required></textarea>
                                 </div>
@@ -611,17 +611,23 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label">Pengalaman Organisasi (Opsional)</label>
-                                    <textarea name="organisasi_yang_pernah_diikuti" class="form-control"
-                                        placeholder="Sebutkan organisasi yang pernah kamu ikuti..." rows="3"></textarea>
+                                    <label class="form-label">Pengalaman Organisasi <span class="text-white-50 fw-normal">(Opsional - Boleh dikosongkan)</span></label>
+                                    <textarea name="organisasi_yang_pernah_diikuti" id="organisasi_yang_pernah_diikuti" class="form-control"
+                                        placeholder="Sebutkan organisasi yang pernah kamu ikuti (opsional, boleh dikosongkan)..." rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label">Alasan Bergabung</label>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label mb-0">Alasan Bergabung <span class="text-danger fw-bold">* (WAJIB)</span></label>
+                                        <span class="small text-white-50" id="alasanCharCountInfo"><span id="alasanCharCount">0</span>/20 karakter minimal</span>
+                                    </div>
                                     <textarea name="alasan_bergabung" id="alasan_bergabung" class="form-control"
-                                        placeholder="Kenapa kamu ingin bergabung dengan Cakra Manggala?" rows="4" required
+                                        placeholder="Tuliskan motivasi dan alasan kamu ingin bergabung dengan Cakra Manggala (minimal 20 karakter)..." rows="4" required
                                         minlength="20"></textarea>
+                                    <div class="invalid-feedback text-danger fw-bold small mt-1" id="alasanFeedback" style="display:none;">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Alasan bergabung wajib diisi minimal 20 karakter agar kami dapat mengenal motivasimu lebih baik.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -705,6 +711,21 @@
             const currentStepNum = document.getElementById('currentStepNum');
             const currentStepTitle = document.getElementById('currentStepTitle');
 
+            const alasanTextarea = document.getElementById('alasan_bergabung');
+            const alasanCharCount = document.getElementById('alasanCharCount');
+            const alasanFeedback = document.getElementById('alasanFeedback');
+
+            if (alasanTextarea) {
+                alasanTextarea.addEventListener('input', function () {
+                    const len = this.value.trim().length;
+                    if (alasanCharCount) alasanCharCount.textContent = len;
+                    if (len >= 20) {
+                        this.classList.remove('is-invalid');
+                        if (alasanFeedback) alasanFeedback.style.display = 'none';
+                    }
+                });
+            }
+
             function updateUI() {
                 panels.forEach(p => p.classList.toggle('is-active', parseInt(p.dataset.stepPanel) === currentStep));
                 
@@ -758,6 +779,9 @@
 
                     if (!fieldValid) {
                         input.classList.add('is-invalid');
+                        if (input.id === 'alasan_bergabung' && alasanFeedback) {
+                            alasanFeedback.style.display = 'block';
+                        }
                         if (input.type === 'file') {
                             const uploadZone = document.getElementById('uploadZoneBox');
                             if (uploadZone) uploadZone.classList.add('border-danger');
@@ -766,6 +790,9 @@
                         if (!firstInvalid) firstInvalid = input;
                     } else {
                         input.classList.remove('is-invalid');
+                        if (input.id === 'alasan_bergabung' && alasanFeedback) {
+                            alasanFeedback.style.display = 'none';
+                        }
                         if (input.type === 'file') {
                             const uploadZone = document.getElementById('uploadZoneBox');
                             if (uploadZone) uploadZone.classList.remove('border-danger');
