@@ -43,7 +43,7 @@
                             <tr>
                                 <th>Nama Lengkap</th>
                                 <th>Jurusan</th>
-                                <th>NIM</th>
+                                <th>Email</th>
                                 <th class="text-end">Aksi</th>
                             </tr>
                         </thead>
@@ -57,7 +57,7 @@
                                         </div>
                                     </td>
                                     <td class="text-white-50">{{ $pendaftar->jurusan }}</td>
-                                    <td class="text-white-50 font-monospace small">{{ $pendaftar->nim }}</td>
+                                    <td class="text-white-50 small">{{ $pendaftar->email ?: $pendaftar->nim }}</td>
                                     <td class="text-end">
                                         <a href="{{ route('dashboard.pendaftar.show', $pendaftar->id) }}" class="btn btn-sm btn-outline-light border-0 rounded-0 fw-bold" style="font-size: 0.7rem; letter-spacing: 0.1em; background: rgba(255,255,255,0.05);">DETAIL</a>
                                     </td>

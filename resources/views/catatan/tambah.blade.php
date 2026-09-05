@@ -372,8 +372,8 @@
                     @else
                         <!-- STEP 1: VALIDASI KEANGGOTAAN -->
                         <div class="panel-header">
-                            <h2 class="panel-title">Validasi Keanggotaan</h2>
-                            <p class="panel-desc">Langkah 1 dari 2: Validasi NIM dan Email terdaftar.</p>
+                            <h2 class="panel-title">Validasi Akun Google / Email</h2>
+                            <p class="panel-desc">Langkah 1 dari 2: Validasi Email / Akun Google terdaftar.</p>
                         </div>
 
                         <form action="{{ route('catatan-perjalanan.kirim-otp') }}" method="POST">
@@ -382,17 +382,10 @@
                             <div class="row">
                                 <div class="col-12 mb-4">
                                     <div class="form-group">
-                                        <label class="form-label">Alamat Email</label>
+                                        <label class="form-label">Akun Google / Alamat Email <span class="text-danger">*</span></label>
                                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" 
-                                            value="{{ old('email') }}" placeholder="Contoh: nama@domain.com" required>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 mb-4">
-                                    <div class="form-group">
-                                        <label class="form-label">NIM (Nomor Induk Mahasiswa)</label>
-                                        <input type="text" name="nim" class="form-control @error('nim') is-invalid @enderror" 
-                                            value="{{ old('nim') }}" placeholder="Contoh: 210411100001" required>
+                                            value="{{ old('email') }}" placeholder="Masukkan email Google terdaftar Anda (Contoh: nama@gmail.com atau nama@student.pnm.ac.id)" required>
+                                        <div class="x-small text-white-50 mt-1">Kode OTP akan langsung dikirimkan ke Akun Google / Email ini.</div>
                                     </div>
                                 </div>
 

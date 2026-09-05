@@ -76,6 +76,7 @@ class Pendaftaran extends Model
     {
         return $query->where(function ($q) use ($search) {
             $q->where('nama_lengkap', 'LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%")
                 ->orWhere('nim', 'LIKE', "%{$search}%")
                 ->orWhere('program_studi', 'LIKE', "%{$search}%");
         });

@@ -20,7 +20,7 @@
             <div class="col-md-5">
                 <label class="small text-white-50 fw-bold text-uppercase mb-2 d-block"
                     style="letter-spacing: 0.1em; font-size: 0.65rem;">Cari Mahasiswa</label>
-                <input type="text" name="search" class="form-control admin-input" placeholder="Nama atau NIM..."
+                <input type="text" name="search" class="form-control admin-input" placeholder="Nama atau Email..."
                     value="{{ $search ?? '' }}">
             </div>
             <div class="col-md-4">
@@ -47,7 +47,7 @@
             <thead>
                 <tr>
                     <th>Mahasiswa</th>
-                    <th>Kontak / NIM</th>
+                    <th>Kontak / Email</th>
                     <th class="d-none d-md-table-cell">Jurusan</th>
                     <th class="d-none d-md-table-cell text-center">Status</th>
                     <th class="d-none d-md-table-cell">Terdaftar</th>
@@ -75,7 +75,7 @@
                             </div>
                         </td>
                         <td>
-                            <div class="small fw-bold">{{ $p->nim }}</div>
+                            <div class="small fw-bold">{{ $p->email ?: $p->nim }}</div>
                             <div class="x-small text-white-50">{{ $p->no_hp }}</div>
                         </td>
                         <td class="small text-white-50 d-none d-md-table-cell">{{ $p->jurusan }}</td>

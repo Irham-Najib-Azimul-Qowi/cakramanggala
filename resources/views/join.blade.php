@@ -589,10 +589,10 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label">Nomor Induk Mahasiswa (NIM) <span class="text-danger fw-bold">*</span></label>
-                                    <input type="text" name="nim" id="nim" class="form-control" placeholder="201xxxxxxx"
+                                    <label class="form-label">Alamat Email / Akun Google <span class="text-danger fw-bold">*</span></label>
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="nama@student.pnm.ac.id / nama@gmail.com"
                                         required>
-                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> NIM wajib diisi.</div>
+                                    <div class="invalid-feedback"><i class="bi bi-exclamation-circle me-1"></i> Email wajib diisi dengan format yang benar.</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -687,8 +687,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="review-item">
-                                    <div class="review-label">NIM</div>
-                                    <div class="review-value" id="summary-nim">-</div>
+                                    <div class="review-label">Email / Akun Google</div>
+                                    <div class="review-value" id="summary-email">-</div>
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
@@ -729,7 +729,6 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let currentStep = 1;
             const form = document.getElementById('joinForm');
             const panels = document.querySelectorAll('.join-panel');
             const indicators = document.querySelectorAll('.join-step');
@@ -738,6 +737,8 @@
             const btnSubmit = document.getElementById('btnSubmit');
             const currentStepNum = document.getElementById('currentStepNum');
             const currentStepTitle = document.getElementById('currentStepTitle');
+
+            let currentStep = 1;
 
             const alasanTextarea = document.getElementById('alasan_bergabung');
             const alasanCharCount = document.getElementById('alasanCharCount');
@@ -788,7 +789,7 @@
                     btnSubmit.style.display = 'inline-flex';
 
                     document.getElementById('summary-nama').textContent = document.getElementById('nama_lengkap').value || '-';
-                    document.getElementById('summary-nim').textContent = document.getElementById('nim').value || '-';
+                    document.getElementById('summary-email').textContent = document.getElementById('email').value || '-';
                 } else {
                     btnNext.style.display = 'inline-flex';
                     btnSubmit.style.display = 'none';

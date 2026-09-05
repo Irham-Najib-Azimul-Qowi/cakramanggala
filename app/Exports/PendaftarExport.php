@@ -44,7 +44,7 @@ class PendaftarExport implements FromCollection, WithColumnWidths, WithHeadings,
     {
         return [
             'No',
-            'NIM',
+            'Email',
             'Nama Lengkap',
             'Jurusan',
             'Program Studi',
@@ -67,7 +67,7 @@ class PendaftarExport implements FromCollection, WithColumnWidths, WithHeadings,
 
         return [
             $counter,
-            $pendaftar->nim,
+            $pendaftar->email ?: $pendaftar->nim,
             $pendaftar->nama_lengkap,
             $pendaftar->jurusan,
             $pendaftar->program_studi,

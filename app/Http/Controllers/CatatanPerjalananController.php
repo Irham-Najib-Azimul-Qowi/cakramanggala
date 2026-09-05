@@ -101,20 +101,18 @@ class CatatanPerjalananController extends Controller
     public function kirimOtp(Request $request)
     {
         $request->validate([
-            'nim' => 'required|string|max:50',
             'email' => 'required|email|max:100',
         ]);
 
-        $nim = $request->nim;
         $email = $request->email;
 
-        // Check keanggotaan berdasarkan NIM
-        $isRegistered = Pengurus::where('nim', $nim)->exists() ||
-            Pendaftaran::where('nim', $nim)->whereIn('status', ['Belum diproses', 'Diterima'])->exists() ||
-            \App\Models\Anggota::where('nim', $nim)->exists();
+        // Check keanggotaan/pendaftar berdasarkan Email
+        $isRegistered = Pendaftaran::where('email', $email)->whereIn('status', ['Belum diproses', 'Diterima'])->exists() ||
+            Pengurus::where('email', $email)->exists() ||
+            \App\Models\Anggota::where('email', $email)->exists();
 
         if (!$isRegistered) {
-            return back()->withErrors(['nim' => 'NIM tidak terdaftar sebagai calon anggota, anggota aktif, pengurus, demisioner, atau alumni UKM Cakramanggala.'])->withInput();
+            return back()->withErrors(['email' => 'Akun Google / Email ini tidak terdaftar sebagai pendaftar, anggota aktif, atau pengurus UKM Cakramanggala.'])->withInput();
         }
 
         // Generate OTP
@@ -123,7 +121,6 @@ class CatatanPerjalananController extends Controller
         // Save in session
         session()->put('travel_log_otp', $otp);
         session()->put('travel_log_otp_expires', now()->addMinutes(15));
-        session()->put('travel_log_nim', $nim);
         session()->put('travel_log_email', $email);
 
         // Send OTP
@@ -135,7 +132,7 @@ class CatatanPerjalananController extends Controller
         } catch (\Exception $e) {
             logger()->error('Gagal mengirim email OTP: ' . $e->getMessage());
             // Clear session data if mail failed to prevent reuse
-            session()->forget(['travel_log_otp', 'travel_log_otp_expires', 'travel_log_nim', 'travel_log_email']);
+            session()->forget(['travel_log_otp', 'travel_log_otp_expires', 'travel_log_email']);
             return back()->withErrors(['email' => 'Gagal mengirim email OTP: ' . $e->getMessage() . '. Mohon periksa kembali email Anda atau hubungi admin.'])->withInput();
         }
 
@@ -166,7 +163,6 @@ class CatatanPerjalananController extends Controller
             return back()->withErrors(['otp' => 'Kode OTP yang Anda masukkan salah.'])->withInput();
         }
 
-        $nim = session('travel_log_nim');
         $email = session('travel_log_email');
 
         // Fetch Kegiatan details
@@ -178,12 +174,16 @@ class CatatanPerjalananController extends Controller
         $catatan->penulis = $request->nama;
         
         // Find if they belong to a certain batch, otherwise default to kegiatan year
-        $pendaftar = Pendaftaran::where('nim', $nim)->first();
+        $pendaftar = Pendaftaran::where('email', $email)->first();
         if ($pendaftar) {
-            // Find batch from pendaftar created year or generic batch
             $catatan->angkatan = 'Angkatan ' . date('Y', strtotime($pendaftar->created_at));
         } else {
-            $catatan->angkatan = 'Tahun ' . $kegiatan->tahun;
+            $anggota = \App\Models\Anggota::where('email', $email)->first();
+            if ($anggota && $anggota->angkatan) {
+                $catatan->angkatan = 'Angkatan ' . $anggota->angkatan;
+            } else {
+                $catatan->angkatan = 'Tahun ' . $kegiatan->tahun;
+            }
         }
 
         $catatan->tanggal_perjalanan = $kegiatan->tanggal_pelaksanaan;
@@ -206,7 +206,7 @@ class CatatanPerjalananController extends Controller
         $catatan->save();
 
         // Clear OTP Session
-        session()->forget(['travel_log_otp', 'travel_log_otp_expires', 'travel_log_nim', 'travel_log_email']);
+        session()->forget(['travel_log_otp', 'travel_log_otp_expires', 'travel_log_email']);
 
         return redirect()->route('catatan-perjalanan.index')
             ->with('success', 'Cerita pengalaman Anda berhasil dikirim! Catatan perjalanan Anda telah disimpan sebagai draft dan akan ditinjau oleh Admin atau Moderator sebelum diterbitkan secara publik.');
@@ -214,7 +214,7 @@ class CatatanPerjalananController extends Controller
 
     public function resetTambahForm(Request $request)
     {
-        session()->forget(['travel_log_otp', 'travel_log_otp_expires', 'travel_log_nim', 'travel_log_email']);
+        session()->forget(['travel_log_otp', 'travel_log_otp_expires', 'travel_log_email']);
         return redirect()->route('catatan-perjalanan.tambah');
     }
 }

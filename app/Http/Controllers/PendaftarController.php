@@ -78,7 +78,8 @@ class PendaftarController extends Controller
     {
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nim' => 'required|string|max:50|unique:pendaftaran,nim,' . $pendaftar->id,
+            'email' => 'required|email|max:255|unique:pendaftaran,email,' . $pendaftar->id,
+            'nim' => 'nullable|string|max:50',
             'jurusan' => 'required|in:Teknik,Administrasi Bisnis,Akuntansi',
             'program_studi' => 'required|string|max:255',
             'no_hp' => 'required|string|max:20',
@@ -105,14 +106,14 @@ class PendaftarController extends Controller
         // Automatically create Anggota record
         $angkatanDefault = \App\Models\Setting::getValue('angkatan_pendaftaran_default', '14');
 
-        // Check if member already exists by NIM
-        $existingMember = \App\Models\Anggota::where('nim', $pendaftar->nim)->first();
+        // Check if member already exists by email
+        $existingMember = \App\Models\Anggota::where('email', $pendaftar->email)->first();
 
         if (!$existingMember) {
             \App\Models\Anggota::create([
                 'nama' => $pendaftar->nama_lengkap,
-                'nim' => $pendaftar->nim,
                 'email' => $pendaftar->email,
+                'nim' => $pendaftar->nim,
                 'angkatan' => $angkatanDefault,
                 'status' => 'anggota baru',
                 'foto' => $pendaftar->foto_diri
@@ -189,7 +190,7 @@ class PendaftarController extends Controller
     public function exportSimple()
     {
         try {
-            $pendaftar = Pendaftaran::select('nim', 'nama_lengkap', 'jurusan', 'program_studi', 'no_hp', 'email')
+            $pendaftar = Pendaftaran::select('email', 'nama_lengkap', 'jurusan', 'program_studi', 'no_hp', 'nim')
                 ->get();
 
             if ($pendaftar->isEmpty()) {
@@ -199,10 +200,10 @@ class PendaftarController extends Controller
 
             $callback = function() use ($pendaftar) {
                 $file = fopen('php://output', 'w');
-                fputcsv($file, ['NIM', 'Nama Lengkap', 'Jurusan', 'Program Studi', 'No HP', 'Email']);
+                fputcsv($file, ['Email', 'Nama Lengkap', 'Jurusan', 'Program Studi', 'No HP', 'NIM']);
 
                 foreach ($pendaftar as $item) {
-                    fputcsv($file, [$item->nim, $item->nama_lengkap, $item->jurusan, $item->program_studi, $item->no_hp, $item->email]);
+                    fputcsv($file, [$item->email, $item->nama_lengkap, $item->jurusan, $item->program_studi, $item->no_hp, $item->nim]);
                 }
                 fclose($file);
             };

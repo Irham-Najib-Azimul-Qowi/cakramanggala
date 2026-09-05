@@ -51,7 +51,7 @@
                 </div>
                 <h2 class="h4 fw-black text-white mb-1" style="letter-spacing: -0.02em;">
                     {{ strtoupper($pendaftar->nama_lengkap) }}</h2>
-                <p class="text-accent x-small fw-bold mb-4" style="letter-spacing: 0.15em;">{{ $pendaftar->nim }}</p>
+                <p class="text-accent x-small fw-bold mb-4" style="letter-spacing: 0.15em;">{{ $pendaftar->email ?: $pendaftar->nim }}</p>
 
                 <div class="mb-4">
                     @if($pendaftar->status == 'Diterima')

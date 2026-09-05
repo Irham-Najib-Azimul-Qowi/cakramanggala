@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         // Optimize: Select only needed columns and use limit
-        $recent_pendaftar = Pendaftaran::select('id', 'nama_lengkap', 'nim', 'jurusan', 'status', 'created_at')
+        $recent_pendaftar = Pendaftaran::select('id', 'nama_lengkap', 'email', 'nim', 'jurusan', 'status', 'created_at')
             ->latest()
             ->limit(8)
             ->get();

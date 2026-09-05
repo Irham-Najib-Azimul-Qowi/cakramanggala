@@ -167,6 +167,7 @@ class PendaftaranSeeder extends Seeder
 
             $data[] = [
                 'nama_lengkap' => $names[$i],
+                'email' => $nim . '@student.pnm.ac.id',
                 'nim' => $nim,
                 'jurusan' => $selectedJurusan,
                 'program_studi' => $selectedProdi,

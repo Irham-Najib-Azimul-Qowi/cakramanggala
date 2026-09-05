@@ -15,7 +15,8 @@ class StorePendaftaranRequest extends FormRequest
     {
         return [
             'nama_lengkap' => 'required|string|max:255',
-            'nim' => 'required|string|max:50|unique:pendaftaran,nim',
+            'email' => 'required|email|max:255|unique:pendaftaran,email',
+            'nim' => 'nullable|string|max:50',
             'no_hp' => 'required|string|max:20',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
@@ -32,7 +33,9 @@ class StorePendaftaranRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nim.unique' => 'NIM ini sudah terdaftar dalam sistem kami.',
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.email' => 'Format alamat email tidak valid.',
+            'email.unique' => 'Alamat email ini sudah terdaftar dalam sistem kami.',
             'alasan_bergabung.min' => 'Alasan bergabung minimal 20 karakter agar kami bisa mengenal motivasi Anda lebih baik.',
             'foto_diri.image' => 'File harus berupa gambar.',
             'foto_diri.mimes' => 'Format gambar yang diperbolehkan: jpeg, png, jpg, webp.',
